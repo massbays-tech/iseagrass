@@ -1,11 +1,16 @@
 {
-  "name": "next-offline",
-  "short_name": "next-offline",
-  "description": "Nextjs using service worker via next-offline",
+  "name": "Eelgrass",
+  "short_name": "Eelgrass",
+  "description": "Measure local eelgrass",
   "icons": [
     {
-      "src": "/static/pwa.png",
+      "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ],
