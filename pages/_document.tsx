@@ -31,6 +31,10 @@ class MyDocument extends Document {
           <link rel="apple-touch-startup-image" href="/launch.png" />
           <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
           <link rel="shortcut icon" href="/favicon.ico" />
+          <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+          />
           <meta name="msapplication-TileColor" content="#da532c" />
           <meta name="msapplication-config" content="/browserconfig.xml" />
           <meta name="theme-color" content="#ffffff" />
