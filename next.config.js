@@ -12,20 +12,20 @@ module.exports = withOffline({
         options: {
           cacheName: 'offlineCache',
           expiration: {
-            maxEntries: 200,
-          },
-        },
-      },
-    ],
+            maxEntries: 200
+          }
+        }
+      }
+    ]
   },
   experimental: {
     async rewrites() {
       return [
         {
           source: '/service-worker.js',
-          destination: '/_next/static/service-worker.js',
-        },
+          destination: '/_next/static/service-worker.js'
+        }
       ]
-    },
-  },
+    }
+  }
 })
