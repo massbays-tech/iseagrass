@@ -63,9 +63,9 @@ export interface DropFrame {
 }
 
 export interface Trip {
-  date: null
+  date: Date
   harbor: string
-  boatname: string
+  boat: string
   crew: string[]
   stations: Station[]
 }

@@ -8,6 +8,8 @@ interface Props {
 export const Layout = ({ children }: Props) => (
   <>
     <Navbar />
-    <Container>{children}</Container>
+    <Container fluid="lg" className="pt-2">
+      {children}
+    </Container>
   </>
 )
