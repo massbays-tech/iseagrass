@@ -7,7 +7,7 @@ const NoTrips = () => (
     <Col className="text-center">
       <h3>No Current Trips</h3>
       <div>You haven't taken any trips yet.</div>
-      <Link href="/trip">
+      <Link href="/trips">
         <a className="btn btn-primary mt-2" role="button">
           Start New Trip
         </a>
@@ -38,7 +38,7 @@ export default function Home() {
       </ListGroup>
       <Row className="justify-content-center">
         <Col xs="auto">
-          <Link href="/trip">
+          <Link href="/trips">
             <a className="btn btn-primary" role="button">
               Start New Trip
             </a>
