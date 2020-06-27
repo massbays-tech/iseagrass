@@ -6,6 +6,7 @@ import { IDBPDatabase } from 'idb'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
+import 'styles/index.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [db, setDB] = useState<IDBPDatabase<Database>>(undefined)
