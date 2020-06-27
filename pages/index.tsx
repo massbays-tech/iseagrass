@@ -30,7 +30,10 @@ export default function Home() {
       <ListGroup flush>
         {trips.map((trip) => (
           <ListGroupItem key={trip.id}>
-            <Link href="trips/id" as={`/trips/id?id=${trip.id}`}>
+            <Link
+              href={{ pathname: '/trips/id', query: { id: trip.id } }}
+              as={`/trips/id?id=${trip.id}`}
+            >
               <a>Trip {trip.id}</a>
             </Link>
           </ListGroupItem>
