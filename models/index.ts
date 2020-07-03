@@ -63,6 +63,7 @@ export interface DropFrame {
 }
 
 export interface Trip {
+  id?: number
   date: Date
   harbor: string
   boat: string

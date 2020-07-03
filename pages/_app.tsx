@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Layout } from 'components'
-import { DBContext } from 'contexts/useDatabase'
+import { DatabaseContext } from 'contexts/DatabaseContext'
 import { connect, Database } from 'db'
 import { IDBPDatabase } from 'idb'
 import { AppProps } from 'next/app'
@@ -10,19 +10,20 @@ import 'styles/index.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [db, setDB] = useState<IDBPDatabase<Database>>(undefined)
+  const [tripId, setTripId] = useState<number | undefined>(undefined)
   // Open connection on app initialization
   useEffect(() => {
     connect().then(setDB)
   }, [])
   return (
-    <DBContext.Provider value={{ db, setDB }}>
+    <DatabaseContext.Provider value={{ db, setDB, tripId, setTripId }}>
       <Head>
         <title>Eelgrass</title>
       </Head>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </DBContext.Provider>
+    </DatabaseContext.Provider>
   )
 }
 

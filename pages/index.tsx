@@ -1,6 +1,8 @@
-import { useTrips } from 'contexts/useDatabase'
+import { useQuery } from 'hooks'
+import { Trip } from 'models'
+import moment from 'moment'
 import Link from 'next/link'
-import { Col, ListGroup, ListGroupItem, Row, Spinner } from 'reactstrap'
+import { Col, ListGroup, Row, Spinner } from 'reactstrap'
 
 const NoTrips = () => (
   <Row className="mt-5">
@@ -19,27 +21,17 @@ const NoTrips = () => (
 const Loading = () => <Spinner color="primary" />
 
 export default function Home() {
-  const trips = useTrips((db) => db.getAll('trips'))
+  const trips = useQuery<Trip[]>((db) => db.getAll('trips'))
 
   if (!trips) return Loading()
   if (trips.length == 0) return NoTrips()
 
   return (
     <>
-      <h3>Your Trips</h3>
-      <ListGroup flush>
-        {trips.map((trip) => (
-          <ListGroupItem key={trip.id}>
-            <Link
-              href={{ pathname: '/trips/id', query: { id: trip.id } }}
-              as={`/trips/id?id=${trip.id}`}
-            >
-              <a>Trip {trip.id}</a>
-            </Link>
-          </ListGroupItem>
-        ))}
-      </ListGroup>
-      <Row className="justify-content-center">
+      <Row noGutters className="justify-content-between p-3">
+        <Col xs="auto">
+          <h3 className="m-0">Your Trips</h3>
+        </Col>
         <Col xs="auto">
           <Link href="/trips">
             <a className="btn btn-primary" role="button">
@@ -47,6 +39,25 @@ export default function Home() {
             </a>
           </Link>
         </Col>
+      </Row>
+      <ListGroup flush>
+        {trips.map((trip) => (
+          <Link
+            key={trip.id}
+            href={{ pathname: '/trips/id', query: { id: trip.id } }}
+            as={`/trips/id?id=${trip.id}`}
+          >
+            <a className="list-group-item text-dark p-2">
+              <div>
+                <div>Trip {trip.id}</div>
+                <small>{moment(trip.date).format('MMMM Do, YYYY')}</small>
+              </div>
+            </a>
+          </Link>
+        ))}
+      </ListGroup>
+      <Row className="justify-content-center">
+        <Col xs="auto"></Col>
       </Row>
       <button onClick={() => window.location.reload(true)}>RELOAD</button>
     </>

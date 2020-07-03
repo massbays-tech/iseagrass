@@ -1,4 +1,4 @@
-import { useDB } from 'contexts/useDatabase'
+import { useDB } from 'hooks'
 import { compact, union, uniq } from 'lodash'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -17,7 +17,7 @@ import {
 const format = (d: Date) =>
   `${d.getFullYear()}-${(d.getMonth() + 1)
     .toString()
-    .padStart(2, '0')}-${d.getDate()}`
+    .padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`
 
 export default () => {
   const router = useRouter()
@@ -48,7 +48,7 @@ export default () => {
     router.push('/stations')
   }
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} className="p-3">
       <FormGroup>
         <Label for="crew">Crew Members</Label>
         {crews.map((c, i) => (
