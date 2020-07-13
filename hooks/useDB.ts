@@ -28,8 +28,7 @@ interface TripHook {
   loading: boolean
 }
 
-export const useTrip = (id?: number): TripHook => {
-  console.log('Use trip hook', id)
+export const useTrip = (id: number | undefined): TripHook => {
   const { db } = useDB()
   const [loading, setLoading] = useState<boolean>(true)
   const [trip, setTrip] = useState<Trip | undefined>(undefined)
@@ -37,10 +36,15 @@ export const useTrip = (id?: number): TripHook => {
   useEffect(() => {
     ;(async function () {
       if (db && id) {
-        await db.get('trips', id).then(setTrip).catch(setError)
-        setLoading(false)
+        try {
+          setTrip(await db.get('trips', id))
+        } catch (err) {
+          setError(err)
+        } finally {
+          setLoading(false)
+        }
       }
     })()
-  }, [db])
+  }, [db, id])
   return { loading, trip, error }
 }

@@ -59,7 +59,6 @@ export default () => {
   // useWeather()
 
   useEffect(() => {
-    console.log('Use effect', router.query.tripId, param(router, 'tripId'))
     setTripId(param(router, 'tripId'))
     setStationId(param(router, 'stationId'))
     if (trip) {
@@ -84,7 +83,6 @@ export default () => {
   }
 
   const onSubmit = async (e: React.FormEvent) => {
-    console.log('SaveTrip', trip)
     e.preventDefault()
     await db.put('trips', { ...trip, stations: [...trip.stations] })
     router.push('/stations')
