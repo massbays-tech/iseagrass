@@ -68,5 +68,5 @@ export interface Trip {
   harbor: string
   boat: string
   crew: string[]
-  stations: Station[]
+  stations?: Station[]
 }

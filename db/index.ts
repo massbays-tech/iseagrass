@@ -6,7 +6,7 @@ const VERSION = 1
 export interface Database extends DBSchema {
   trips: {
     value: Trip
-    key: string
+    key: number
   }
 }
 

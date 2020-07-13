@@ -1,3 +1,4 @@
+import { Version } from 'components'
 import { useQuery } from 'hooks'
 import { Trip } from 'models'
 import moment from 'moment'
@@ -19,11 +20,13 @@ const NoTrips = () => (
 )
 
 const Loading = () => <Spinner color="primary" />
+const ShowError = (err: Error) => <div>{err.message}</div>
 
 export default function Home() {
-  const trips = useQuery<Trip[]>((db) => db.getAll('trips'))
+  const { result: trips, error } = useQuery<Trip[]>((db) => db.getAll('trips'))
 
   if (!trips) return Loading()
+  if (error) return ShowError(error)
   if (trips.length == 0) return NoTrips()
 
   return (
@@ -44,8 +47,8 @@ export default function Home() {
         {trips.map((trip) => (
           <Link
             key={trip.id}
-            href={{ pathname: '/trips/id', query: { id: trip.id } }}
-            as={`/trips/id?id=${trip.id}`}
+            href={{ pathname: '/trips', query: { id: trip.id } }}
+            as={`/trips?id=${trip.id}`}
           >
             <a className="list-group-item text-dark p-2">
               <div>
@@ -60,6 +63,7 @@ export default function Home() {
         <Col xs="auto"></Col>
       </Row>
       <button onClick={() => window.location.reload(true)}>RELOAD</button>
+      <Version />
     </>
   )
 }

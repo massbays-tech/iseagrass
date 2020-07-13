@@ -1,6 +1,9 @@
 const withOffline = require('next-offline')
 
 module.exports = withOffline({
+  env: {
+    VERSION: 'b40d571'
+  },
   workboxOpts: {
     swDest: process.env.NEXT_EXPORT
       ? 'service-worker.js'
