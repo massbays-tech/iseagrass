@@ -1,3 +1,4 @@
+import { Stations } from 'components'
 import { useDB, useQuery } from 'hooks'
 import { compact, union, uniq } from 'lodash'
 import { Trip } from 'models'
@@ -44,7 +45,6 @@ export default () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     await db.put('trips', { ...trip, crew: compact(trip.crew) })
-    router.push('/stations')
   }
   return (
     <>
@@ -106,6 +106,14 @@ export default () => {
           </Col>
         </Row>
       </Form>
+      <h2>Stations</h2>
+      <Stations stations={trip.stations} />
+      <Link
+        href={{ pathname: '/trips/stations', query: { tripId: trip.id } }}
+        as={`/trips/stations?tripId=${trip.id}`}
+      >
+        <a className="btn btn-primary">New Station</a>
+      </Link>
     </>
   )
 }

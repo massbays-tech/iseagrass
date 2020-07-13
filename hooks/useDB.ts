@@ -25,15 +25,22 @@ export const useQuery = <T>(fn: UseTripsAccessor): QueryHook<T> => {
 interface TripHook {
   trip?: Trip
   error?: Error
+  loading: boolean
 }
 
 export const useTrip = (id?: number): TripHook => {
-  const { db, tripId } = useDB()
+  console.log('Use trip hook', id)
+  const { db } = useDB()
+  const [loading, setLoading] = useState<boolean>(true)
   const [trip, setTrip] = useState<Trip | undefined>(undefined)
   const [error, setError] = useState<Error | undefined>(undefined)
   useEffect(() => {
-    const query = id || tripId
-    if (db) db.get('trips', query).then(setTrip).catch(setError)
-  }, [db, tripId])
-  return { trip, error }
+    ;(async function () {
+      if (db && id) {
+        await db.get('trips', id).then(setTrip).catch(setError)
+        setLoading(false)
+      }
+    })()
+  }, [db])
+  return { loading, trip, error }
 }

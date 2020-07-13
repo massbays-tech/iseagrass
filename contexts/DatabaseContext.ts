@@ -4,8 +4,6 @@ import { createContext } from 'react'
 
 interface DatabaseContextProps {
   db?: IDBPDatabase<Database>
-  tripId?: number
-  setTripId?: any
   setDB?: any
 }
 

@@ -10,13 +10,12 @@ import 'styles/index.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [db, setDB] = useState<IDBPDatabase<Database>>(undefined)
-  const [tripId, setTripId] = useState<number | undefined>(undefined)
   // Open connection on app initialization
   useEffect(() => {
     connect().then(setDB)
   }, [])
   return (
-    <DatabaseContext.Provider value={{ db, setDB, tripId, setTripId }}>
+    <DatabaseContext.Provider value={{ db, setDB }}>
       <Head>
         <title>Eelgrass</title>
       </Head>
