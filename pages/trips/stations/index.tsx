@@ -1,3 +1,4 @@
+import { ChevronLeft } from 'components'
 import { Weather } from 'components/Weather'
 import { useDB, usePosition, useTrip } from 'hooks'
 import { Station } from 'models'
@@ -91,7 +92,19 @@ export default () => {
 
   return (
     <>
-      <Form onSubmit={onSubmit} className="p-3">
+      <div className="py-2">
+        <Link
+          href={{ pathname: '/trips', query: { id: tripId } }}
+          as={`/trips?id=${tripId}`}
+        >
+          <a className="d-flex align-items-center ml-2">
+            <ChevronLeft />
+            <span>Back to Trip</span>
+          </a>
+        </Link>
+      </div>
+      <Form onSubmit={onSubmit} className="px-3">
+        <h3 className="font-weight-light">Station {station.id}</h3>
         <FormGroup>
           <Label for="station">Station Number</Label>
           <Input
@@ -216,6 +229,13 @@ export default () => {
         </Row>
       </Form>
       <Weather weather={null} />
+      <h1>Frames</h1>
+      <Link
+        href={{ pathname: '/trips/stations/frames', query: { tripId } }}
+        as={`/trips/stations/frames?tripId=${tripId}`}
+      >
+        <a className="btn btn-primary">Add Drop Frame</a>
+      </Link>
     </>
   )
 }

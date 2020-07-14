@@ -59,10 +59,6 @@ export default function Home() {
           </Link>
         ))}
       </ListGroup>
-      <Row className="justify-content-center">
-        <Col xs="auto"></Col>
-      </Row>
-      <button onClick={() => window.location.reload(true)}>RELOAD</button>
       <Version />
     </>
   )

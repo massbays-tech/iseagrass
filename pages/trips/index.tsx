@@ -1,20 +1,11 @@
-import { Stations } from 'components'
+import { ChevronLeft, Stations } from 'components'
 import { useDB, useQuery } from 'hooks'
 import { compact, union, uniq } from 'lodash'
 import { Trip } from 'models'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import {
-  Button,
-  Col,
-  Form,
-  FormGroup,
-  FormText,
-  Input,
-  Label,
-  Row
-} from 'reactstrap'
+import { Form, FormGroup, FormText, Input, Label } from 'reactstrap'
 import { format } from 'util/time'
 
 //
@@ -42,13 +33,22 @@ export default () => {
     })
   }
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const save = async (e?: React.FormEvent) => {
+    e?.preventDefault()
     await db.put('trips', { ...trip, crew: compact(trip.crew) })
   }
   return (
     <>
-      <Form onSubmit={onSubmit} className="p-3">
+      <div className="py-2">
+        <Link href="/">
+          <a className="d-flex align-items-center ml-2">
+            <ChevronLeft />
+            <span>Back to Trips</span>
+          </a>
+        </Link>
+      </div>
+      <Form onSubmit={save} className="px-3">
+        <h3 className="font-weight-light">Trip Details</h3>
         <FormGroup>
           <Label for="crew">Crew Members</Label>
           {trip.crew.map((c, i) => (
@@ -60,7 +60,10 @@ export default () => {
               placeholder="Full name..."
               required={i == 0}
               value={c}
-              onChange={(e) => updateCrew(i, e.target.value)}
+              onChange={(e) => {
+                updateCrew(i, e.target.value)
+                save()
+              }}
             />
           ))}
           <FormText color="muted">
@@ -68,7 +71,7 @@ export default () => {
           </FormText>
         </FormGroup>
         <FormGroup>
-          <Label for="date">Date</Label>
+          <Label for="date">Trip Date</Label>
           <Input
             type="date"
             id="date"
@@ -79,6 +82,7 @@ export default () => {
                 ...trip,
                 date: new Date(e.target.value)
               })
+              save()
             }}
           />
         </FormGroup>
@@ -90,30 +94,37 @@ export default () => {
             id="boat"
             required={true}
             value={trip.boat}
-            onChange={(e) => setTrip({ ...trip, boat: e.target.value })}
+            onChange={(e) => {
+              setTrip({ ...trip, boat: e.target.value })
+              save()
+            }}
           />
         </FormGroup>
-        <Row className="justify-content-between">
-          <Col xs="auto" className="d-flex align-items-center">
-            <Link href="/">
-              <a>Back</a>
-            </Link>
-          </Col>
-          <Col xs="auto">
-            <Button value="submit" color="primary">
-              Save and Continue
-            </Button>
-          </Col>
-        </Row>
       </Form>
-      <h2>Stations</h2>
-      <Stations stations={trip.stations} />
-      <Link
-        href={{ pathname: '/trips/stations', query: { tripId: trip.id } }}
-        as={`/trips/stations?tripId=${trip.id}`}
-      >
-        <a className="btn btn-primary">New Station</a>
-      </Link>
+      <div className="mb-1 px-3 d-flex justify-content-between">
+        <h3 className="font-weight-light">Stations</h3>
+        <Link
+          href={{ pathname: '/trips/stations', query: { tripId: trip.id } }}
+          as={`/trips/stations?tripId=${trip.id}`}
+        >
+          <a className="btn btn-outline-primary">
+            <span>New Station</span>
+          </a>
+        </Link>
+      </div>
+      <Stations id={trip.id} stations={trip.stations} />
+
+      <div className="mb-1 px-3 d-flex border-bottom">
+        <h4 className="font-weight-light">Actions</h4>
+      </div>
+      <div>
+        <div>
+          <p>Upload Trip Data</p>
+        </div>
+        <div>
+          <p>Delete this trip</p>
+        </div>
+      </div>
     </>
   )
 }

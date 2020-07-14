@@ -38,9 +38,11 @@ export const useTrip = (id: number | string | undefined): TripHook => {
     ;(async function () {
       if (db && id) {
         const query = typeof id == 'string' ? parseInt(id) : id
+        console.log('use trip query', query)
         try {
           setTrip(await db.get('trips', query))
         } catch (err) {
+          console.log(err)
           setError(err)
         } finally {
           setLoading(false)
@@ -48,5 +50,6 @@ export const useTrip = (id: number | string | undefined): TripHook => {
       }
     })()
   }, [db, id])
+  console.log('USE TRIP', trip)
   return { db, loading, trip, error }
 }

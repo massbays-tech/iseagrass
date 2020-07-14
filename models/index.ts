@@ -1,12 +1,3 @@
-export interface Station {
-  id: number
-  longitude: number
-  latitude: number
-  gpsDevice: string
-  harbor: string
-  isIndicatorStation: boolean
-}
-
 export interface SechiDrop {
   depth: number
   hitBottom: boolean
@@ -54,12 +45,23 @@ export interface Indicator {
   shoots: IndicatorShoot[]
 }
 
+// DropFrame
 export interface DropFrame {
   picture: boolean
   pictureTakenAt: Date
   sediments: string[]
   coverage: string
   notes: string
+}
+
+// Station
+export interface Station {
+  id: string | number
+  longitude: string | number
+  latitude: string | number
+  gpsDevice: string
+  harbor: string
+  isIndicatorStation: boolean
 }
 
 export interface Trip {
