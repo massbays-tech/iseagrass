@@ -23,12 +23,13 @@ export const useQuery = <T>(fn: UseTripsAccessor): QueryHook<T> => {
 }
 
 interface TripHook {
+  db: IDBPDatabase<Database>
   trip?: Trip
   error?: Error
   loading: boolean
 }
 
-export const useTrip = (id: number | undefined): TripHook => {
+export const useTrip = (id: number | string | undefined): TripHook => {
   const { db } = useDB()
   const [loading, setLoading] = useState<boolean>(true)
   const [trip, setTrip] = useState<Trip | undefined>(undefined)
@@ -36,8 +37,9 @@ export const useTrip = (id: number | undefined): TripHook => {
   useEffect(() => {
     ;(async function () {
       if (db && id) {
+        const query = typeof id == 'string' ? parseInt(id) : id
         try {
-          setTrip(await db.get('trips', id))
+          setTrip(await db.get('trips', query))
         } catch (err) {
           setError(err)
         } finally {
@@ -46,5 +48,5 @@ export const useTrip = (id: number | undefined): TripHook => {
       }
     })()
   }, [db, id])
-  return { loading, trip, error }
+  return { db, loading, trip, error }
 }

@@ -1,3 +1,4 @@
+import { Weather } from 'components/Weather'
 import { useDB, usePosition, useTrip } from 'hooks'
 import { Station } from 'models'
 import Link from 'next/link'
@@ -89,129 +90,132 @@ export default () => {
   }
 
   return (
-    <Form onSubmit={onSubmit} className="p-3">
-      <FormGroup>
-        <Label for="station">Station Number</Label>
-        <Input
-          type="number"
-          id="station"
-          required={true}
-          inputMode="decimal"
-          value={station.id}
-          onChange={(e) => setStation({ ...station, id: e.target.value })}
-        />
-      </FormGroup>
-      <FormGroup>
-        <div>
-          <Label for="indicator">Indicator Station?</Label>
-        </div>
-        <ButtonGroup className="btn-group-toggle d-flex">
-          <Label
-            className={`btn btn-secondary ${
-              station.isIndicatorStation ? 'active' : ''
-            }`}
-          >
-            <Input
-              type="radio"
-              autoComplete="off"
-              checked={station.isIndicatorStation}
-              onChange={(e) =>
-                setStation({
-                  ...station,
-                  isIndicatorStation: true
-                })
-              }
-            />
-            Yes
-          </Label>
-          <Label
-            className={`btn btn-secondary ${
-              !station.isIndicatorStation ? 'active' : ''
-            }`}
-          >
-            <Input
-              type="radio"
-              autoComplete="off"
-              checked={!station.isIndicatorStation}
-              onChange={(e) =>
-                setStation({
-                  ...station,
-                  isIndicatorStation: false
-                })
-              }
-            />
-            No
-          </Label>
-        </ButtonGroup>
-      </FormGroup>
-      <FormGroup>
-        <Label for="harbor">Harbor</Label>
-        <Input
-          type="text"
-          id="harbor"
-          required={true}
-          value={station.harbor}
-          onChange={(e) => setStation({ ...station, harbor: e.target.value })}
-        />
-      </FormGroup>
-      <FormGroup row>
-        <Col xs="12">
-          <Label for="location">Location</Label>
-        </Col>
-        <Col xs="6">
+    <>
+      <Form onSubmit={onSubmit} className="p-3">
+        <FormGroup>
+          <Label for="station">Station Number</Label>
           <Input
             type="number"
-            id="latitude"
-            inputMode="decimal"
+            id="station"
             required={true}
-            placeholder="Latitude"
-            value={station.latitude}
-            onChange={(e) =>
-              setStation({ ...station, latitude: e.target.value })
-            }
+            inputMode="decimal"
+            value={station.id}
+            onChange={(e) => setStation({ ...station, id: e.target.value })}
           />
-        </Col>
-        <Col xs="6">
+        </FormGroup>
+        <FormGroup>
+          <div>
+            <Label for="indicator">Indicator Station?</Label>
+          </div>
+          <ButtonGroup className="btn-group-toggle d-flex">
+            <Label
+              className={`btn btn-secondary ${
+                station.isIndicatorStation ? 'active' : ''
+              }`}
+            >
+              <Input
+                type="radio"
+                autoComplete="off"
+                checked={station.isIndicatorStation}
+                onChange={(e) =>
+                  setStation({
+                    ...station,
+                    isIndicatorStation: true
+                  })
+                }
+              />
+              Yes
+            </Label>
+            <Label
+              className={`btn btn-secondary ${
+                !station.isIndicatorStation ? 'active' : ''
+              }`}
+            >
+              <Input
+                type="radio"
+                autoComplete="off"
+                checked={!station.isIndicatorStation}
+                onChange={(e) =>
+                  setStation({
+                    ...station,
+                    isIndicatorStation: false
+                  })
+                }
+              />
+              No
+            </Label>
+          </ButtonGroup>
+        </FormGroup>
+        <FormGroup>
+          <Label for="harbor">Harbor</Label>
           <Input
-            type="number"
-            id="longitude"
-            inputMode="decimal"
+            type="text"
+            id="harbor"
             required={true}
-            placeholder="Longitude"
-            value={station.longitude}
+            value={station.harbor}
+            onChange={(e) => setStation({ ...station, harbor: e.target.value })}
+          />
+        </FormGroup>
+        <FormGroup row>
+          <Col xs="12">
+            <Label for="location">Location</Label>
+          </Col>
+          <Col xs="6">
+            <Input
+              type="number"
+              id="latitude"
+              inputMode="decimal"
+              required={true}
+              placeholder="Latitude"
+              value={station.latitude}
+              onChange={(e) =>
+                setStation({ ...station, latitude: e.target.value })
+              }
+            />
+          </Col>
+          <Col xs="6">
+            <Input
+              type="number"
+              id="longitude"
+              inputMode="decimal"
+              required={true}
+              placeholder="Longitude"
+              value={station.longitude}
+              onChange={(e) =>
+                setStation({ ...station, longitude: e.target.value })
+              }
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup>
+          <Label for="gpsDevice">GPS Device</Label>
+          <Input
+            type="text"
+            id="gpsDevice"
+            required={true}
+            value={station.gpsDevice}
             onChange={(e) =>
-              setStation({ ...station, longitude: e.target.value })
+              setStation({ ...station, gpsDevice: e.target.value })
             }
           />
-        </Col>
-      </FormGroup>
-      <FormGroup>
-        <Label for="gpsDevice">GPS Device</Label>
-        <Input
-          type="text"
-          id="gpsDevice"
-          required={true}
-          value={station.gpsDevice}
-          onChange={(e) =>
-            setStation({ ...station, gpsDevice: e.target.value })
-          }
-        />
-      </FormGroup>
-      <Row className="justify-content-between">
-        <Col xs="auto" className="d-flex align-items-center">
-          <Link
-            href={{ pathname: '/trips', query: { id: tripId } }}
-            as={`/trips?id=${tripId}`}
-          >
-            <a className="list-group-item text-dark p-2">Cancel and Back</a>
-          </Link>
-        </Col>
-        <Col xs="auto">
-          <Button value="submit" color="primary">
-            Save and Continue
-          </Button>
-        </Col>
-      </Row>
-    </Form>
+        </FormGroup>
+        <Row className="justify-content-between">
+          <Col xs="auto" className="d-flex align-items-center">
+            <Link
+              href={{ pathname: '/trips', query: { id: tripId } }}
+              as={`/trips?id=${tripId}`}
+            >
+              <a className="list-group-item text-dark p-2">Cancel and Back</a>
+            </Link>
+          </Col>
+          <Col xs="auto">
+            <Button value="submit" color="primary">
+              Save and Continue
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+      <Weather weather={null} />
+    </>
   )
 }
