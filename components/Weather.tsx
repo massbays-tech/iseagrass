@@ -6,7 +6,7 @@ interface Props {
 }
 
 // widget
-export const Weather = ({ weather }: Props) => (
+export const Weather: React.FC<Props> = ({}: Props) => (
   <>
     <Card>
       <div>Location</div>

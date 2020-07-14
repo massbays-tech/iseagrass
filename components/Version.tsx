@@ -1,1 +1,1 @@
-export const Version = () => <div>{process.env.VERSION}</div>
+export const Version: React.FC<unknown> = () => <div>{process.env.VERSION}</div>

@@ -1,10 +1,10 @@
 import { Station } from 'models'
 
-interface Props {
-  stations: Station[]
+interface StationProps {
+  station: Station
 }
 
-const StationItem = ({ station }: { station: Station }) => {
+const StationItem: React.FC<StationProps> = ({ station }: StationProps) => {
   return (
     <li>
       {station.id}
@@ -15,7 +15,13 @@ const StationItem = ({ station }: { station: Station }) => {
   )
 }
 
-export const Stations = ({ stations }: Props) => {
+interface StationsProps {
+  stations: Station[]
+}
+
+export const Stations: React.FC<StationsProps> = ({
+  stations
+}: StationsProps) => {
   return (
     <>
       <ul>

@@ -5,7 +5,7 @@ interface Props {
   children?: React.ReactNode
 }
 
-export const Layout = ({ children }: Props) => (
+export const Layout: React.FC<Props> = ({ children }: Props) => (
   <>
     <Navbar />
     <Container fluid="lg" className="p-0">

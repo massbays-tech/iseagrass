@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Container, Navbar as RSNavbar } from 'reactstrap'
 
-export const Navbar = () => {
+export const Navbar: React.FC<unknown> = () => {
   // state - is open
   return (
     <RSNavbar color="primary" dark className="shadow-sm">

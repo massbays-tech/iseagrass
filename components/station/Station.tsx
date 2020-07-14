@@ -4,4 +4,4 @@ interface Props {
   station: StationModel
 }
 
-export const Station = ({}: Props) => {}
+export const Station: React.FC<Props> = (_: Props) => null
