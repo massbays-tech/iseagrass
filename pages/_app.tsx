@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <DatabaseContext.Provider value={{ db, setDB }}>
       <Head>
-        <title>Eelgrass</title>
+        <title>SeeGrass</title>
       </Head>
       <Layout>
         <Component {...pageProps} />

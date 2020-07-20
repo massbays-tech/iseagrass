@@ -11,7 +11,7 @@ export interface Database extends DBSchema {
 }
 
 export const connect = () =>
-  openDB<Database>('eelgrass', VERSION, {
+  openDB<Database>('seegrass', VERSION, {
     upgrade(db) {
       db.createObjectStore('trips', { keyPath: 'id', autoIncrement: true })
     }

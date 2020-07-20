@@ -9,14 +9,14 @@ export const Navbar: React.FC<unknown> = () => {
         <Link href="/">
           <a className="navbar-brand">
             <img
-              src="/static/eelgrass.png"
+              src="/static/seegrass.png"
               width="30"
               height="30"
               className="d-inline-block align-top mr-2"
               alt=""
               loading="lazy"
             />
-            Eelgrass
+            SeeGrass
           </a>
         </Link>
       </Container>
