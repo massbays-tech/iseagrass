@@ -5,7 +5,7 @@ import { Trip } from 'models'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { Form, FormGroup, FormText, Input, Label } from 'reactstrap'
+import { Button, Form, FormGroup, FormText, Input, Label } from 'reactstrap'
 import { format } from 'util/time'
 
 //
@@ -35,7 +35,8 @@ export default () => {
 
   const save = async (e?: React.FormEvent) => {
     e?.preventDefault()
-    await db.put('trips', { ...trip, crew: compact(trip.crew) })
+    const id = await db.put('trips', { ...trip, crew: compact(trip.crew) })
+    if (!trip.id) setTrip({ ...trip, id })
   }
   return (
     <>
@@ -113,16 +114,28 @@ export default () => {
         </Link>
       </div>
       <Stations id={trip.id} stations={trip.stations} />
-
-      <div className="mb-1 px-3 d-flex border-bottom">
+      <div className="my-2 px-3 d-flex border-bottom">
         <h4 className="font-weight-light">Actions</h4>
       </div>
-      <div>
-        <div>
-          <p>Upload Trip Data</p>
+      <div className="px-3">
+        <div className="my-2">
+          <Button color="success" onClick={() => {}} className="w-100">
+            Upload Trip Data
+          </Button>
+          <small className="text-black-50">
+            Requires Internet. This will upload the current trip data to the
+            server. You can upload multiple times if you want and only the most
+            recent will be saved.
+          </small>
         </div>
-        <div>
-          <p>Delete this trip</p>
+        <div className="my-2">
+          <Button color="danger" onClick={() => {}} className="w-100">
+            Delete This Trip
+          </Button>
+          <small className="text-black-50">
+            Remove this trip from your device. This is safe to do once you have
+            uploaded the data.
+          </small>
         </div>
       </div>
     </>

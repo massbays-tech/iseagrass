@@ -15,7 +15,7 @@ export const ChevronLeft = (props: Props) => (
     {...props}
   >
     <path
-      fill-rule="evenodd"
+      fillRule="evenodd"
       d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
     />
   </svg>
@@ -32,11 +32,11 @@ export const Add = (props: Props) => (
     {...props}
   >
     <path
-      fill-rule="evenodd"
+      fillRule="evenodd"
       d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"
     />
     <path
-      fill-rule="evenodd"
+      fillRule="evenodd"
       d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"
     />
   </svg>
