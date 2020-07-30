@@ -5,7 +5,7 @@ export const Navbar: React.FC<unknown> = () => {
   // state - is open
   return (
     <RSNavbar color="primary" dark className="shadow-sm">
-      <Container className="p-0">
+      <Container fluid="lg" className="p-0">
         <Link href="/">
           <a className="navbar-brand">
             <img
