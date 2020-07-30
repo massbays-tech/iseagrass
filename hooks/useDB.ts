@@ -12,7 +12,7 @@ interface QueryHook<T> {
 }
 
 export type UseTripsAccessor = (db: IDBPDatabase<Database>) => any
-export const useQuery = <T>(fn: UseTripsAccessor): QueryHook<T> => {
+export const useDBQuery = <T>(fn: UseTripsAccessor): QueryHook<T> => {
   const { db } = useDB()
   const [result, setResult] = useState<T | undefined>(undefined)
   const [error, setError] = useState<Error | undefined>(undefined)

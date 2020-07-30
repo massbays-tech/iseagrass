@@ -1,9 +1,10 @@
 import { ChevronLeft } from 'components'
 import { Weather } from 'components/Weather'
-import { useDB, usePosition, useTrip } from 'hooks'
+import { usePosition, useTrip } from 'hooks'
+import { useQuery } from 'hooks/useQuery'
 import { Station } from 'models'
 import Link from 'next/link'
-import { NextRouter, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import {
   Button,
@@ -34,9 +35,6 @@ const toState = (s: Station) => ({
   longitude: s.longitude ? `${s.longitude}` : ''
 })
 
-const param = (r: NextRouter, param: string): number | undefined =>
-  r.query[param] ? parseInt(r.query[param] as string) : undefined
-
 const DEFAULT = {
   id: '',
   latitude: '',
@@ -52,28 +50,43 @@ const DEFAULT = {
 // TODO: Fix when offline mode works with [id]
 export default () => {
   const router = useRouter()
-  const { db } = useDB()
-  const [tripId, setTripId] = useState<number | undefined>(undefined)
-  const [stationId, setStationId] = useState<number | undefined>(undefined)
-  const { loading, trip } = useTrip(tripId)
+  const tripId = useQuery('id')
+  const queryStationId = useQuery('stationId')
+  const [stationId, setStationId] = useState(queryStationId)
   const [station, setStation] = useState<StationState>(DEFAULT)
+  const { loading, trip, db } = useTrip(tripId)
+
+  // const { loading, trip, station, db } = useStation()
+
+  console.log('sttion iddd', queryStationId, stationId)
+  console.log('trip', loading, trip)
+
+  useEffect(() => {
+    if (stationId) {
+      setStation(toState(trip.stations[stationId]))
+    }
+  }, [stationId, trip])
+
+  // TODO: Move to a component
   const { latitude, longitude, error } = usePosition()
   // useWeather()
 
+  /*
   useEffect(() => {
     setTripId(param(router, 'tripId'))
     setStationId(param(router, 'stationId'))
     if (trip) {
       setStation(toState(trip.stations[stationId]))
     }
-  }, [router.query.tripId])
+  }, [router.query.id])
+  */
 
   useEffect(() => {
     if (latitude || longitude) {
       setStation({
         ...station,
-        latitude: latitude.toFixed(4),
-        longitude: longitude.toFixed(4),
+        latitude: latitude.toFixed(6),
+        longitude: longitude.toFixed(6),
         gpsDevice: 'phone'
       })
     }
@@ -84,10 +97,14 @@ export default () => {
     router.replace('/')
   }
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    await db.put('trips', { ...trip, stations: [...trip.stations] })
-    router.push('/stations')
+  const save = async (e?: React.FormEvent) => {
+    e?.preventDefault()
+    if (!stationId) {
+      setStationId(trip.stations.push(station) - 1)
+    } else {
+      trip.stations[stationId] = station
+    }
+    await db.put('trips', trip)
   }
 
   return (
@@ -103,7 +120,7 @@ export default () => {
           </a>
         </Link>
       </div>
-      <Form onSubmit={onSubmit} className="px-3">
+      <Form onSubmit={save} className="px-3">
         <h3 className="font-weight-light">Station {station.id}</h3>
         <FormGroup>
           <Label for="station">Station Number</Label>
@@ -113,7 +130,10 @@ export default () => {
             required={true}
             inputMode="decimal"
             value={station.id}
-            onChange={(e) => setStation({ ...station, id: e.target.value })}
+            onChange={(e) => {
+              setStation({ ...station, id: e.target.value })
+              save()
+            }}
           />
         </FormGroup>
         <FormGroup>

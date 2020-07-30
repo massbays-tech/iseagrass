@@ -1,5 +1,5 @@
 import { Version } from 'components'
-import { useQuery } from 'hooks'
+import { useDBQuery } from 'hooks'
 import { Trip } from 'models'
 import moment from 'moment'
 import Link from 'next/link'
@@ -23,7 +23,9 @@ const Loading = () => <Spinner color="primary" />
 const ShowError = (err: Error) => <div>{err.message}</div>
 
 export default function Home() {
-  const { result: trips, error } = useQuery<Trip[]>((db) => db.getAll('trips'))
+  const { result: trips, error } = useDBQuery<Trip[]>((db) =>
+    db.getAll('trips')
+  )
 
   if (!trips) return Loading()
   if (error) return ShowError(error)
@@ -33,7 +35,7 @@ export default function Home() {
     <>
       <Row noGutters className="justify-content-between p-3">
         <Col xs="auto">
-          <h3 className="m-0">Your Trips</h3>
+          <h3 className="font-weight-light">Your Trips</h3>
         </Col>
         <Col xs="auto">
           <Link href="/trips">

@@ -1,5 +1,5 @@
 import { ChevronLeft, Stations } from 'components'
-import { useDB, useQuery } from 'hooks'
+import { useDB, useDBQuery } from 'hooks'
 import { compact, union, uniq } from 'lodash'
 import { Trip } from 'models'
 import Link from 'next/link'
@@ -13,7 +13,7 @@ export default () => {
   const router = useRouter()
   const { db } = useDB()
   const id = router.query.id ? parseInt(router.query.id as string) : undefined
-  const { result } = useQuery<Trip>((db) => db.get('trips', id))
+  const { result } = useDBQuery<Trip>((db) => db.get('trips', id))
   const [trip, setTrip] = useState<Trip>({
     crew: [''],
     date: new Date(),
@@ -105,8 +105,8 @@ export default () => {
       <div className="mb-1 px-3 d-flex justify-content-between">
         <h3 className="font-weight-light">Stations</h3>
         <Link
-          href={{ pathname: '/trips/stations', query: { tripId: trip.id } }}
-          as={`/trips/stations?tripId=${trip.id}`}
+          href={{ pathname: '/trips/stations', query: { id: trip.id } }}
+          as={`/trips/stations?id=${trip.id}`}
         >
           <a className="btn btn-outline-primary">
             <span>New Station</span>
