@@ -1,5 +1,6 @@
-import { ChevronLeft, Stations } from 'components'
-import { useDB, useDBQuery } from 'hooks'
+import { ChevronLeft, DataError, Loading, Stations } from 'components'
+import { STATION_STORE, TRIP_STORE } from 'db'
+import { useTrip } from 'hooks'
 import { compact, union, uniq } from 'lodash'
 import { Trip } from 'models'
 import Link from 'next/link'
@@ -8,23 +9,24 @@ import { useEffect, useState } from 'react'
 import { Button, Form, FormGroup, FormText, Input, Label } from 'reactstrap'
 import { format } from 'util/time'
 
-//
+// This will always return a trip, or if none found then the user should be
+// redirected
 export default () => {
   const router = useRouter()
-  const { db } = useDB()
-  const id = router.query.id ? parseInt(router.query.id as string) : undefined
-  const { result } = useDBQuery<Trip>((db) => db.get('trips', id))
-  const [trip, setTrip] = useState<Trip>({
-    crew: [''],
-    date: new Date(),
-    harbor: '',
-    boat: '',
-    stations: []
-  })
+  const { loading, db, value, error } = useTrip()
+  const [trip, setTrip] = useState<Trip | undefined>(undefined)
   useEffect(() => {
-    if (result) setTrip({ ...result, crew: union(uniq(result.crew), ['']) })
-  }, [result])
+    if (value) setTrip({ ...value, crew: union(uniq(value.crew), ['']) })
+  }, [value])
+  useEffect(() => {
+    if (trip) {
+      db.put('trips', { ...trip, crew: compact(trip.crew) })
+    }
+  }, [trip])
 
+  // Update the crew and ensure there is only 1 blank line included for
+  // adding a new member. Members with the exact same name are removed.
+  // TODO: *BUG* Iff multiple people typed in with same name
   const updateCrew = (i: number, value: string) => {
     trip.crew[i] = value
     setTrip({
@@ -33,11 +35,42 @@ export default () => {
     })
   }
 
-  const save = async (e?: React.FormEvent) => {
-    e?.preventDefault()
-    const id = await db.put('trips', { ...trip, crew: compact(trip.crew) })
-    if (!trip.id) setTrip({ ...trip, id })
+  // TODO: Additional validation if the trip has not been deleted?
+  const deleteTrip = async () => {
+    const response = confirm('Are you sure you want to delete this trip?')
+    if (response) {
+      await db.delete(TRIP_STORE, trip.id)
+      router.replace('/')
+    }
   }
+
+  const createNewStation = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    const id = await db.put(STATION_STORE, {
+      stationId: '',
+      tripId: trip.id,
+      longitude: '',
+      latitude: '',
+      gpsDevice: '',
+      harbor: '',
+      isIndicatorStation: false
+    })
+    router.push({
+      pathname: '/trips/stations',
+      query: { id }
+    })
+  }
+
+  // This page is only ever displayed if the trip has already been created.
+  // If we are finished loading and still don't have a trip, the most likely
+  // situation is this trip does not exist. Redirect back to `/trips`
+  if (error) return <DataError error={error.message} />
+  if (loading) return <Loading />
+  if (!loading && !trip) {
+    router.replace('/')
+    return null
+  }
+
   return (
     <>
       <div className="py-2">
@@ -48,7 +81,7 @@ export default () => {
           </a>
         </Link>
       </div>
-      <Form onSubmit={save} className="px-3">
+      <Form onSubmit={(e) => e.preventDefault()} className="px-3">
         <h3 className="font-weight-light">Trip Details</h3>
         <FormGroup>
           <Label for="crew">Crew Members</Label>
@@ -63,7 +96,6 @@ export default () => {
               value={c}
               onChange={(e) => {
                 updateCrew(i, e.target.value)
-                save()
               }}
             />
           ))}
@@ -83,7 +115,6 @@ export default () => {
                 ...trip,
                 date: new Date(e.target.value)
               })
-              save()
             }}
           />
         </FormGroup>
@@ -97,23 +128,17 @@ export default () => {
             value={trip.boat}
             onChange={(e) => {
               setTrip({ ...trip, boat: e.target.value })
-              save()
             }}
           />
         </FormGroup>
       </Form>
       <div className="mb-1 px-3 d-flex justify-content-between">
         <h3 className="font-weight-light">Stations</h3>
-        <Link
-          href={{ pathname: '/trips/stations', query: { id: trip.id } }}
-          as={`/trips/stations?id=${trip.id}`}
-        >
-          <a className="btn btn-outline-primary">
-            <span>New Station</span>
-          </a>
-        </Link>
+        <Button color="primary" outline={true} onClick={createNewStation}>
+          New Station
+        </Button>
       </div>
-      <Stations id={trip.id} stations={trip.stations} />
+      <Stations stations={trip.stations} onClick={createNewStation} />
       <div className="my-2 px-3 d-flex border-bottom">
         <h4 className="font-weight-light">Actions</h4>
       </div>
@@ -129,7 +154,12 @@ export default () => {
           </small>
         </div>
         <div className="my-2">
-          <Button color="danger" onClick={() => {}} className="w-100">
+          <Button
+            color="danger"
+            onClick={deleteTrip}
+            className="w-100"
+            type="button"
+          >
             Delete This Trip
           </Button>
           <small className="text-black-50">

@@ -1,15 +1,12 @@
-import { useTrip } from 'hooks'
-import { useRouter } from 'next/router'
+import { useDropFrame } from 'hooks'
 
 export default () => {
-  const router = useRouter()
-  const { loading, db, trip } = useTrip(router.query.tripId as string)
+  const { loading, value: frame } = useDropFrame()
 
   return (
     <>
       <div>{loading}</div>
-      <div>{router.query.tripId}</div>
-      <div>{JSON.stringify(trip)}</div>
+      <div>{JSON.stringify(frame)}</div>
     </>
   )
 }

@@ -37,7 +37,9 @@ export interface Weather {
 // What is this?
 export interface IndicatorShoot {}
 
-export interface Indicator {
+export interface Sample {
+  id?: number
+  stationId: number
   units: 'm'
   picture: boolean
   pictureTakenAt: Date
@@ -47,6 +49,8 @@ export interface Indicator {
 
 // DropFrame
 export interface DropFrame {
+  id?: number
+  stationId: number
   picture: boolean
   pictureTakenAt: Date
   sediments: string[]
@@ -56,16 +60,22 @@ export interface DropFrame {
 
 // Station
 export interface Station {
-  id: string | number
-  longitude: string | number
-  latitude: string | number
+  // Database primary key
+  id?: number
+  // Actual in the world station ID
+  stationId: string
+  tripId: number
+  longitude: string
+  latitude: string
   gpsDevice: string
   harbor: string
   isIndicatorStation: boolean
+  frames?: DropFrame[]
 }
 
 export interface Trip {
   id?: number
+  uuid: string
   date: Date
   harbor: string
   boat: string

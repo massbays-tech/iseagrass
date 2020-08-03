@@ -1,35 +1,54 @@
-import { Version } from 'components'
+import { DataError, Loading, Version } from 'components'
+import { TRIP_STORE } from 'db'
 import { useDBQuery } from 'hooks'
 import { Trip } from 'models'
 import moment from 'moment'
 import Link from 'next/link'
-import { Col, ListGroup, Row, Spinner } from 'reactstrap'
+import { useRouter } from 'next/router'
+import { Button, Col, ListGroup, Row } from 'reactstrap'
+import { v4 as uuid } from 'uuid'
 
-const NoTrips = () => (
-  <Row className="mt-5">
+interface NoTripProps {
+  onClick: (e: React.MouseEvent) => any
+}
+
+const NoTrips = ({ onClick }: NoTripProps) => (
+  <div className="mt-5">
     <Col className="text-center">
       <h3>No Current Trips</h3>
       <div>You haven't taken any trips yet.</div>
-      <Link href="/trips">
-        <a className="btn btn-primary mt-2" role="button">
-          Start New Trip
-        </a>
-      </Link>
+      <Button onClick={onClick} color="primary" outline={true} className="mt-2">
+        Start New Trip
+      </Button>
     </Col>
-  </Row>
+  </div>
 )
 
-const Loading = () => <Spinner color="primary" />
-const ShowError = (err: Error) => <div>{err.message}</div>
-
 export default function Home() {
-  const { result: trips, error } = useDBQuery<Trip[]>((db) =>
+  const router = useRouter()
+  const { db, result: trips, error } = useDBQuery<Trip[]>((db) =>
     db.getAll('trips')
   )
 
-  if (!trips) return Loading()
-  if (error) return ShowError(error)
-  if (trips.length == 0) return NoTrips()
+  const createNewTrip = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    const id = await db.put(TRIP_STORE, {
+      uuid: uuid(),
+      crew: [],
+      date: new Date(),
+      harbor: '',
+      boat: '',
+      stations: []
+    })
+    router.push({
+      pathname: '/trips',
+      query: { id }
+    })
+  }
+
+  if (!trips) return <Loading />
+  if (error) return <DataError error={error.message} />
+  if (trips.length == 0) return <NoTrips onClick={createNewTrip} />
 
   return (
     <>
@@ -38,14 +57,12 @@ export default function Home() {
           <h3 className="font-weight-light">Your Trips</h3>
         </Col>
         <Col xs="auto">
-          <Link href="/trips">
-            <a className="btn btn-primary" role="button">
-              Start New Trip
-            </a>
-          </Link>
+          <Button onClick={createNewTrip} color="primary" outline={true}>
+            Start New Trip
+          </Button>
         </Col>
       </Row>
-      <ListGroup flush>
+      <ListGroup flush className="px-2">
         {trips.map((trip) => (
           <Link
             key={trip.id}

@@ -1,27 +1,21 @@
 import { ChevronRight } from 'components/Icon'
 import { Station } from 'models'
 import Link from 'next/link'
-import { ListGroup } from 'reactstrap'
+import { Button, ListGroup } from 'reactstrap'
 
 interface StationProps {
-  index: number
-  tripId: number
   station: Station
 }
 
-const StationItem: React.FC<StationProps> = ({
-  index,
-  tripId,
-  station
-}: StationProps) => {
+const StationItem: React.FC<StationProps> = ({ station }: StationProps) => {
   return (
     <li className="list-group-item">
       <Link
         href={{
           pathname: '/trips/stations',
-          query: { id: tripId, stationId: index }
+          query: { id: station.id }
         }}
-        as={`/trips/stations?id=${tripId}&stationId=${index}`}
+        as={`/trips/stations?id=${station.id}`}
       >
         <a className="text-dark d-flex justify-content-between align-items-center">
           <div>
@@ -38,22 +32,22 @@ const StationItem: React.FC<StationProps> = ({
 }
 
 interface StationsProps {
-  id: number
   stations: Station[]
+  onClick: (e: React.MouseEvent) => any
 }
 
 export const Stations: React.FC<StationsProps> = ({
-  id,
-  stations
+  stations,
+  onClick
 }: StationsProps) => {
   if (!stations || stations.length == 0) {
-    return <BlankSlate id={id} />
+    return <BlankSlate onClick={onClick} />
   }
   return (
     <>
       <ListGroup flush>
         {stations.map((s, key) => (
-          <StationItem station={s} tripId={id} index={key} key={key} />
+          <StationItem station={s} key={key} />
         ))}
       </ListGroup>
     </>
@@ -61,17 +55,16 @@ export const Stations: React.FC<StationsProps> = ({
 }
 
 interface BlankSlateProps {
-  id: number
+  onClick: (e: React.MouseEvent) => any
 }
 
-const BlankSlate: React.FC<BlankSlateProps> = ({ id }: BlankSlateProps) => (
+const BlankSlate: React.FC<BlankSlateProps> = ({
+  onClick
+}: BlankSlateProps) => (
   <div className="bg-light p-5 text-center">
     <div style={{ fontSize: '1.25rem' }}>No Stations</div>
-    <Link
-      href={{ pathname: '/trips/stations', query: { id } }}
-      as={`/trips/stations?id=${id}`}
-    >
-      <a>New Station</a>
-    </Link>
+    <Button onClick={onClick} color="link">
+      New Station
+    </Button>
   </div>
 )
