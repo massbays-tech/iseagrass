@@ -7,6 +7,8 @@ import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import 'styles/index.css'
+import 'styles/weather/weather-icons-wind.min.css'
+import 'styles/weather/weather-icons.min.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [db, setDB] = useState<IDBPDatabase<Database>>(undefined)

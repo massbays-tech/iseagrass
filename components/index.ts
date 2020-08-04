@@ -1,4 +1,5 @@
 export * from './Errors'
+export * from './frames'
 export * from './Icon'
 export * from './Layout'
 export * from './Loading'

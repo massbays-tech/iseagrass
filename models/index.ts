@@ -52,7 +52,7 @@ export interface DropFrame {
   id?: number
   stationId: number
   picture: boolean
-  pictureTakenAt: Date
+  pictureTakenAt: Date | string
   sediments: string[]
   coverage: string
   notes: string

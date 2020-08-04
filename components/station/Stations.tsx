@@ -7,6 +7,16 @@ interface StationProps {
   station: Station
 }
 
+const StationLocation = ({ latitude, longitude }: Station) => (
+  <small className="text-black-50">
+    {`${
+      latitude && longitude
+        ? '(' + latitude + ',' + longitude + ')'
+        : 'No Location'
+    }`}
+  </small>
+)
+
 const StationItem: React.FC<StationProps> = ({ station }: StationProps) => {
   return (
     <li className="list-group-item">
@@ -20,9 +30,7 @@ const StationItem: React.FC<StationProps> = ({ station }: StationProps) => {
         <a className="text-dark d-flex justify-content-between align-items-center">
           <div>
             <div>Station {station.id}</div>
-            <small className="text-black-50">
-              ({station.latitude},{station.longitude})
-            </small>
+            <StationLocation {...station} />
           </div>
           <ChevronRight />
         </a>
