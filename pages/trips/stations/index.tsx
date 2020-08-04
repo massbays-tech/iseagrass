@@ -4,6 +4,7 @@ import {
   DropFrames,
   Loading,
   Location,
+  LocationUpdate,
   Secchi,
   Weather
 } from 'components'
@@ -79,7 +80,7 @@ export default () => {
       stationId: station.id,
       picture: false,
       pictureTakenAt: '',
-      sediments: [],
+      sediments: {},
       coverage: '',
       notes: ''
     })
@@ -140,17 +141,21 @@ export default () => {
             />
           </div>
           <div className="col-6 align-items-end mb-2 d-flex justify-content-end">
-            <Label check className="mr-3">
+            <Label check className="d-flex flex-fill justify-content-end">
               Indicator Station?
+              <input
+                className="ml-3"
+                type="checkbox"
+                style={{ height: 25, width: 25 }}
+                checked={station.isIndicatorStation}
+                onChange={(e) =>
+                  setStation({
+                    ...station,
+                    isIndicatorStation: e.target.checked
+                  })
+                }
+              />
             </Label>
-            <input
-              type="checkbox"
-              style={{ height: 25, width: 25 }}
-              checked={station.isIndicatorStation}
-              onChange={(e) =>
-                setStation({ ...station, isIndicatorStation: e.target.checked })
-              }
-            />
           </div>
         </FormGroup>
         <FormGroup>
@@ -163,7 +168,14 @@ export default () => {
             onChange={(e) => setStation({ ...station, harbor: e.target.value })}
           />
         </FormGroup>
-        <Location />
+        <Location
+          location={{
+            latitude: station.latitude,
+            longitude: station.longitude,
+            device: station.gpsDevice
+          }}
+          onChange={(loc: LocationUpdate) => setStation({ ...station, ...loc })}
+        />
         <Weather weather={null} />
         <Secchi station={station} setStation={setStation} />
       </Form>

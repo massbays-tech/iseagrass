@@ -7,6 +7,7 @@ const defaultSettings = {
 }
 
 interface Position {
+  loading: boolean
   latitude?: number
   longitude?: number
   accuracy?: number
@@ -15,11 +16,12 @@ interface Position {
 
 // Extended from: https://github.com/trekhleb/use-position
 export const usePosition = (watch = false, settings = defaultSettings) => {
-  const [position, setPosition] = useState<Position>({})
+  const [position, setPosition] = useState<Position>({ loading: true })
   const [error, setError] = useState<string | null>(null)
 
   const onChange: PositionCallback = ({ coords, timestamp }) => {
     setPosition({
+      loading: false,
       latitude: coords.latitude,
       longitude: coords.longitude,
       accuracy: coords.accuracy,

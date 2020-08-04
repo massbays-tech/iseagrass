@@ -47,13 +47,18 @@ export interface Sample {
   shoots: IndicatorShoot[]
 }
 
+export const SedimentOptions = ['Mud', 'Clay', 'Sand', 'Gravel', 'Cobble']
+export type SedimentType = 'mud' | 'clay' | 'sand' | 'gravel' | 'cobble'
+
 // DropFrame
 export interface DropFrame {
   id?: number
   stationId: number
   picture: boolean
-  pictureTakenAt: Date | string
-  sediments: string[]
+  pictureTakenAt: string
+  sediments: {
+    [k in SedimentType]?: boolean
+  }
   coverage: string
   notes: string
 }
