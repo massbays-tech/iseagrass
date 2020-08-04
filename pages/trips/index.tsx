@@ -53,7 +53,17 @@ export default () => {
       latitude: '',
       gpsDevice: '',
       harbor: '',
-      isIndicatorStation: false
+      isIndicatorStation: false,
+      secchi: {
+        depth: '',
+        units: '',
+        time: '',
+        drops: [
+          { depth: '', hitBottom: false },
+          { depth: '', hitBottom: false }
+        ],
+        notes: ''
+      }
     })
     router.push({
       pathname: '/trips/stations',

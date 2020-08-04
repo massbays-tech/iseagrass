@@ -1,13 +1,13 @@
-export interface SechiDrop {
-  depth: number
+export interface SecchiDrop {
+  depth: string
   hitBottom: boolean
 }
 
 export interface Secchi {
-  waterDepth: number
-  units: 'm'
-  time: Date
-  drops: SechiDrop[]
+  depth: string
+  units: string
+  time: string
+  drops: SecchiDrop[]
   notes: string
 }
 
@@ -70,6 +70,7 @@ export interface Station {
   gpsDevice: string
   harbor: string
   isIndicatorStation: boolean
+  secchi: Secchi
   frames?: DropFrame[]
 }
 

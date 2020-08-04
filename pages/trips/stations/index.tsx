@@ -3,9 +3,10 @@ import {
   DataError,
   DropFrames,
   Loading,
-  Location
+  Location,
+  Secchi,
+  Weather
 } from 'components'
-import { Weather } from 'components/Weather'
 import { DROP_FRAME_STORE, STATION_STORE } from 'db'
 import { useStation } from 'hooks'
 import { Station } from 'models'
@@ -22,7 +23,7 @@ interface FramesProps {
 const Frames = ({ station, onCreate }: FramesProps) => (
   <>
     <div className="mb-1 mt-2 px-3 d-flex justify-content-between">
-      <h3 className="font-weight-light">Drop Frames</h3>
+      <h4 className="font-weight-light">Drop Frames</h4>
       <Button color="primary" outline={true} onClick={onCreate}>
         Add Drop Frame
       </Button>
@@ -138,11 +139,18 @@ export default () => {
               }}
             />
           </div>
-          <div className="col-6 align-items-center d-flex justify-content-end">
+          <div className="col-6 align-items-end mb-2 d-flex justify-content-end">
             <Label check className="mr-3">
               Indicator Station?
             </Label>
-            <input type="checkbox" style={{ height: 25, width: 25 }} />{' '}
+            <input
+              type="checkbox"
+              style={{ height: 25, width: 25 }}
+              checked={station.isIndicatorStation}
+              onChange={(e) =>
+                setStation({ ...station, isIndicatorStation: e.target.checked })
+              }
+            />
           </div>
         </FormGroup>
         <FormGroup>
@@ -157,6 +165,7 @@ export default () => {
         </FormGroup>
         <Location />
         <Weather weather={null} />
+        <Secchi station={station} setStation={setStation} />
       </Form>
       <Frames station={station} onCreate={createNewDropFrame} />
       <Settings onDelete={deleteStation} />
