@@ -176,7 +176,10 @@ export default () => {
           }}
           onChange={(loc: LocationUpdate) => setStation({ ...station, ...loc })}
         />
-        <Weather weather={null} />
+        <Weather
+          weather={station.weather}
+          onChange={(w) => setStation({ ...station, ...w })}
+        />
         <Secchi station={station} setStation={setStation} />
       </Form>
       <Frames station={station} onCreate={createNewDropFrame} />

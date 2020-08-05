@@ -11,27 +11,11 @@ export interface Secchi {
   notes: string
 }
 
-export interface Wind {
-  speed: string
-}
-
-export interface Sea {
-  waves: string
-}
-
-export interface Clouds {
-  clouds: string
-}
-
-export interface Tide {
-  state: string
-}
-
 export interface Weather {
-  wind: Wind
-  sea: Sea
-  clouds: Clouds
-  tide: Tide
+  wind: string
+  sea: string
+  clouds: string
+  tide: string
 }
 
 // What is this?
@@ -77,6 +61,7 @@ export interface Station {
   isIndicatorStation: boolean
   secchi: Secchi
   frames?: DropFrame[]
+  weather: Weather
 }
 
 export interface Trip {

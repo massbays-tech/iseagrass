@@ -63,6 +63,12 @@ export default () => {
           { depth: '', hitBottom: false }
         ],
         notes: ''
+      },
+      weather: {
+        wind: '',
+        sea: '',
+        clouds: '',
+        tide: ''
       }
     })
     router.push({
