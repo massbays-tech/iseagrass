@@ -1,5 +1,6 @@
 import {
   ChevronLeft,
+  ChevronRight,
   DataError,
   DropFrames,
   Loading,
@@ -14,7 +15,52 @@ import { Station } from 'models'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap'
+import {
+  Button,
+  Col,
+  Collapse,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Row
+} from 'reactstrap'
+
+interface SecchiSectionProps {
+  station: Station
+  setStation: React.Dispatch<React.SetStateAction<Station>>
+}
+
+const SecchiSection = ({ station, setStation }: SecchiSectionProps) => {
+  const [open, setOpen] = useState(false)
+
+  const toggle = () => {
+    setOpen(!open)
+  }
+  return (
+    <Row className="border-top border-bottom">
+      <Col
+        xs="12"
+        className="d-flex align-items-center justify-content-start"
+        onClick={toggle}
+      >
+        <h4 className="font-weight-light my-2">Secchi Drop</h4>
+        <span className="flex-fill" />
+        <ChevronRight
+          style={{
+            transform: `rotate(${open ? '90' : '0'}deg)`,
+            transition: '.35s ease'
+          }}
+        />
+      </Col>
+      <Collapse isOpen={open} className="w-100 pb-3">
+        <div className="px-3">
+          <Secchi station={station} setStation={setStation} />
+        </div>
+      </Collapse>
+    </Row>
+  )
+}
 
 interface FramesProps {
   station: Station
@@ -180,7 +226,7 @@ export default () => {
           weather={station.weather}
           onChange={(w) => setStation({ ...station, ...w })}
         />
-        <Secchi station={station} setStation={setStation} />
+        <SecchiSection station={station} setStation={setStation} />
       </Form>
       <Frames station={station} onCreate={createNewDropFrame} />
       <Settings onDelete={deleteStation} />
