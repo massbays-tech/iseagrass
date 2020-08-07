@@ -47,13 +47,15 @@ export default () => {
   const createNewStation = async (e: React.MouseEvent) => {
     e.preventDefault()
     const id = await db.put(STATION_STORE, {
-      stationId: '',
       tripId: trip.id,
-      longitude: '',
-      latitude: '',
-      gpsDevice: '',
-      harbor: '',
+      stationId: '',
       isIndicatorStation: false,
+      harbor: '',
+      location: {
+        longitude: '',
+        latitude: '',
+        device: ''
+      },
       secchi: {
         depth: '',
         units: '',
@@ -69,7 +71,8 @@ export default () => {
         sea: '',
         clouds: '',
         tide: ''
-      }
+      },
+      samples: []
     })
     router.push({
       pathname: '/trips/stations',

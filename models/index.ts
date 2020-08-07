@@ -3,6 +3,12 @@ export interface SecchiDrop {
   hitBottom: boolean
 }
 
+export interface Location {
+  longitude: string
+  latitude: string
+  device: string
+}
+
 export interface Secchi {
   depth: string
   units: string
@@ -18,17 +24,20 @@ export interface Weather {
   tide: string
 }
 
-// What is this?
-export interface IndicatorShoot {}
+export interface IndicatorShoot {
+  length: string
+  width: string
+}
 
 export interface Sample {
   id?: number
   stationId: number
-  units: 'm'
+  units: string
   picture: boolean
-  pictureTakenAt: Date
+  pictureTakenAt: string
   diseaseCoverage: string
   shoots: IndicatorShoot[]
+  notes: string
 }
 
 export const SedimentOptions = ['Mud', 'Clay', 'Sand', 'Gravel', 'Cobble']
@@ -51,17 +60,19 @@ export interface DropFrame {
 export interface Station {
   // Database primary key
   id?: number
+  // foreign key to trip
+  tripId: number
   // Actual in the world station ID
   stationId: string
-  tripId: number
-  longitude: string
-  latitude: string
-  gpsDevice: string
-  harbor: string
+  // Is this station an indicator station?
   isIndicatorStation: boolean
+  // The harbor this station is in
+  harbor: string
+  location: Location
+  weather: Weather
   secchi: Secchi
   frames?: DropFrame[]
-  weather: Weather
+  samples: Sample[]
 }
 
 export interface Trip {

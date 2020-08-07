@@ -6,10 +6,11 @@ import {
   Loading,
   Location,
   LocationUpdate,
+  Samples,
   Secchi,
   Weather
 } from 'components'
-import { DROP_FRAME_STORE, STATION_STORE } from 'db'
+import { DROP_FRAME_STORE, SAMPLE_STORE, STATION_STORE } from 'db'
 import { useStation } from 'hooks'
 import { Station } from 'models'
 import Link from 'next/link'
@@ -136,6 +137,36 @@ export default () => {
     })
   }
 
+  const createNewSample = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    const id = await db.put(SAMPLE_STORE, {
+      stationId: station.id,
+      units: '',
+      picture: false,
+      pictureTakenAt: '',
+      diseaseCoverage: '',
+      shoots: [
+        {
+          length: '',
+          width: ''
+        },
+        {
+          length: '',
+          width: ''
+        },
+        {
+          length: '',
+          width: ''
+        }
+      ],
+      notes: ''
+    })
+    router.push({
+      pathname: '/trips/stations/samples',
+      query: { id }
+    })
+  }
+
   const deleteStation = async () => {
     const response = confirm('Are you sure you want to delete this station?')
     if (response) {
@@ -216,9 +247,7 @@ export default () => {
         </FormGroup>
         <Location
           location={{
-            latitude: station.latitude,
-            longitude: station.longitude,
-            device: station.gpsDevice
+            ...station.location
           }}
           onChange={(loc: LocationUpdate) => setStation({ ...station, ...loc })}
         />
@@ -229,6 +258,7 @@ export default () => {
         <SecchiSection station={station} setStation={setStation} />
       </Form>
       <Frames station={station} onCreate={createNewDropFrame} />
+      <Samples samples={station.samples} onCreate={createNewSample} />
       <Settings onDelete={deleteStation} />
     </>
   )
