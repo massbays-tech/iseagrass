@@ -3,10 +3,13 @@ import { TRIP_STORE } from 'db'
 import { useDBQuery } from 'hooks'
 import { Trip } from 'models'
 import moment from 'moment'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Button, Col, ListGroup, Row } from 'reactstrap'
 import { v4 as uuid } from 'uuid'
+
+const PWAPrompt = dynamic(() => import('../components/Prompt'), { ssr: false })
 
 interface NoTripProps {
   onClick: (e: React.MouseEvent) => any
@@ -46,6 +49,8 @@ export default function Home() {
     })
   }
 
+  const prompt = () => <PWAPrompt />
+
   if (!trips) return <Loading />
   if (error) return <DataError error={error.message} />
   if (trips.length == 0) return <NoTrips onClick={createNewTrip} />
@@ -79,6 +84,7 @@ export default function Home() {
         ))}
       </ListGroup>
       <Version />
+      <PWAPrompt />
     </>
   )
 }
