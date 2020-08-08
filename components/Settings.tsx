@@ -29,7 +29,7 @@ export const Settings: React.FC<unknown> = () => {
           bottom: 0,
           left: 0,
           right: 0,
-          height: open ? '80%' : 40,
+          height: open ? '80%' : 60,
           boxShadow: '0 -.125rem .25rem rgba(0,0,0,.1)',
           borderTopLeftRadius: '1rem',
           borderTopRightRadius: '1rem',
@@ -39,7 +39,7 @@ export const Settings: React.FC<unknown> = () => {
         <Row>
           <Col xs="3">
             <Button color="link" className="text-dark" onClick={toggle}>
-              <Gear />
+              <Gear width="1.5rem" height="1.5rem" />
             </Button>
           </Col>
         </Row>
