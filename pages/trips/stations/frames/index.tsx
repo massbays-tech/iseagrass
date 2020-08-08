@@ -12,7 +12,7 @@ interface SedimentProps {
   name: string
   id: string
   value: boolean
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: (val: boolean) => void
 }
 
 const Sediment = ({ id, name, value, onChange }: SedimentProps) => (
@@ -20,8 +20,8 @@ const Sediment = ({ id, name, value, onChange }: SedimentProps) => (
     <input
       type="checkbox"
       id={id}
-      checked={value}
-      onChange={onChange}
+      checked={value ?? false}
+      onChange={(e) => onChange(e.target.checked)}
       style={{ width: 20, height: 20 }}
     />
     <Label className="ml-2" for={id}>
@@ -43,6 +43,23 @@ export default () => {
       db.put(DROP_FRAME_STORE, frame)
     }
   }, [frame])
+  const i = parseInt(router.query.i as string)
+
+  const next = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    const id = await db.put(DROP_FRAME_STORE, {
+      stationId: frame.stationId,
+      picture: false,
+      pictureTakenAt: '',
+      sediments: {},
+      coverage: '',
+      notes: ''
+    })
+    router.push({
+      pathname: '/trips/stations/frames',
+      query: { id }
+    })
+  }
 
   if (error) return <DataError error={error.message} />
   if (loading) return <Loading />
@@ -84,7 +101,15 @@ export default () => {
                 id={name}
                 name={name}
                 value={frame.sediments[name]}
-                onChange={() => {}}
+                onChange={(val: boolean) =>
+                  setFrame({
+                    ...frame,
+                    sediments: {
+                      ...frame.sediments,
+                      [name]: val
+                    }
+                  })
+                }
               />
             </li>
           ))}
@@ -95,6 +120,8 @@ export default () => {
             type="select"
             id="eelgrass-coverage"
             name="eelgrass-coverage"
+            value={frame.coverage}
+            onChange={(e) => setFrame({ ...frame, coverage: e.target.value })}
           >
             {EELGRASS_COVERAGE.map((v) => (
               <option key={v} value={v}>
@@ -118,7 +145,12 @@ export default () => {
           />
         </FormGroup>
         <div className="d-flex">
-          <Button color="success" type="submit" className="flex-fill">
+          <Button
+            color="success"
+            type="submit"
+            className="flex-fill"
+            onClick={next}
+          >
             Save and Next
           </Button>
         </div>
