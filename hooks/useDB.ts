@@ -114,7 +114,9 @@ export const useStation = (): StoreByKeyHook<Station> => {
       'stationId',
       query
     )
+    const samples = await db.getAllFromIndex(SAMPLE_STORE, 'stationId', query)
     station.frames = frames
+    station.samples = samples
     return station
   }
 
