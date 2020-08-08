@@ -9,7 +9,7 @@ const Backgrounds = {
 
 interface WeatherProp {
   value: string
-  onChange: (e: any) => void
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export const CloudCoverage = ({ value, onChange }: WeatherProp) => (
@@ -101,13 +101,11 @@ interface Props {
   onChange: (weather: WeatherModel) => void
 }
 
-export const Weather: React.FC<Props> = ({ weather }: Props) => {
+export const Weather: React.FC<Props> = ({ weather, onChange }: Props) => {
   // const { loading, weather, error } = useWeather()
   const [open, setOpen] = useState(false)
+  const toggle = () => setOpen(!open)
 
-  const toggle = () => {
-    setOpen(!open)
-  }
   return (
     <Row className="border-top border-bottom">
       <Col
@@ -126,10 +124,22 @@ export const Weather: React.FC<Props> = ({ weather }: Props) => {
       </Col>
       <Collapse isOpen={open} className="w-100 pb-3">
         <div className="px-3">
-          <CloudCoverage value={weather.clouds} onChange={() => {}} />
-          <WindSpeed value={weather.wind} onChange={() => {}} />
-          <SeaState value={weather.wind} onChange={() => {}} />
-          <Tide value={weather.wind} onChange={() => {}} />
+          <CloudCoverage
+            value={weather.clouds}
+            onChange={(e) => onChange({ ...weather, clouds: e.target.value })}
+          />
+          <WindSpeed
+            value={weather.wind}
+            onChange={(e) => onChange({ ...weather, wind: e.target.value })}
+          />
+          <SeaState
+            value={weather.sea}
+            onChange={(e) => onChange({ ...weather, sea: e.target.value })}
+          />
+          <Tide
+            value={weather.tide}
+            onChange={(e) => onChange({ ...weather, tide: e.target.value })}
+          />
         </div>
       </Collapse>
     </Row>

@@ -34,7 +34,6 @@ interface SecchiSectionProps {
 
 const SecchiSection = ({ station, setStation }: SecchiSectionProps) => {
   const [open, setOpen] = useState(false)
-
   const toggle = () => {
     setOpen(!open)
   }
@@ -56,7 +55,10 @@ const SecchiSection = ({ station, setStation }: SecchiSectionProps) => {
       </Col>
       <Collapse isOpen={open} className="w-100 pb-3">
         <div className="px-3">
-          <Secchi station={station} setStation={setStation} />
+          <Secchi
+            secchi={station.secchi}
+            setSecchi={(secchi) => setStation({ ...station, secchi })}
+          />
         </div>
       </Collapse>
     </Row>
@@ -249,11 +251,13 @@ export default () => {
           location={{
             ...station.location
           }}
-          onChange={(loc: LocationUpdate) => setStation({ ...station, ...loc })}
+          onChange={(location: LocationUpdate) =>
+            setStation({ ...station, location })
+          }
         />
         <Weather
           weather={station.weather}
-          onChange={(w) => setStation({ ...station, ...w })}
+          onChange={(weather) => setStation({ ...station, weather })}
         />
         <SecchiSection station={station} setStation={setStation} />
       </Form>

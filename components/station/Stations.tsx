@@ -1,5 +1,5 @@
 import { ChevronRight } from 'components/Icon'
-import { Station } from 'models'
+import { Location, Station } from 'models'
 import Link from 'next/link'
 import { Button, ListGroup } from 'reactstrap'
 
@@ -7,7 +7,7 @@ interface StationProps {
   station: Station
 }
 
-const StationLocation = ({ latitude, longitude }: Station) => (
+const StationLocation = ({ latitude, longitude }: Location) => (
   <small className="text-black-50">
     {`${
       latitude && longitude
@@ -29,8 +29,8 @@ const StationItem: React.FC<StationProps> = ({ station }: StationProps) => {
       >
         <a className="text-dark d-flex justify-content-between align-items-center">
           <div>
-            <div>Station {station.id}</div>
-            <StationLocation {...station} />
+            <div>Station {station.stationId}</div>
+            <StationLocation {...station.location} />
           </div>
           <ChevronRight />
         </a>

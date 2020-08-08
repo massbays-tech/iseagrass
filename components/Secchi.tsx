@@ -1,4 +1,4 @@
-import { SecchiDrop as SecchiDropModel, Station } from 'models'
+import { Secchi as SecchiModel, SecchiDrop as SecchiDropModel } from 'models'
 import { useEffect } from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
 
@@ -46,35 +46,37 @@ export const SecchiDrop = ({ i, onChange, drop }: SecchiDropProps) => (
 )
 
 interface Props {
-  station: Station
-  setStation: React.Dispatch<React.SetStateAction<Station>>
+  secchi: SecchiModel
+  setSecchi: (s: SecchiModel) => void
 }
 
-export const Secchi: React.FC<Props> = ({ station, setStation }: Props) => {
+export const Secchi: React.FC<Props> = ({ secchi, setSecchi }: Props) => {
   useEffect(() => {
-    if (!station.secchi.time) {
+    if (!secchi.time) {
       const now = new Date()
-      const time = `${now.getHours()}:${now.getMinutes()}`
-      setStation({
-        ...station,
-        secchi: { ...station.secchi, time }
+      const time = `${now
+        .getHours()
+        .toString()
+        .padStart(2, '0')}:${now.getMinutes()}`
+      setSecchi({
+        ...secchi,
+        time
       })
     }
-  }, [station.secchi.time])
+  }, [secchi.time])
   return (
     <div className="py-2">
-      <h4 className="font-weight-light">Secchi Info</h4>
       <FormGroup>
         <Label for="depth">Water Depth</Label>
         <Input
           type="number"
           id="depth"
           required
-          value={station.secchi.depth}
+          value={secchi.depth}
           onChange={(e) =>
-            setStation({
-              ...station,
-              secchi: { ...station.secchi, depth: e.target.value }
+            setSecchi({
+              ...secchi,
+              depth: e.target.value
             })
           }
         />
@@ -85,29 +87,26 @@ export const Secchi: React.FC<Props> = ({ station, setStation }: Props) => {
           type="time"
           id="time"
           required
-          value={station.secchi.time}
+          value={secchi.time}
           onChange={(e) =>
-            setStation({
-              ...station,
-              secchi: { ...station.secchi, time: e.target.value }
+            setSecchi({
+              ...secchi,
+              time: e.target.value
             })
           }
         />
       </FormGroup>
-      {station.secchi.drops.map((drop, i) => (
+      {secchi.drops.map((drop, i) => (
         <SecchiDrop
           key={i}
           i={i}
           drop={drop}
           onChange={(drop) => {
-            const drops = [...station.secchi.drops] // copy array
+            const drops = [...secchi.drops] // copy array
             drops[i] = drop
-            setStation({
-              ...station,
-              secchi: {
-                ...station.secchi,
-                drops
-              }
+            setSecchi({
+              ...secchi,
+              drops
             })
           }}
         />
@@ -117,11 +116,11 @@ export const Secchi: React.FC<Props> = ({ station, setStation }: Props) => {
         <Input
           type="textarea"
           id="notes"
-          value={station.secchi.notes}
+          value={secchi.notes}
           onChange={(e) =>
-            setStation({
-              ...station,
-              secchi: { ...station.secchi, notes: e.target.value }
+            setSecchi({
+              ...secchi,
+              notes: e.target.value
             })
           }
         />

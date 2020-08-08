@@ -8,7 +8,6 @@ export interface LocationUpdate {
   latitude: string
   longitude: string
   device: string
-  error?: string
 }
 
 interface ErrorMessageProps {
@@ -38,6 +37,9 @@ export const Location = ({ location: initial, onChange }: Props) => {
   }
 
   useEffect(() => {
+    if (initial.latitude || initial.longitude) {
+      return
+    }
     if (isNumber(latitude) || isNumber(longitude)) {
       update({
         latitude: latitude.toFixed(6),
@@ -45,11 +47,9 @@ export const Location = ({ location: initial, onChange }: Props) => {
         device: 'phone'
       })
     }
-  }, [latitude, longitude])
+  }, [initial, latitude, longitude])
 
-  const toggle = () => {
-    setOpen(!open)
-  }
+  const toggle = () => setOpen(!open)
 
   return (
     <Row
@@ -113,11 +113,6 @@ export const Location = ({ location: initial, onChange }: Props) => {
           </Col>
         </div>
       </Collapse>
-      <Col
-        xs="12"
-        style={{ maxHeight: open ? 200 : 0 }}
-        className="d-flex"
-      ></Col>
     </Row>
   )
 }
