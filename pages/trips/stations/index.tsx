@@ -218,12 +218,12 @@ export default () => {
         <h3 className="font-weight-light">Station {station.stationId}</h3>
         <FormGroup className="form-row">
           <div className="col-6">
-            <Label for="station">Station Number</Label>
+            <Label for="station">Station ID</Label>
             <Input
-              type="number"
+              type="text"
               id="station"
-              required={true}
-              inputMode="decimal"
+              required
+              inputMode="text"
               value={station.stationId}
               onChange={(e) => {
                 setStation({ ...station, stationId: e.target.value })
