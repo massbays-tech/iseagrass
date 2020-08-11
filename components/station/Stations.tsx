@@ -72,7 +72,7 @@ const BlankSlate: React.FC<BlankSlateProps> = ({
   <div className="bg-light p-5 text-center">
     <div style={{ fontSize: '1.25rem' }}>No Stations</div>
     <Button onClick={onClick} color="link">
-      New Station
+      Add Station
     </Button>
   </div>
 )

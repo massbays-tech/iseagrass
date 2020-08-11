@@ -154,7 +154,7 @@ export default () => {
       <div className="mb-1 px-3 d-flex justify-content-between">
         <h3 className="font-weight-light">Stations</h3>
         <Button color="primary" outline={true} onClick={createNewStation}>
-          New Station
+          Add Station
         </Button>
       </div>
       <Stations stations={trip.stations} onClick={createNewStation} />
