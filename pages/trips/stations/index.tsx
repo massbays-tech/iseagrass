@@ -82,6 +82,17 @@ const Frames = ({ station, onCreate }: FramesProps) => (
   </>
 )
 
+const SaveAndReturn = ({ tripId }: { tripId: number }) => (
+  <div className="px-3 d-flex my-4">
+    <Link
+      href={{ pathname: '/trips', query: { id: tripId } }}
+      as={`/trips?id=${tripId}`}
+    >
+      <a className="btn btn-success flex-fill">Save and back to trip</a>
+    </Link>
+  </div>
+)
+
 interface SettingsProps {
   onDelete: (e: React.MouseEvent) => any
 }
@@ -263,6 +274,7 @@ export default () => {
       </Form>
       <Frames station={station} onCreate={createNewDropFrame} />
       <Samples samples={station.samples} onCreate={createNewSample} />
+      <SaveAndReturn tripId={station.tripId} />
       <Settings onDelete={deleteStation} />
     </>
   )
