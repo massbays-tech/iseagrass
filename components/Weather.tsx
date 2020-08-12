@@ -31,6 +31,35 @@ export const CloudCoverage = ({ value, onChange }: WeatherProp) => (
   </FormGroup>
 )
 
+export const WindDirection = ({ value, onChange }: WeatherProp) => (
+  <FormGroup>
+    <Label for="wind-direction">Wind Direction</Label>
+    <CustomInput
+      type="select"
+      id="wind-direction"
+      name="wind-direction"
+      value={value}
+      onChange={onChange}
+    >
+      {[
+        'No Wind',
+        'North',
+        'North-East',
+        'East',
+        'South-East',
+        'South',
+        'South-West',
+        'West',
+        'North-West'
+      ].map((v) => (
+        <option key={v} value={v}>
+          {v}
+        </option>
+      ))}
+    </CustomInput>
+  </FormGroup>
+)
+
 export const WindSpeed = ({ value, onChange }: WeatherProp) => (
   <FormGroup>
     <Label for="wind-speed">Wind Speed</Label>
@@ -132,6 +161,12 @@ export const Weather: React.FC<Props> = ({
           <CloudCoverage
             value={weather.clouds}
             onChange={(e) => onChange({ ...weather, clouds: e.target.value })}
+          />
+          <WindDirection
+            value={weather.windDirection}
+            onChange={(e) =>
+              onChange({ ...weather, windDirection: e.target.value })
+            }
           />
           <WindSpeed
             value={weather.wind}

@@ -19,6 +19,7 @@ export interface Secchi {
 
 export interface Weather {
   wind: string
+  windDirection: string
   sea: string
   clouds: string
   tide: string

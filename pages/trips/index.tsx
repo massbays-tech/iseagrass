@@ -68,6 +68,7 @@ export default () => {
       },
       weather: {
         wind: '',
+        windDirection: '',
         sea: '',
         clouds: '',
         tide: ''
