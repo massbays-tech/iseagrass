@@ -37,8 +37,12 @@ export const Settings: React.FC<unknown> = () => {
         }}
       >
         <Row>
-          <Col xs="3">
-            <Button color="link" className="text-dark" onClick={toggle}>
+          <Col xs="12" className="d-flex">
+            <Button
+              color="link"
+              className="flex-fill text-left text-dark"
+              onClick={toggle}
+            >
               <Gear width="1.5rem" height="1.5rem" />
             </Button>
           </Col>
