@@ -50,7 +50,13 @@ export default function Home() {
 
   if (!trips) return <Loading />
   if (error) return <DataError error={error.message} />
-  if (trips.length == 0) return <NoTrips onClick={createNewTrip} />
+  if (trips.length == 0)
+    return (
+      <>
+        <NoTrips onClick={createNewTrip} />
+        <PWAPrompt />
+      </>
+    )
 
   return (
     <>
