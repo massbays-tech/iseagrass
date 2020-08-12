@@ -28,6 +28,7 @@ export interface Weather {
 export interface IndicatorShoot {
   length: string
   width: string
+  diseaseCoverage: string
 }
 
 export interface Sample {

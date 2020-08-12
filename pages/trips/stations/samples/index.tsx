@@ -43,8 +43,10 @@ const Shoot = ({ i, shoot, setShoot }: ShootProps) => (
         type="select"
         id="disease-coverage"
         name="disease-coverage"
-        value={''}
-        onChange={(e) => setShoot({ ...shoot })}
+        value={shoot.diseaseCoverage}
+        onChange={(e) =>
+          setShoot({ ...shoot, diseaseCoverage: e.target.value })
+        }
       >
         {['None', 'Low', 'Medium', 'High'].map((v) => (
           <option key={v} value={v}>

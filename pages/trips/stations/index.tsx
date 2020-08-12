@@ -158,15 +158,18 @@ export default () => {
       shoots: [
         {
           length: '',
-          width: ''
+          width: '',
+          diseaseCoverage: ''
         },
         {
           length: '',
-          width: ''
+          width: '',
+          diseaseCoverage: ''
         },
         {
           length: '',
-          width: ''
+          width: '',
+          diseaseCoverage: ''
         }
       ],
       notes: ''
