@@ -1,5 +1,6 @@
 {
   "name": "seegrass",
+  "displayName": "SeeGrass",
   "version": "v1.0.0-beta.1",
   "main": "index.js",
   "scripts": {

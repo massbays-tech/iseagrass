@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Button, Col, ListGroup, Row } from 'reactstrap'
 import { v4 as uuid } from 'uuid'
+const { displayName } = require('../package.json')
 const PWAPrompt = dynamic(() => import('../components/Prompt'), { ssr: false })
 
 interface NoTripProps {
@@ -54,7 +55,12 @@ export default function Home() {
     return (
       <>
         <NoTrips onClick={createNewTrip} />
-        <PWAPrompt />
+        <PWAPrompt
+          timesToShow={3}
+          delay={500}
+          permanentlyHideOnDismiss={false}
+          copyBody={`${displayName} has app functionality. Add it to your home screen to use while offline.`}
+        />
       </>
     )
 
@@ -87,7 +93,12 @@ export default function Home() {
         ))}
       </ListGroup>
       <Settings />
-      <PWAPrompt />
+      <PWAPrompt
+        timesToShow={3}
+        delay={500}
+        permanentlyHideOnDismiss={false}
+        copyBody={`${displayName} has app functionality. Add it to your home screen to use while offline.`}
+      />
     </>
   )
 }

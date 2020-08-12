@@ -1,2 +1,3 @@
 import PWAPrompt from 'react-ios-pwa-prompt'
-export default PWAPrompt
+
+export default ({ props }: any) => <PWAPrompt {...props} />
