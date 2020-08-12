@@ -156,7 +156,12 @@ export default () => {
       </div>
       <div className="px-3">
         <div className="my-2">
-          <Button color="success" onClick={() => {}} className="w-100">
+          <Button
+            color="success"
+            onClick={() => {}}
+            className="w-100"
+            disabled={true}
+          >
             Upload Trip Data
           </Button>
           <small className="text-black-50">
