@@ -48,9 +48,14 @@ export const SecchiDrop = ({ i, onChange, drop }: SecchiDropProps) => (
 interface Props {
   secchi: SecchiModel
   setSecchi: (s: SecchiModel) => void
+  className?: string
 }
 
-export const Secchi: React.FC<Props> = ({ secchi, setSecchi }: Props) => {
+export const Secchi: React.FC<Props> = ({
+  secchi,
+  setSecchi,
+  className
+}: Props) => {
   useEffect(() => {
     if (!secchi.time) {
       const now = new Date()

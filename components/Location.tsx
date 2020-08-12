@@ -19,9 +19,10 @@ const ErrorMessage = ({ error }: ErrorMessageProps) => <span>{error}</span>
 interface Props {
   location: LocationUpdate
   onChange: (loc: LocationUpdate) => void
+  className?: string
 }
 
-export const Location = ({ location: initial, onChange }: Props) => {
+export const Location = ({ location: initial, onChange, className }: Props) => {
   const { loading, latitude, longitude, error } = usePosition()
   const [open, setOpen] = useState(false)
   const [location, setLocation] = useState<LocationUpdate>({
@@ -52,10 +53,7 @@ export const Location = ({ location: initial, onChange }: Props) => {
   const toggle = () => setOpen(!open)
 
   return (
-    <Row
-      className="border-top border-bottom"
-      style={{ borderLeft: '4px #90CDF4 solid' }}
-    >
+    <Row className={`${className ?? 'border-bottom'}`}>
       <Col
         xs="12"
         className="d-flex align-items-center justify-content-start"

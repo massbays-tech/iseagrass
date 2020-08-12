@@ -99,15 +99,20 @@ export const Tide = ({ value, onChange }: WeatherProp) => (
 interface Props {
   weather: WeatherModel
   onChange: (weather: WeatherModel) => void
+  className?: string
 }
 
-export const Weather: React.FC<Props> = ({ weather, onChange }: Props) => {
+export const Weather: React.FC<Props> = ({
+  weather,
+  onChange,
+  className
+}: Props) => {
   // const { loading, weather, error } = useWeather()
   const [open, setOpen] = useState(false)
   const toggle = () => setOpen(!open)
 
   return (
-    <Row className="border-top border-bottom">
+    <Row className={`${className ?? 'border-bottom'}`}>
       <Col
         xs="12"
         className="d-flex align-items-center justify-content-start"

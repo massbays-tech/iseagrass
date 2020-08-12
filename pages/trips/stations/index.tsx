@@ -8,6 +8,7 @@ import {
   LocationUpdate,
   Samples,
   Secchi,
+  StationInfo,
   Weather
 } from 'components'
 import { DROP_FRAME_STORE, SAMPLE_STORE, STATION_STORE } from 'db'
@@ -16,29 +17,25 @@ import { Station } from 'models'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import {
-  Button,
-  Col,
-  Collapse,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  Row
-} from 'reactstrap'
+import { Button, Col, Collapse, Form, Row } from 'reactstrap'
 
 interface SecchiSectionProps {
   station: Station
   setStation: React.Dispatch<React.SetStateAction<Station>>
+  className?: string
 }
 
-const SecchiSection = ({ station, setStation }: SecchiSectionProps) => {
+const SecchiSection = ({
+  station,
+  setStation,
+  className
+}: SecchiSectionProps) => {
   const [open, setOpen] = useState(false)
   const toggle = () => {
     setOpen(!open)
   }
   return (
-    <Row className="border-top border-bottom">
+    <Row className={`${className ?? 'border-bottom'}`}>
       <Col
         xs="12"
         className="d-flex align-items-center justify-content-start"
@@ -215,49 +212,15 @@ export default () => {
         </Link>
       </div>
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
-        <h3 className="font-weight-light">Station {station.stationId}</h3>
-        <FormGroup className="form-row">
-          <div className="col-6">
-            <Label for="station">Station ID</Label>
-            <Input
-              type="text"
-              id="station"
-              required
-              inputMode="text"
-              value={station.stationId}
-              onChange={(e) => {
-                setStation({ ...station, stationId: e.target.value })
-              }}
-            />
-          </div>
-          <div className="col-6 align-items-end mb-2 d-flex justify-content-end">
-            <Label check className="d-flex flex-fill justify-content-end">
-              Indicator Station?
-              <input
-                className="ml-3"
-                type="checkbox"
-                style={{ height: 25, width: 25 }}
-                checked={station.isIndicatorStation}
-                onChange={(e) =>
-                  setStation({
-                    ...station,
-                    isIndicatorStation: e.target.checked
-                  })
-                }
-              />
-            </Label>
-          </div>
-        </FormGroup>
-        <FormGroup>
-          <Label for="harbor">Harbor</Label>
-          <Input
-            type="text"
-            id="harbor"
-            required={true}
-            value={station.harbor}
-            onChange={(e) => setStation({ ...station, harbor: e.target.value })}
-          />
-        </FormGroup>
+        <StationInfo
+          className="border-top border-bottom"
+          data={{
+            stationId: station.stationId,
+            isIndicatorStation: station.isIndicatorStation,
+            harbor: station.harbor
+          }}
+          setData={(data) => setStation({ ...station, ...data })}
+        />
         <Location
           location={{
             ...station.location
