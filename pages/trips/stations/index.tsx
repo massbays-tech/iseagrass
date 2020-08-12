@@ -1,5 +1,5 @@
 import {
-  ChevronLeft,
+  BackLink,
   ChevronRight,
   DataError,
   DropFrames,
@@ -85,7 +85,7 @@ const SaveAndReturn = ({ tripId }: { tripId: number }) => (
       href={{ pathname: '/trips', query: { id: tripId } }}
       as={`/trips?id=${tripId}`}
     >
-      <a className="btn btn-success flex-fill">Save and back to trip</a>
+      <a className="btn btn-success flex-fill">Save and Back to Trip</a>
     </Link>
   </div>
 )
@@ -200,17 +200,7 @@ export default () => {
 
   return (
     <>
-      <div className="py-2">
-        <Link
-          href={{ pathname: '/trips', query: { id: station.tripId } }}
-          as={`/trips?id=${station.tripId}`}
-        >
-          <a className="d-flex align-items-center ml-2">
-            <ChevronLeft />
-            <span>Back to Trip</span>
-          </a>
-        </Link>
-      </div>
+      <BackLink name="Trip" pathname="/trips" id={station.tripId} />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
         <StationInfo
           className="border-top border-bottom"

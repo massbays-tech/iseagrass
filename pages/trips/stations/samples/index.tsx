@@ -1,8 +1,7 @@
-import { ChevronLeft, DataError, Loading } from 'components'
+import { BackLink, DataError, Loading } from 'components'
 import { SAMPLE_STORE } from 'db'
 import { useSample } from 'hooks'
 import { IndicatorShoot, Sample } from 'models'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { CustomInput, Form, FormGroup, Input, Label } from 'reactstrap'
@@ -101,20 +100,11 @@ export default () => {
 
   return (
     <>
-      <div className="py-2">
-        <Link
-          href={{
-            pathname: '/trips/stations',
-            query: { id: sample.stationId }
-          }}
-          as={`/trips/stations?id=${sample.stationId}`}
-        >
-          <a className="d-flex align-items-center ml-2">
-            <ChevronLeft />
-            <span>Back to Station</span>
-          </a>
-        </Link>
-      </div>
+      <BackLink
+        name="Station"
+        pathname="/trips/stations"
+        id={sample.stationId}
+      />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
         <FormGroup>Picture? {sample.picture}</FormGroup>
         <FormGroup>

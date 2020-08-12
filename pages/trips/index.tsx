@@ -1,9 +1,8 @@
-import { ChevronLeft, DataError, Loading, Stations } from 'components'
+import { BackLink, DataError, Loading, Stations } from 'components'
 import { STATION_STORE, TRIP_STORE } from 'db'
 import { useTrip } from 'hooks'
 import { compact, union, uniq } from 'lodash'
 import { Trip } from 'models'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Button, Form, FormGroup, FormText, Input, Label } from 'reactstrap'
@@ -93,14 +92,7 @@ export default () => {
 
   return (
     <>
-      <div className="py-2">
-        <Link href="/">
-          <a className="d-flex align-items-center ml-2">
-            <ChevronLeft />
-            <span>Back to Trips</span>
-          </a>
-        </Link>
-      </div>
+      <BackLink name="trips" pathname="/" />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
         <h3 className="font-weight-light">Trip Details</h3>
         <FormGroup>
