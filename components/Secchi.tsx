@@ -11,7 +11,7 @@ interface SecchiDropProps {
 export const SecchiDrop = ({ i, onChange, drop }: SecchiDropProps) => (
   <FormGroup className="form-row">
     <div className="col-6">
-      <Label for={`secchi-drop-${i}`}>Secchi Depth {i}</Label>
+      <Label for={`secchi-drop-${i}`}>Secchi Depth {i + 1}</Label>
       <Input
         type="number"
         id={`secchi-drop-${i}`}
