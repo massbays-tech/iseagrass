@@ -1,98 +1,43 @@
-import { DataError, Loading, Settings } from 'components'
-import { TRIP_STORE } from 'db'
-import { useDBQuery } from 'hooks'
-import { Trip } from 'models'
-import moment from 'moment'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Button, Col, ListGroup, Row } from 'reactstrap'
-import { v4 as uuid } from 'uuid'
+import { Col } from 'reactstrap'
 const { displayName } = require('../package.json')
 const PWAPrompt = dynamic(() => import('../components/Prompt'), { ssr: false })
 
-interface NoTripProps {
-  onClick: (e: React.MouseEvent) => any
-}
-
-const NoTrips = ({ onClick }: NoTripProps) => (
-  <div className="mt-5">
-    <Col className="text-center">
-      <h3>No Current Trips</h3>
-      <div>You haven't taken any trips yet.</div>
-      <Button onClick={onClick} color="primary" outline={true} className="mt-2">
-        Start New Trip
-      </Button>
-    </Col>
-  </div>
-)
-
 export default function Home() {
   const router = useRouter()
-  const { db, result: trips, error } = useDBQuery<Trip[]>((db) =>
-    db.getAll('trips')
-  )
-
-  const createNewTrip = async (e: React.MouseEvent) => {
-    e.preventDefault()
-    const id = await db.put(TRIP_STORE, {
-      uuid: uuid(),
-      crew: [],
-      date: new Date(),
-      harbor: '',
-      boat: '',
-      stations: []
-    })
-    router.push({
-      pathname: '/trips',
-      query: { id }
-    })
-  }
-
-  if (!trips) return <Loading />
-  if (error) return <DataError error={error.message} />
-  if (trips.length == 0)
-    return (
-      <>
-        <NoTrips onClick={createNewTrip} />
-        <PWAPrompt
-          timesToShow={3}
-          delay={500}
-          permanentlyHideOnDismiss={false}
-          copyBody={`${displayName} has app functionality. Add it to your home screen to use while offline.`}
-        />
-      </>
-    )
 
   return (
     <>
-      <Row noGutters className="justify-content-between p-3">
-        <Col xs="auto">
-          <h3 className="font-weight-light">Your Trips</h3>
+      <div className="my-3">
+        <Col xs="12">
+          <img src="/static/mf_logo_blue.png" className="w-100" />
         </Col>
-        <Col xs="auto">
-          <Button onClick={createNewTrip} color="primary" outline={true}>
-            Start New Trip
-          </Button>
+        <Col xs="12" className="mt-3">
+          <img src="/static/mb_logo.jpg" className="w-100" />
         </Col>
-      </Row>
-      <ListGroup flush className="px-2">
-        {trips.map((trip) => (
-          <Link
-            key={trip.id}
-            href={{ pathname: '/trips', query: { id: trip.id } }}
-            as={`/trips?id=${trip.id}`}
-          >
-            <a className="list-group-item text-dark p-2">
-              <div>
-                <div>Trip {trip.id}</div>
-                <small>{moment(trip.date).format('MMMM Do, YYYY')}</small>
-              </div>
-            </a>
+        <Col>
+          <p>
+            The Massachusetts Division of Marine Fisheries (MA DMF) and the
+            Massachusetts Bays National Estuary Partnership (MassBays) developed
+            this web application to facilitate data collection of seagrass
+            presence and health by citizen and professional scientists. This app
+            is intended to be used alongside the written protocol, available
+            here.
+          </p>
+        </Col>
+        <Col xs="12" className="my-3">
+          <a href="/static/protocol.pdf" className="btn btn-info w-100">
+            View Protocol (PDF)
+          </a>
+        </Col>
+        <Col xs="12">
+          <Link href="/trips/list">
+            <a className="btn btn-lg btn-primary w-100">Go to your trips</a>
           </Link>
-        ))}
-      </ListGroup>
-      <Settings />
+        </Col>
+      </div>
       <PWAPrompt
         timesToShow={3}
         delay={500}

@@ -92,7 +92,7 @@ export default () => {
 
   return (
     <>
-      <BackLink name="trips" pathname="/" />
+      <BackLink name="trips" pathname="/trips/list" />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
         <h3 className="font-weight-light">Trip Details</h3>
         <FormGroup>
