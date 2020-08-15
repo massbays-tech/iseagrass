@@ -60,7 +60,7 @@ export const SampleList: React.FC<SamplesProps> = ({
   )
 }
 
-interface SamplesProps {
+export interface SamplesProps {
   samples: Sample[]
   onCreate: (e: React.MouseEvent) => void
 }

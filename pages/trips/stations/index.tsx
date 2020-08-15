@@ -7,6 +7,7 @@ import {
   Location,
   LocationUpdate,
   Samples,
+  SamplesProps,
   Secchi,
   StationInfo,
   Weather
@@ -62,22 +63,78 @@ const SecchiSection = ({
   )
 }
 
+interface CollapseSampleProps extends SamplesProps {
+  className?: string
+}
+
+const CollapseSamples = ({
+  className,
+  samples,
+  onCreate
+}: CollapseSampleProps) => {
+  const [open, setOpen] = useState(false)
+  const toggle = () => setOpen(!open)
+  return (
+    <Row className={`${className ?? 'border-bottom'}`}>
+      <Col
+        xs="12"
+        className="d-flex align-items-center justify-content-start"
+        onClick={toggle}
+      >
+        <h4 className="font-weight-light my-2">Indicator Samples</h4>
+        <span className="flex-fill" />
+        <ChevronRight
+          style={{
+            transform: `rotate(${open ? '90' : '0'}deg)`,
+            transition: '.35s ease'
+          }}
+        />
+      </Col>
+      <Collapse isOpen={open} className="w-100 pb-3">
+        <Samples samples={samples} onCreate={onCreate} />
+      </Collapse>
+    </Row>
+  )
+}
+
 interface FramesProps {
+  className?: string
   station: Station
   onCreate: (e: React.MouseEvent) => any
 }
 
-const Frames = ({ station, onCreate }: FramesProps) => (
-  <>
-    <div className="mb-1 mt-2 px-3 d-flex justify-content-between">
-      <h4 className="font-weight-light">Drop Frames</h4>
-      <Button color="primary" outline={true} onClick={onCreate}>
-        Add Drop Frame
-      </Button>
-    </div>
-    <DropFrames frames={station.frames} onClick={onCreate} />
-  </>
-)
+const Frames = ({ className, station, onCreate }: FramesProps) => {
+  const [open, setOpen] = useState(false)
+  const toggle = () => setOpen(!open)
+
+  return (
+    <Row className={`${className ?? 'border-bottom'}`}>
+      <Col
+        xs="12"
+        className="d-flex align-items-center justify-content-start"
+        onClick={toggle}
+      >
+        <h4 className="font-weight-light my-2">Drop Frames</h4>
+        <span className="flex-fill" />
+        <ChevronRight
+          style={{
+            transform: `rotate(${open ? '90' : '0'}deg)`,
+            transition: '.35s ease'
+          }}
+        />
+      </Col>
+      <Collapse isOpen={open} className="w-100 pb-3">
+        <div className="mb-1 mt-2 px-3 d-flex justify-content-between">
+          <h4 className="font-weight-light">Drop Frames</h4>
+          <Button color="primary" outline={true} onClick={onCreate}>
+            Add Drop Frame
+          </Button>
+        </div>
+        <DropFrames frames={station.frames} onClick={onCreate} />
+      </Collapse>
+    </Row>
+  )
+}
 
 const SaveAndReturn = ({ tripId }: { tripId: number }) => (
   <div className="px-3 d-flex my-4">
@@ -227,9 +284,14 @@ export default () => {
           onChange={(weather) => setStation({ ...station, weather })}
         />
         <SecchiSection station={station} setStation={setStation} />
+        <Frames station={station} onCreate={createNewDropFrame} />
+        {station.isIndicatorStation && (
+          <CollapseSamples
+            samples={station.samples}
+            onCreate={createNewSample}
+          />
+        )}
       </Form>
-      <Frames station={station} onCreate={createNewDropFrame} />
-      <Samples samples={station.samples} onCreate={createNewSample} />
       <SaveAndReturn tripId={station.tripId} />
       <Settings onDelete={deleteStation} />
     </>

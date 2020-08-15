@@ -1,4 +1,4 @@
-import { ChevronRight } from 'components/Icon'
+import { Check, ChevronRight, Circle } from 'components/Icon'
 import { useState } from 'react'
 import { Col, Collapse, FormGroup, Input, Label, Row } from 'reactstrap'
 
@@ -14,9 +14,17 @@ interface Props {
   className?: string
 }
 
+const isDone = (data: StationDetailProps) => data.harbor && data.stationId
+
 export const StationInfo = ({ className, data, setData }: Props) => {
   const [open, setOpen] = useState(true)
   const toggle = () => setOpen(!open)
+  const icon = isDone(data) ? (
+    <Check className="text-success" />
+  ) : (
+    <Circle style={{ fontSize: '.75rem' }} />
+  )
+
   return (
     <Row className={`${className ?? 'border-bottom'}`}>
       <Col
@@ -24,6 +32,9 @@ export const StationInfo = ({ className, data, setData }: Props) => {
         className="d-flex align-items-center justify-content-start"
         onClick={toggle}
       >
+        <div className="d-flex align-items-center" style={{ width: 20 }}>
+          {icon}
+        </div>
         <h4 className="font-weight-light my-2">Station {data.stationId}</h4>
         <span className="flex-fill" />
         <ChevronRight
