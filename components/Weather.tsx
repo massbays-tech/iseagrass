@@ -1,7 +1,7 @@
+import { filter, values } from 'lodash'
 import { Weather as WeatherModel } from 'models'
-import { useState } from 'react'
-import { Col, Collapse, CustomInput, FormGroup, Label, Row } from 'reactstrap'
-import { ChevronRight } from './Icon'
+import { CustomInput, FormGroup, Label } from 'reactstrap'
+import { Section } from './station'
 
 const Backgrounds = {
   unknown: 'linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%)'
@@ -22,6 +22,7 @@ export const CloudCoverage = ({ value, onChange }: WeatherProp) => (
       value={value}
       onChange={onChange}
     >
+      <option disabled hidden value="" />
       {['0%', '1% - 25%', '26% - 50%', '51% - 100%'].map((v) => (
         <option key={v} value={v}>
           {v}
@@ -41,6 +42,7 @@ export const WindDirection = ({ value, onChange }: WeatherProp) => (
       value={value}
       onChange={onChange}
     >
+      <option disabled hidden value="" />
       {[
         'No Wind',
         'North',
@@ -70,6 +72,7 @@ export const WindSpeed = ({ value, onChange }: WeatherProp) => (
       value={value}
       onChange={onChange}
     >
+      <option disabled hidden value="" />
       {['0-5', '6-10', '11-15', '16-20', '21+'].map((v) => (
         <option key={v} value={v}>
           {v} Knots
@@ -89,6 +92,7 @@ export const SeaState = ({ value, onChange }: WeatherProp) => (
       value={value}
       onChange={onChange}
     >
+      <option disabled hidden value="" />
       {[
         'Glassy to calm',
         'Small ripples',
@@ -114,6 +118,7 @@ export const Tide = ({ value, onChange }: WeatherProp) => (
       value={value}
       onChange={onChange}
     >
+      <option disabled hidden value="" />
       {['Slack low', 'Low', 'Ebbing', 'Slack high', 'High', 'Flooding'].map(
         (v) => (
           <option key={v} value={v}>
@@ -136,54 +141,33 @@ export const Weather: React.FC<Props> = ({
   onChange,
   className
 }: Props) => {
-  // const { loading, weather, error } = useWeather()
-  const [open, setOpen] = useState(false)
-  const toggle = () => setOpen(!open)
-
+  const complete = filter(values(weather), (v) => !v).length == 0
   return (
-    <Row className={`${className ?? 'border-bottom'}`}>
-      <Col
-        xs="12"
-        className="d-flex align-items-center justify-content-start"
-        onClick={toggle}
-      >
-        <h4 className="font-weight-light my-2">Weather</h4>
-        <span className="flex-fill" />
-        <ChevronRight
-          style={{
-            transform: `rotate(${open ? '90' : '0'}deg)`,
-            transition: '.35s ease'
-          }}
+    <Section title="Weather" complete={complete} className={className}>
+      <div className="px-3">
+        <CloudCoverage
+          value={weather.clouds}
+          onChange={(e) => onChange({ ...weather, clouds: e.target.value })}
         />
-      </Col>
-      <Collapse isOpen={open} className="w-100 pb-3">
-        <div className="px-3">
-          <CloudCoverage
-            value={weather.clouds}
-            onChange={(e) => onChange({ ...weather, clouds: e.target.value })}
-          />
-          <WindDirection
-            value={weather.windDirection}
-            onChange={(e) =>
-              onChange({ ...weather, windDirection: e.target.value })
-            }
-          />
-          <WindSpeed
-            value={weather.wind}
-            onChange={(e) => onChange({ ...weather, wind: e.target.value })}
-          />
-          <SeaState
-            value={weather.sea}
-            onChange={(e) => onChange({ ...weather, sea: e.target.value })}
-          />
-          <Tide
-            value={weather.tide}
-            onChange={(e) => onChange({ ...weather, tide: e.target.value })}
-          />
-        </div>
-      </Collapse>
-    </Row>
+        <WindDirection
+          value={weather.windDirection}
+          onChange={(e) =>
+            onChange({ ...weather, windDirection: e.target.value })
+          }
+        />
+        <WindSpeed
+          value={weather.wind}
+          onChange={(e) => onChange({ ...weather, wind: e.target.value })}
+        />
+        <SeaState
+          value={weather.sea}
+          onChange={(e) => onChange({ ...weather, sea: e.target.value })}
+        />
+        <Tide
+          value={weather.tide}
+          onChange={(e) => onChange({ ...weather, tide: e.target.value })}
+        />
+      </div>
+    </Section>
   )
 }
-
-//       <i className="wi wi-wind towards-313-deg" />

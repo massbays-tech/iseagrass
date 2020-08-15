@@ -1,6 +1,5 @@
 import {
   BackLink,
-  ChevronRight,
   DataError,
   DropFrames,
   Loading,
@@ -9,16 +8,19 @@ import {
   Samples,
   SamplesProps,
   Secchi,
+  Section,
   StationInfo,
   Weather
 } from 'components'
 import { DROP_FRAME_STORE, SAMPLE_STORE, STATION_STORE } from 'db'
 import { useStation } from 'hooks'
-import { Station } from 'models'
+import { Secchi as SecchiModel, Station } from 'models'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { Button, Col, Collapse, Form, Row } from 'reactstrap'
+import { Button, Form } from 'reactstrap'
+
+const secchiComplete = (secchi: SecchiModel) => false
 
 interface SecchiSectionProps {
   station: Station
@@ -31,35 +33,15 @@ const SecchiSection = ({
   setStation,
   className
 }: SecchiSectionProps) => {
-  const [open, setOpen] = useState(false)
-  const toggle = () => {
-    setOpen(!open)
-  }
   return (
-    <Row className={`${className ?? 'border-bottom'}`}>
-      <Col
-        xs="12"
-        className="d-flex align-items-center justify-content-start"
-        onClick={toggle}
-      >
-        <h4 className="font-weight-light my-2">Secchi Drop</h4>
-        <span className="flex-fill" />
-        <ChevronRight
-          style={{
-            transform: `rotate(${open ? '90' : '0'}deg)`,
-            transition: '.35s ease'
-          }}
+    <Section title="Secchi Drop" complete={secchiComplete(station.secchi)}>
+      <div className="px-3">
+        <Secchi
+          secchi={station.secchi}
+          setSecchi={(secchi) => setStation({ ...station, secchi })}
         />
-      </Col>
-      <Collapse isOpen={open} className="w-100 pb-3">
-        <div className="px-3">
-          <Secchi
-            secchi={station.secchi}
-            setSecchi={(secchi) => setStation({ ...station, secchi })}
-          />
-        </div>
-      </Collapse>
-    </Row>
+      </div>
+    </Section>
   )
 }
 
@@ -72,28 +54,10 @@ const CollapseSamples = ({
   samples,
   onCreate
 }: CollapseSampleProps) => {
-  const [open, setOpen] = useState(false)
-  const toggle = () => setOpen(!open)
   return (
-    <Row className={`${className ?? 'border-bottom'}`}>
-      <Col
-        xs="12"
-        className="d-flex align-items-center justify-content-start"
-        onClick={toggle}
-      >
-        <h4 className="font-weight-light my-2">Indicator Samples</h4>
-        <span className="flex-fill" />
-        <ChevronRight
-          style={{
-            transform: `rotate(${open ? '90' : '0'}deg)`,
-            transition: '.35s ease'
-          }}
-        />
-      </Col>
-      <Collapse isOpen={open} className="w-100 pb-3">
-        <Samples samples={samples} onCreate={onCreate} />
-      </Collapse>
-    </Row>
+    <Section title="Indicator Sample" complete={false} className={className}>
+      <Samples samples={samples} onCreate={onCreate} />
+    </Section>
   )
 }
 
@@ -104,35 +68,15 @@ interface FramesProps {
 }
 
 const Frames = ({ className, station, onCreate }: FramesProps) => {
-  const [open, setOpen] = useState(false)
-  const toggle = () => setOpen(!open)
-
   return (
-    <Row className={`${className ?? 'border-bottom'}`}>
-      <Col
-        xs="12"
-        className="d-flex align-items-center justify-content-start"
-        onClick={toggle}
-      >
-        <h4 className="font-weight-light my-2">Drop Frames</h4>
-        <span className="flex-fill" />
-        <ChevronRight
-          style={{
-            transform: `rotate(${open ? '90' : '0'}deg)`,
-            transition: '.35s ease'
-          }}
-        />
-      </Col>
-      <Collapse isOpen={open} className="w-100 pb-3">
-        <div className="mb-1 mt-2 px-3 d-flex justify-content-between">
-          <h4 className="font-weight-light">Drop Frames</h4>
-          <Button color="primary" outline={true} onClick={onCreate}>
-            Add Drop Frame
-          </Button>
-        </div>
-        <DropFrames frames={station.frames} onClick={onCreate} />
-      </Collapse>
-    </Row>
+    <Section title="Drop Frames" complete={false} className={className}>
+      <div className="mb-1 mt-2 px-3 d-flex justify-content-between">
+        <Button color="primary" outline={true} onClick={onCreate}>
+          Add Drop Frame
+        </Button>
+      </div>
+      <DropFrames frames={station.frames} onClick={onCreate} />
+    </Section>
   )
 }
 
@@ -152,10 +96,7 @@ interface SettingsProps {
 }
 
 const Settings = ({ onDelete }: SettingsProps) => (
-  <>
-    <div className="my-2 px-3 d-flex border-bottom">
-      <h4 className="font-weight-light">Settings</h4>
-    </div>
+  <Section title="Settings" hideIcon={true} className="px-3">
     <div className="px-3">
       <div className="my-2">
         <Button
@@ -171,7 +112,7 @@ const Settings = ({ onDelete }: SettingsProps) => (
         </small>
       </div>
     </div>
-  </>
+  </Section>
 )
 
 export default () => {
