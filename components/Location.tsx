@@ -2,6 +2,7 @@ import { usePosition } from 'hooks'
 import { filter, isNumber, values } from 'lodash'
 import { useEffect, useState } from 'react'
 import { Col, Input, Label } from 'reactstrap'
+import { UAParser } from 'ua-parser-js'
 import { Section } from './station'
 
 export interface LocationUpdate {
@@ -42,10 +43,14 @@ export const Location = ({ location: initial, onChange, className }: Props) => {
       return
     }
     if (isNumber(latitude) || isNumber(longitude)) {
+      const result = new UAParser()
+      const device = `${result.getDevice().vendor} ${result.getDevice().type} ${
+        result.getDevice().model
+      }`
       update({
         latitude: latitude.toFixed(6),
         longitude: longitude.toFixed(6),
-        device: 'phone'
+        device
       })
     }
   }, [initial, latitude, longitude])
