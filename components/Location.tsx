@@ -25,7 +25,6 @@ interface Props {
 
 export const Location = ({ location: initial, onChange, className }: Props) => {
   const { loading, latitude, longitude, error } = usePosition()
-  const [open, setOpen] = useState(false)
   const [location, setLocation] = useState<LocationUpdate>({
     latitude: initial.latitude || '',
     longitude: initial.longitude || '',
@@ -34,6 +33,13 @@ export const Location = ({ location: initial, onChange, className }: Props) => {
   const success = !loading && latitude && longitude && !error
 
   const update = (loc: LocationUpdate) => {
+    // We are doing all our work in the western hemisphere, so we automatically
+    // ensure it's correct.
+    if (loc.longitude == '-') {
+      loc.longitude = ''
+    } else if (loc.longitude && !loc.longitude.startsWith('-')) {
+      loc.longitude = '-' + loc.longitude
+    }
     setLocation(loc)
     onChange(loc)
   }
@@ -55,7 +61,6 @@ export const Location = ({ location: initial, onChange, className }: Props) => {
     }
   }, [initial, latitude, longitude])
 
-  const toggle = () => setOpen(!open)
   const complete = filter(values(location), (v) => !v).length == 0
 
   // {loading && <Spinner size="sm" color="primary" className="ml-2" />}
