@@ -93,7 +93,10 @@ export default () => {
             }
           />
         </FormGroup>
-        <h4 className="font-weight-light">Sediments Observed</h4>
+        <h4 className="font-weight-light mb-0">Sediments Observed</h4>
+        <small className="d-block mb-2 text-black-50">
+          Check all that apply.
+        </small>
         <ul className="list-unstyled">
           {SedimentOptions.map((name, i) => (
             <li key={i}>
