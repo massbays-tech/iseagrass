@@ -68,7 +68,6 @@ export interface SamplesProps {
 export const Samples = ({ samples, onCreate }: SamplesProps) => (
   <>
     <div className="mb-1 mt-2 px-3 d-flex justify-content-between">
-      <h4 className="font-weight-light">Indicator Samples</h4>
       <Button color="primary" outline={true} onClick={onCreate}>
         Add Sample
       </Button>

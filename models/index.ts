@@ -1,5 +1,6 @@
 export interface SecchiDrop {
   depth: string
+  unit: string
   hitBottom: boolean
 }
 
@@ -11,7 +12,7 @@ export interface Location {
 
 export interface Secchi {
   depth: string
-  units: string
+  unit: string
   time: string
   drops: SecchiDrop[]
   notes: string

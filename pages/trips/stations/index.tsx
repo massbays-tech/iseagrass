@@ -96,23 +96,25 @@ interface SettingsProps {
 }
 
 const Settings = ({ onDelete }: SettingsProps) => (
-  <Section title="Settings" hideIcon={true} className="px-3">
-    <div className="px-3">
-      <div className="my-2">
-        <Button
-          color="danger"
-          onClick={onDelete}
-          className="w-100"
-          type="button"
-        >
-          Delete This Station Data
-        </Button>
-        <small className="text-black-50">
-          Remove this station from the trip.
-        </small>
+  <div className="px-3">
+    <Section title="Settings" hideIcon={true}>
+      <div className="px-3">
+        <div className="my-2">
+          <Button
+            color="danger"
+            onClick={onDelete}
+            className="w-100"
+            type="button"
+          >
+            Delete This Station Data
+          </Button>
+          <small className="text-black-50">
+            Remove this station from the trip.
+          </small>
+        </div>
       </div>
-    </div>
-  </Section>
+    </Section>
+  </div>
 )
 
 export default () => {

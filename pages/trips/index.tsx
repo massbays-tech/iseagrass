@@ -57,11 +57,11 @@ export default () => {
       },
       secchi: {
         depth: '',
-        units: '',
+        unit: '',
         time: '',
         drops: [
-          { depth: '', hitBottom: false },
-          { depth: '', hitBottom: false }
+          { depth: '', hitBottom: false, unit: 'm' },
+          { depth: '', hitBottom: false, unit: 'm' }
         ],
         notes: ''
       },
