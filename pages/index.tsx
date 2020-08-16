@@ -28,7 +28,11 @@ export default function Home() {
           </p>
         </Col>
         <Col xs="12" className="my-3">
-          <a href="/static/protocol.pdf" className="btn btn-info w-100">
+          <a
+            href="/static/protocol.pdf"
+            className="btn btn-info w-100"
+            target="_blank"
+          >
             View Protocol (PDF)
           </a>
         </Col>

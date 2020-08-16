@@ -47,6 +47,13 @@ export default () => {
 
   const next = async (e: React.MouseEvent) => {
     e.preventDefault()
+    if (i >= 3) {
+      router.push({
+        pathname: '/trips/stations/frames',
+        query: { id: frame.stationId }
+      })
+      return
+    }
     const id = await db.put(DROP_FRAME_STORE, {
       stationId: frame.stationId,
       picture: false,
@@ -76,7 +83,7 @@ export default () => {
         id={frame.stationId}
       />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
-        <h3 className="font-weight-light">Drop Frame {frame.id}</h3>
+        <h3 className="font-weight-light">Drop Frame {i + 1}</h3>
         <FormGroup>Picture Taken?</FormGroup>
         <FormGroup>
           <Label for="time">Time</Label>
@@ -154,7 +161,7 @@ export default () => {
             className="flex-fill"
             onClick={next}
           >
-            Save and Next
+            {i < 3 ? 'Save and Next' : 'Save and Return to Station'}
           </Button>
         </div>
       </Form>

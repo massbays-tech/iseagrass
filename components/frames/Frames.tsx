@@ -4,22 +4,23 @@ import Link from 'next/link'
 import { Button, ListGroup } from 'reactstrap'
 
 interface FrameItemProps {
+  i: number
   frame: DropFrame
 }
 
-const FrameItem: React.FC<FrameItemProps> = ({ frame }: FrameItemProps) => {
+const FrameItem: React.FC<FrameItemProps> = ({ i, frame }: FrameItemProps) => {
   return (
     <li className="list-group-item">
       <Link
         href={{
           pathname: '/trips/stations/frames',
-          query: { id: frame.id }
+          query: { id: frame.id, i }
         }}
-        as={`/trips/stations/frames?id=${frame.id}`}
+        as={`/trips/stations/frames?id=${frame.id}&i=${i}`}
       >
         <a className="text-dark d-flex justify-content-between align-items-center">
           <div>
-            <div>Drop Frame {frame.id}</div>
+            <div>Drop Frame {i + 1}</div>
           </div>
           <ChevronRight />
         </a>
@@ -43,8 +44,8 @@ export const DropFrames: React.FC<FrameProps> = ({
   return (
     <>
       <ListGroup flush>
-        {frames.map((f, key) => (
-          <FrameItem frame={f} key={key} />
+        {frames.map((f, i) => (
+          <FrameItem frame={f} key={i} i={i} />
         ))}
       </ListGroup>
     </>
