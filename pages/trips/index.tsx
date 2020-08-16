@@ -6,7 +6,7 @@ import { Trip } from 'models'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Button, Form, FormGroup, FormText, Input, Label } from 'reactstrap'
-import { format } from 'util/time'
+import { format, htmlTime } from 'utils/time'
 
 // This will always return a trip, or if none found then the user should be
 // redirected
@@ -58,7 +58,7 @@ export default () => {
       secchi: {
         depth: '',
         unit: '',
-        time: '',
+        time: htmlTime(new Date()),
         drops: [
           { depth: '', hitBottom: false, unit: 'm' },
           { depth: '', hitBottom: false, unit: 'm' }
