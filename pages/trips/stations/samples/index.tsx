@@ -2,9 +2,11 @@ import { BackLink, DataError, Loading, UnitInput } from 'components'
 import { SAMPLE_STORE } from 'db'
 import { useSample } from 'hooks'
 import { IndicatorShoot, Sample } from 'models'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { CustomInput, Form, FormGroup, Input, Label } from 'reactstrap'
+import { htmlTime } from '../../../../util'
 
 interface ShootProps {
   i: number
@@ -131,21 +133,41 @@ export default () => {
       />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
         <h2>Sample {1}</h2>
-        <FormGroup>Picture? {sample.picture}</FormGroup>
         <FormGroup>
-          <Label for="picture-time">Time Taken?</Label>
-          <Input
-            type="time"
-            id="picture-time"
-            value={sample.pictureTakenAt}
-            onChange={(e) =>
-              setSample({
-                ...sample,
-                pictureTakenAt: e.target.value
-              })
-            }
-          />
+          <Label className="ml-2" for="picture-taken">
+            <input
+              type="checkbox"
+              id="pictre-taken"
+              className="mr-2"
+              checked={sample.picture}
+              onChange={(e) =>
+                setSample({
+                  ...sample,
+                  pictureTakenAt: htmlTime(new Date()),
+                  picture: e.target.checked
+                })
+              }
+              style={{ width: 20, height: 20 }}
+            />
+            Picture Taken?
+          </Label>
         </FormGroup>
+        {sample.picture && (
+          <FormGroup>
+            <Label for="picture-time">Time Taken?</Label>
+            <Input
+              type="time"
+              id="picture-time"
+              value={sample.pictureTakenAt}
+              onChange={(e) =>
+                setSample({
+                  ...sample,
+                  pictureTakenAt: e.target.value
+                })
+              }
+            />
+          </FormGroup>
+        )}
         {sample.shoots.map((shoot, i) => (
           <Shoot i={i} shoot={shoot} setShoot={setShoot(i)} key={i} />
         ))}
@@ -163,6 +185,17 @@ export default () => {
             }
           />
         </FormGroup>
+        <div className="d-flex mb-3">
+          <Link
+            href={{
+              pathname: '/trips/stations',
+              query: { id: sample.stationId }
+            }}
+            as={`/trips/stations?id=${sample.stationId}`}
+          >
+            <a className="btn btn-success flex-fill">Save and Back</a>
+          </Link>
+        </div>
       </Form>
     </>
   )

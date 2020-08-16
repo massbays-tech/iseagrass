@@ -5,6 +5,7 @@ import { DropFrame, SedimentOptions } from 'models'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Button, CustomInput, Form, FormGroup, Input, Label } from 'reactstrap'
+import { htmlTime } from '../../../../util'
 
 const EELGRASS_COVERAGE = ['0', '1-10', '11-30', '31-75', '76-100']
 
@@ -84,22 +85,42 @@ export default () => {
       />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
         <h3 className="font-weight-light">Drop Frame {i + 1}</h3>
-        <FormGroup>Picture Taken?</FormGroup>
         <FormGroup>
-          <Label for="time">Time</Label>
-          <Input
-            type="time"
-            id="time"
-            required
-            value={frame.pictureTakenAt}
-            onChange={(e) =>
-              setFrame({
-                ...frame,
-                pictureTakenAt: e.target.value
-              })
-            }
-          />
+          <Label className="ml-2" for="picture-taken">
+            <input
+              type="checkbox"
+              id="pictre-taken"
+              className="mr-2"
+              checked={frame.picture}
+              onChange={(e) =>
+                setFrame({
+                  ...frame,
+                  pictureTakenAt: htmlTime(new Date()),
+                  picture: e.target.checked
+                })
+              }
+              style={{ width: 20, height: 20 }}
+            />
+            Picture Taken?
+          </Label>
         </FormGroup>
+        {frame.picture && (
+          <FormGroup>
+            <Label for="time">Time</Label>
+            <Input
+              type="time"
+              id="time"
+              required
+              value={frame.pictureTakenAt}
+              onChange={(e) =>
+                setFrame({
+                  ...frame,
+                  pictureTakenAt: e.target.value
+                })
+              }
+            />
+          </FormGroup>
+        )}
         <h4 className="font-weight-light mb-0">Sediments Observed</h4>
         <small className="d-block mb-2 text-black-50">
           Check all that apply.
