@@ -159,17 +159,20 @@ export default () => {
         {
           length: '',
           width: '',
-          diseaseCoverage: ''
+          diseaseCoverage: '',
+          epiphyteCoverage: ''
         },
         {
           length: '',
           width: '',
-          diseaseCoverage: ''
+          diseaseCoverage: '',
+          epiphyteCoverage: ''
         },
         {
           length: '',
           width: '',
-          diseaseCoverage: ''
+          diseaseCoverage: '',
+          epiphyteCoverage: ''
         }
       ],
       notes: ''

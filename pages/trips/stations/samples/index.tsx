@@ -1,4 +1,4 @@
-import { BackLink, DataError, Loading } from 'components'
+import { BackLink, DataError, Loading, UnitInput } from 'components'
 import { SAMPLE_STORE } from 'db'
 import { useSample } from 'hooks'
 import { IndicatorShoot, Sample } from 'models'
@@ -13,23 +13,25 @@ interface ShootProps {
 }
 
 const Shoot = ({ i, shoot, setShoot }: ShootProps) => (
-  <>
+  <div className="my-5">
     <div>
-      <h3>Eelgrass Shoot {i + 1}</h3>
+      <h5 className="font-weight-light">Shoot {i + 1}</h5>
     </div>
     <FormGroup>
-      <Label for="length">Length</Label>
-      <Input
+      <UnitInput
+        unit="cm"
         type="number"
         id="length"
+        placeholder="Length"
         required
         value={shoot.length}
         onChange={(e) => setShoot({ ...shoot, length: e.target.value })}
       />
     </FormGroup>
     <FormGroup>
-      <Label for="width">Width</Label>
-      <Input
+      <UnitInput
+        unit="mm"
+        placeholder="Width"
         type="number"
         id="width"
         required
@@ -38,7 +40,7 @@ const Shoot = ({ i, shoot, setShoot }: ShootProps) => (
       />
     </FormGroup>
     <FormGroup>
-      <Label for="sea-state">Wasting Disease Coverage</Label>
+      <Label for="disease-coverage">Wasting Disease Coverage</Label>
       <CustomInput
         type="select"
         id="disease-coverage"
@@ -48,6 +50,7 @@ const Shoot = ({ i, shoot, setShoot }: ShootProps) => (
           setShoot({ ...shoot, diseaseCoverage: e.target.value })
         }
       >
+        <option disabled hidden value="" />
         {['None', 'Low', 'Medium', 'High'].map((v) => (
           <option key={v} value={v}>
             {v}
@@ -55,7 +58,26 @@ const Shoot = ({ i, shoot, setShoot }: ShootProps) => (
         ))}
       </CustomInput>
     </FormGroup>
-  </>
+    <FormGroup>
+      <Label for="epiphyte-coverage">Epiphyte coverage</Label>
+      <CustomInput
+        type="select"
+        id="epiphyte-coverage"
+        name="epiphyte-coverage"
+        value={shoot.epiphyteCoverage}
+        onChange={(e) =>
+          setShoot({ ...shoot, epiphyteCoverage: e.target.value })
+        }
+      >
+        <option disabled hidden value="" />
+        {['None', 'Low', 'Medium', 'High'].map((v) => (
+          <option key={v} value={v}>
+            {v}
+          </option>
+        ))}
+      </CustomInput>
+    </FormGroup>
+  </div>
 )
 
 export default () => {
@@ -108,6 +130,7 @@ export default () => {
         id={sample.stationId}
       />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
+        <h2>Sample {1}</h2>
         <FormGroup>Picture? {sample.picture}</FormGroup>
         <FormGroup>
           <Label for="picture-time">Time Taken?</Label>

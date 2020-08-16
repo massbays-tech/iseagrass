@@ -30,6 +30,7 @@ export interface IndicatorShoot {
   length: string
   width: string
   diseaseCoverage: string
+  epiphyteCoverage: string
 }
 
 export interface Sample {
