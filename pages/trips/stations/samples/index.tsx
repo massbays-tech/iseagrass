@@ -5,7 +5,7 @@ import { IndicatorShoot, Sample } from 'models'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { CustomInput, Form, FormGroup, Input, Label } from 'reactstrap'
+import { Button, CustomInput, Form, FormGroup, Input, Label } from 'reactstrap'
 import { htmlTime } from 'utils'
 
 interface ShootProps {
@@ -195,6 +195,11 @@ export default () => {
           >
             <a className="btn btn-success flex-fill">Save and Back</a>
           </Link>
+        </div>
+        <div className="d-flex my-3">
+          <Button color="danger" onClick={deleteSample} className="flex-fill">
+            Delete this Sample
+          </Button>
         </div>
       </Form>
     </>

@@ -63,12 +63,18 @@ export const SampleList: React.FC<SamplesProps> = ({
 export interface SamplesProps {
   samples: Sample[]
   onCreate: (e: React.MouseEvent) => void
+  disableCreate?: boolean
 }
 
-export const Samples = ({ samples, onCreate }: SamplesProps) => (
+export const Samples = ({ disableCreate, samples, onCreate }: SamplesProps) => (
   <>
     <div className="mb-1 mt-2 px-3 d-flex justify-content-between">
-      <Button color="primary" outline={true} onClick={onCreate}>
+      <Button
+        color="primary"
+        outline={true}
+        onClick={onCreate}
+        disabled={disableCreate}
+      >
         Add Sample
       </Button>
     </div>

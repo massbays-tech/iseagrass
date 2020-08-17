@@ -85,7 +85,11 @@ const CollapseSamples = ({
       open={open}
       toggle={toggle}
     >
-      <Samples samples={samples} onCreate={onCreate} />
+      <Samples
+        disableCreate={samples.length >= framesWith.length}
+        samples={samples}
+        onCreate={onCreate}
+      />
     </Section>
   )
 }
