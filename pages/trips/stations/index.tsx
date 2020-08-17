@@ -71,7 +71,12 @@ const Frames = ({ className, station, onCreate }: FramesProps) => {
   return (
     <Section title="Drop Frames" complete={false} className={className}>
       <div className="mb-1 mt-2 px-3 d-flex justify-content-between">
-        <Button color="primary" outline={true} onClick={onCreate}>
+        <Button
+          color="primary"
+          outline={true}
+          onClick={onCreate}
+          disabled={station.frames.length == 4}
+        >
           Add Drop Frame
         </Button>
       </div>
@@ -143,7 +148,7 @@ export default () => {
     })
     router.push({
       pathname: '/trips/stations/frames',
-      query: { id }
+      query: { id, i: station.frames.length + 1 }
     })
   }
 

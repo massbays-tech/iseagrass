@@ -2,6 +2,7 @@ import { BackLink, DataError, Loading } from 'components'
 import { DROP_FRAME_STORE } from 'db'
 import { useDropFrame } from 'hooks'
 import { DropFrame, SedimentOptions } from 'models'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Button, CustomInput, Form, FormGroup, Input, Label } from 'reactstrap'
@@ -46,27 +47,18 @@ export default () => {
   }, [frame])
   const i = parseInt(router.query.i as string)
 
-  const next = async (e: React.MouseEvent) => {
-    e.preventDefault()
-    if (i >= 3) {
+  const deleteFrame = async () => {
+    const response = confirm('Are you sure you want to delete this drop frame?')
+    if (response) {
+      await db.delete(DROP_FRAME_STORE, frame.id)
       router.push({
-        pathname: '/trips/stations/frames',
-        query: { id: frame.stationId }
+        pathname: '/trips/stations',
+        query: {
+          id: frame.stationId
+        }
       })
       return
     }
-    const id = await db.put(DROP_FRAME_STORE, {
-      stationId: frame.stationId,
-      picture: false,
-      pictureTakenAt: '',
-      sediments: {},
-      coverage: '',
-      notes: ''
-    })
-    router.push({
-      pathname: '/trips/stations/frames',
-      query: { id }
-    })
   }
 
   if (error) return <DataError error={error.message} />
@@ -175,14 +167,22 @@ export default () => {
             }
           />
         </FormGroup>
-        <div className="d-flex">
-          <Button
-            color="success"
-            type="submit"
-            className="flex-fill"
-            onClick={next}
+        <div className="d-flex my-3">
+          <Link
+            href={{
+              pathname: '/trips/stations',
+              query: { id: frame.stationId }
+            }}
+            as={`/trips/stations?id=${frame.stationId}`}
           >
-            {i < 3 ? 'Save and Next' : 'Save and Return to Station'}
+            <a className="btn btn-success flex-fill">
+              Save and Return to Station
+            </a>
+          </Link>
+        </div>
+        <div className="d-flex my-3">
+          <Button color="danger" onClick={deleteFrame} className="flex-fill">
+            Delete this Drop Frame
           </Button>
         </div>
       </Form>
