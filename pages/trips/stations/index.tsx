@@ -15,7 +15,14 @@ import {
 import { DROP_FRAME_STORE, SAMPLE_STORE, STATION_STORE } from 'db'
 import { useStation } from 'hooks'
 import { filter } from 'lodash'
-import { Station, UIStationPage, validSample, validSecchi } from 'models'
+import {
+  DropFrame,
+  hasEelgrass,
+  Station,
+  UIStationPage,
+  validSample,
+  validSecchi
+} from 'models'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -54,12 +61,14 @@ const SecchiSection = ({
 }
 
 interface CollapseSampleProps extends SamplesProps {
+  frames: DropFrame[]
   className?: string
   open: boolean
   toggle: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 const CollapseSamples = ({
+  frames,
   className,
   samples,
   onCreate,
@@ -67,9 +76,10 @@ const CollapseSamples = ({
   toggle
 }: CollapseSampleProps) => {
   const complete = filter(samples, validSample).length == samples.length
+  const framesWith = frames.filter(hasEelgrass)
   return (
     <Section
-      title="Indicator Sample"
+      title={`Indicator Sample ${samples.length}/${framesWith.length}`}
       complete={complete}
       className={className}
       open={open}
@@ -301,6 +311,7 @@ export default () => {
           <CollapseSamples
             open={station.$ui?.sample}
             toggle={toggle('sample')}
+            frames={station.frames}
             samples={station.samples}
             onCreate={createNewSample}
           />

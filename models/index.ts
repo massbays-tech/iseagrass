@@ -116,3 +116,6 @@ export const validSecchi = (s: Secchi): boolean =>
   !!s.depth &&
   !!s.time &&
   s.drops.filter(validSecchiDrop).length == s.drops.length
+
+export const hasEelgrass = (f: DropFrame): boolean =>
+  f.coverage && f.coverage != '0%'
