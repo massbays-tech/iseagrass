@@ -15,18 +15,11 @@ import {
 import { DROP_FRAME_STORE, SAMPLE_STORE, STATION_STORE } from 'db'
 import { useStation } from 'hooks'
 import { filter } from 'lodash'
-import {
-  Secchi as SecchiModel,
-  Station,
-  UIStationPage,
-  validSample
-} from 'models'
+import { Station, UIStationPage, validSample, validSecchi } from 'models'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Button, Form } from 'reactstrap'
-
-const secchiComplete = (secchi: SecchiModel) => false
 
 interface SecchiSectionProps {
   station: Station
@@ -46,7 +39,7 @@ const SecchiSection = ({
   return (
     <Section
       title="Secchi Drop"
-      complete={secchiComplete(station.secchi)}
+      complete={validSecchi(station.secchi)}
       open={open}
       toggle={toggle}
     >

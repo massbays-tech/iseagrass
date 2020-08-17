@@ -39,7 +39,7 @@ export default () => {
     const response = confirm('Are you sure you want to delete this trip?')
     if (response) {
       await db.delete(TRIP_STORE, trip.id)
-      router.replace('/')
+      router.replace('/trips/list')
     }
   }
 
@@ -57,7 +57,7 @@ export default () => {
       },
       secchi: {
         depth: '',
-        unit: '',
+        unit: 'ft',
         time: htmlTime(new Date()),
         drops: [
           { depth: '', hitBottom: false, unit: 'm' },
