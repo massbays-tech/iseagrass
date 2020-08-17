@@ -5,7 +5,7 @@ import { DropFrame, SedimentOptions } from 'models'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Button, CustomInput, Form, FormGroup, Input, Label } from 'reactstrap'
-import { htmlTime } from '../../../../util'
+import { htmlTime } from 'utils'
 
 const EELGRASS_COVERAGE = ['0', '1-10', '11-30', '31-75', '76-100']
 

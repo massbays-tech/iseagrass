@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { CustomInput, Form, FormGroup, Input, Label } from 'reactstrap'
-import { htmlTime } from '../../../../util'
+import { htmlTime } from 'utils'
 
 interface ShootProps {
   i: number
