@@ -134,16 +134,26 @@ interface Props {
   weather: WeatherModel
   onChange: (weather: WeatherModel) => void
   className?: string
+  open: boolean
+  toggle: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 export const Weather: React.FC<Props> = ({
+  open,
+  toggle,
   weather,
   onChange,
   className
 }: Props) => {
   const complete = filter(values(weather), (v) => !v).length == 0
   return (
-    <Section title="Weather" complete={complete} className={className}>
+    <Section
+      title="Weather"
+      complete={complete}
+      className={className}
+      open={open}
+      toggle={toggle}
+    >
       <div className="px-3">
         <CloudCoverage
           value={weather.clouds}

@@ -39,7 +39,6 @@ export interface Sample {
   units: string
   picture: boolean
   pictureTakenAt: string
-  diseaseCoverage: string
   shoots: IndicatorShoot[]
   notes: string
 }
@@ -60,6 +59,15 @@ export interface DropFrame {
   notes: string
 }
 
+export interface UIStationPage {
+  info?: boolean
+  location?: boolean
+  weather?: boolean
+  secchi?: boolean
+  frames?: boolean
+  sample?: boolean
+}
+
 // Station
 export interface Station {
   // Database primary key
@@ -77,6 +85,8 @@ export interface Station {
   secchi: Secchi
   frames?: DropFrame[]
   samples: Sample[]
+  // ui helper properties
+  $ui?: UIStationPage
 }
 
 export interface Trip {
@@ -88,3 +98,14 @@ export interface Trip {
   crew: string[]
   stations?: Station[]
 }
+
+export const validIndicatorShoot = (shoot: IndicatorShoot): boolean =>
+  !!shoot.diseaseCoverage &&
+  !!shoot.epiphyteCoverage &&
+  !!shoot.length &&
+  !!shoot.width
+
+export const validSample = (s: Sample): boolean =>
+  !!s.units &&
+  ((s.picture && !!s.pictureTakenAt) || !s.picture) &&
+  s.shoots.filter(validIndicatorShoot).length == s.shoots.length

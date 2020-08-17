@@ -1,5 +1,4 @@
 import { Check, ChevronRight, Circle } from 'components/Icon'
-import { useState } from 'react'
 import { Col, Collapse, FormGroup, Input, Label, Row } from 'reactstrap'
 
 export interface StationDetailProps {
@@ -12,13 +11,19 @@ interface Props {
   data: StationDetailProps
   setData: (data: StationDetailProps) => void
   className?: string
+  open?: boolean
+  toggle?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 const isDone = (data: StationDetailProps) => data.harbor && data.stationId
 
-export const StationInfo = ({ className, data, setData }: Props) => {
-  const [open, setOpen] = useState(true)
-  const toggle = () => setOpen(!open)
+export const StationInfo = ({
+  open,
+  toggle,
+  className,
+  data,
+  setData
+}: Props) => {
   const icon = isDone(data) ? (
     <Check className="text-success" />
   ) : (

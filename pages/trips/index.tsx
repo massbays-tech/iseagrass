@@ -72,7 +72,9 @@ export default () => {
         clouds: '',
         tide: ''
       },
-      samples: []
+      samples: [],
+      // Start with Station info open
+      $ui: { info: true }
     })
     router.push({
       pathname: '/trips/stations',

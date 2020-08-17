@@ -21,9 +21,17 @@ interface Props {
   location: LocationUpdate
   onChange: (loc: LocationUpdate) => void
   className?: string
+  open: boolean
+  toggle: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
-export const Location = ({ location: initial, onChange, className }: Props) => {
+export const Location = ({
+  open,
+  toggle,
+  location: initial,
+  onChange,
+  className
+}: Props) => {
   const { loading, latitude, longitude, error } = usePosition()
   const [location, setLocation] = useState<LocationUpdate>({
     latitude: initial.latitude || '',
@@ -68,7 +76,13 @@ export const Location = ({ location: initial, onChange, className }: Props) => {
   // {success && <Check className="ml-2 text-success" />}
 
   return (
-    <Section title="Location" complete={complete} className={className}>
+    <Section
+      title="Location"
+      complete={complete}
+      className={className}
+      open={open}
+      toggle={toggle}
+    >
       <div className="d-flex flex-wrap px-3">
         <Col className="pl-0 pr-1 pb-2">
           <Input

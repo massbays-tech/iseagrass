@@ -14,7 +14,13 @@ import {
 } from 'components'
 import { DROP_FRAME_STORE, SAMPLE_STORE, STATION_STORE } from 'db'
 import { useStation } from 'hooks'
-import { Secchi as SecchiModel, Station } from 'models'
+import { filter } from 'lodash'
+import {
+  Secchi as SecchiModel,
+  Station,
+  UIStationPage,
+  validSample
+} from 'models'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -26,15 +32,24 @@ interface SecchiSectionProps {
   station: Station
   setStation: React.Dispatch<React.SetStateAction<Station>>
   className?: string
+  open: boolean
+  toggle: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 const SecchiSection = ({
+  open,
+  toggle,
   station,
   setStation,
   className
 }: SecchiSectionProps) => {
   return (
-    <Section title="Secchi Drop" complete={secchiComplete(station.secchi)}>
+    <Section
+      title="Secchi Drop"
+      complete={secchiComplete(station.secchi)}
+      open={open}
+      toggle={toggle}
+    >
       <div className="px-3">
         <Secchi
           secchi={station.secchi}
@@ -47,15 +62,26 @@ const SecchiSection = ({
 
 interface CollapseSampleProps extends SamplesProps {
   className?: string
+  open: boolean
+  toggle: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 const CollapseSamples = ({
   className,
   samples,
-  onCreate
+  onCreate,
+  open,
+  toggle
 }: CollapseSampleProps) => {
+  const complete = filter(samples, validSample).length == samples.length
   return (
-    <Section title="Indicator Sample" complete={false} className={className}>
+    <Section
+      title="Indicator Sample"
+      complete={complete}
+      className={className}
+      open={open}
+      toggle={toggle}
+    >
       <Samples samples={samples} onCreate={onCreate} />
     </Section>
   )
@@ -65,11 +91,25 @@ interface FramesProps {
   className?: string
   station: Station
   onCreate: (e: React.MouseEvent) => any
+  open: boolean
+  toggle: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
-const Frames = ({ className, station, onCreate }: FramesProps) => {
+const Frames = ({
+  open,
+  toggle,
+  className,
+  station,
+  onCreate
+}: FramesProps) => {
   return (
-    <Section title="Drop Frames" complete={false} className={className}>
+    <Section
+      title="Drop Frames"
+      complete={false}
+      className={className}
+      open={open}
+      toggle={toggle}
+    >
       <div className="mb-1 mt-2 px-3 d-flex justify-content-between">
         <Button
           color="primary"
@@ -100,27 +140,31 @@ interface SettingsProps {
   onDelete: (e: React.MouseEvent) => any
 }
 
-const Settings = ({ onDelete }: SettingsProps) => (
-  <div className="px-3">
-    <Section title="Settings" hideIcon={true}>
-      <div className="px-3">
-        <div className="my-2">
-          <Button
-            color="danger"
-            onClick={onDelete}
-            className="w-100"
-            type="button"
-          >
-            Delete This Station Data
-          </Button>
-          <small className="text-black-50">
-            Remove this station from the trip.
-          </small>
+const Settings = ({ onDelete }: SettingsProps) => {
+  const [open, setOpen] = useState(false)
+  const toggle = () => setOpen(!open)
+  return (
+    <div className="px-3">
+      <Section title="Settings" hideIcon={true} open={open} toggle={toggle}>
+        <div className="px-3">
+          <div className="my-2">
+            <Button
+              color="danger"
+              onClick={onDelete}
+              className="w-100"
+              type="button"
+            >
+              Delete This Station Data
+            </Button>
+            <small className="text-black-50">
+              Remove this station from the trip.
+            </small>
+          </div>
         </div>
-      </div>
-    </Section>
-  </div>
-)
+      </Section>
+    </div>
+  )
+}
 
 export default () => {
   const router = useRouter()
@@ -159,7 +203,6 @@ export default () => {
       units: '',
       picture: false,
       pictureTakenAt: '',
-      diseaseCoverage: '',
       shoots: [
         {
           length: '',
@@ -202,6 +245,15 @@ export default () => {
     }
   }
 
+  const toggle = (section: keyof UIStationPage) => (e: React.MouseEvent) =>
+    setStation({
+      ...station,
+      $ui: {
+        ...station.$ui,
+        [section]: !station?.$ui?.[section]
+      }
+    })
+
   if (error) return <DataError error={error.message} />
   if (loading) return <Loading />
   if (!loading && !station) {
@@ -214,6 +266,8 @@ export default () => {
       <BackLink name="Trip" pathname="/trips" id={station.tripId} />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
         <StationInfo
+          open={station.$ui?.info}
+          toggle={toggle('info')}
           className="border-top border-bottom"
           data={{
             stationId: station.stationId,
@@ -223,6 +277,8 @@ export default () => {
           setData={(data) => setStation({ ...station, ...data })}
         />
         <Location
+          open={station.$ui?.location}
+          toggle={toggle('location')}
           location={{
             ...station.location
           }}
@@ -231,13 +287,27 @@ export default () => {
           }
         />
         <Weather
+          open={station.$ui?.weather}
+          toggle={toggle('weather')}
           weather={station.weather}
           onChange={(weather) => setStation({ ...station, weather })}
         />
-        <SecchiSection station={station} setStation={setStation} />
-        <Frames station={station} onCreate={createNewDropFrame} />
+        <SecchiSection
+          station={station}
+          setStation={setStation}
+          open={station.$ui?.secchi}
+          toggle={toggle('secchi')}
+        />
+        <Frames
+          station={station}
+          onCreate={createNewDropFrame}
+          open={station.$ui?.frames}
+          toggle={toggle('frames')}
+        />
         {station.isIndicatorStation && (
           <CollapseSamples
+            open={station.$ui?.sample}
+            toggle={toggle('sample')}
             samples={station.samples}
             onCreate={createNewSample}
           />

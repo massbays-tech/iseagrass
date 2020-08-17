@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Col, Collapse, Row } from 'reactstrap'
 import { Check, ChevronRight, Circle } from '../Icon'
 
@@ -8,23 +7,24 @@ interface SectionProps {
   hideIcon?: boolean
   className?: string
   children?: React.ReactNode
+  open: boolean
+  toggle: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 export const Section = ({
+  open,
+  toggle,
   title,
   complete,
   hideIcon,
   className,
   children
 }: SectionProps) => {
-  const [open, setOpen] = useState(false)
-  const toggle = () => setOpen(!open)
   const statusIcon = complete ? (
     <Check className="text-success" />
   ) : (
     <Circle style={{ fontSize: '.75rem' }} />
   )
-
   return (
     <Row className={`${className ?? 'border-bottom'}`}>
       <Col
