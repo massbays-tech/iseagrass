@@ -23,6 +23,7 @@ const Shoot = ({ i, shoot, setShoot }: ShootProps) => (
       <UnitInput
         unit="cm"
         type="number"
+        inputMode="decimal"
         id="length"
         placeholder="Length"
         required
@@ -35,6 +36,7 @@ const Shoot = ({ i, shoot, setShoot }: ShootProps) => (
         unit="mm"
         placeholder="Width"
         type="number"
+        inputMode="decimal"
         id="width"
         required
         value={shoot.width}
