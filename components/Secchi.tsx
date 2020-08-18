@@ -103,6 +103,7 @@ export const Secchi: React.FC<Props> = ({
           unit={secchi.unit}
           onUnitChange={onUnitChange}
           type="number"
+          inputMode="decimal"
           id="depth"
           required
           value={secchi.depth}
