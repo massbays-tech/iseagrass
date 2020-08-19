@@ -50,6 +50,7 @@ export default () => {
       stationId: '',
       isIndicatorStation: false,
       harbor: '',
+      notes: '',
       location: {
         longitude: '',
         latitude: '',

@@ -5,6 +5,7 @@ export interface StationDetailProps {
   stationId: string
   isIndicatorStation: boolean
   harbor: string
+  notes: string
 }
 
 interface Props {
@@ -91,6 +92,20 @@ export const StationInfo = ({
               required={true}
               value={data.harbor}
               onChange={(e) => setData({ ...data, harbor: e.target.value })}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="notes">Notes</Label>
+            <Input
+              type="textarea"
+              id="notes"
+              value={data.notes}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  notes: e.target.value
+                })
+              }
             />
           </FormGroup>
         </div>

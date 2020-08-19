@@ -279,7 +279,8 @@ export default () => {
           data={{
             stationId: station.stationId,
             isIndicatorStation: station.isIndicatorStation,
-            harbor: station.harbor
+            harbor: station.harbor,
+            notes: station.notes
           }}
           setData={(data) => setStation({ ...station, ...data })}
         />

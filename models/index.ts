@@ -80,6 +80,9 @@ export interface Station {
   isIndicatorStation: boolean
   // The harbor this station is in
   harbor: string
+  // notes for interesting things found at the station
+  // that don't belong to a sub category
+  notes: string
   location: Location
   weather: Weather
   secchi: Secchi
