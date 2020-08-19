@@ -199,7 +199,7 @@ export default () => {
     })
     router.push({
       pathname: '/trips/stations/frames',
-      query: { id, i: station.frames.length + 1 }
+      query: { id, i: station.frames.length }
     })
   }
 
