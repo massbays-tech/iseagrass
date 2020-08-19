@@ -20,6 +20,7 @@ import {
   hasEelgrass,
   Station,
   UIStationPage,
+  validDropFrame,
   validSample,
   validSecchi
 } from 'models'
@@ -109,10 +110,13 @@ const Frames = ({
   station,
   onCreate
 }: FramesProps) => {
+  const REQUIRED_STATIONS = 4
+  const complete =
+    filter(station.frames, validDropFrame).length == REQUIRED_STATIONS
   return (
     <Section
       title="Drop Frames"
-      complete={false}
+      complete={complete}
       className={className}
       open={open}
       toggle={toggle}
@@ -122,7 +126,7 @@ const Frames = ({
           color="primary"
           outline={true}
           onClick={onCreate}
-          disabled={station.frames.length == 4}
+          disabled={station.frames.length == REQUIRED_STATIONS}
         >
           Add Drop Frame
         </Button>

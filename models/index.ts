@@ -102,6 +102,9 @@ export interface Trip {
   stations?: Station[]
 }
 
+export const validDropFrame = (f: DropFrame): boolean =>
+  ((f.picture && !!f.pictureTakenAt) || !f.picture) && !!f.coverage
+
 export const validIndicatorShoot = (shoot: IndicatorShoot): boolean =>
   !!shoot.diseaseCoverage &&
   !!shoot.epiphyteCoverage &&

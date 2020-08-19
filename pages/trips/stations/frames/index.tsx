@@ -146,6 +146,7 @@ export default () => {
             value={frame.coverage}
             onChange={(e) => setFrame({ ...frame, coverage: e.target.value })}
           >
+            <option disabled hidden value="" />
             {EELGRASS_COVERAGE.map((v) => (
               <option key={v} value={v}>
                 {v}%
