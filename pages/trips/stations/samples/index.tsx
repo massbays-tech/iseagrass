@@ -97,6 +97,7 @@ export default () => {
       db.put(SAMPLE_STORE, sample)
     }
   }, [sample])
+  const i = parseInt(router.query.i as string)
 
   const deleteSample = async () => {
     const response = confirm(
@@ -134,7 +135,7 @@ export default () => {
         id={sample.stationId}
       />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
-        <h2>Sample {1}</h2>
+        <h3 className="font-weight-light">Sample {i + 1}</h3>
         <FormGroup>
           <Label className="ml-2" for="picture-taken">
             <input

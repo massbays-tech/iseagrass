@@ -124,4 +124,4 @@ export const validSecchi = (s: Secchi): boolean =>
   s.drops.filter(validSecchiDrop).length == s.drops.length
 
 export const hasEelgrass = (f: DropFrame): boolean =>
-  f.coverage && f.coverage != '0%'
+  f.coverage && f.coverage !== '0'

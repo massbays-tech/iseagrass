@@ -238,7 +238,7 @@ export default () => {
     })
     router.push({
       pathname: '/trips/stations/samples',
-      query: { id }
+      query: { id, i: station.samples.length }
     })
   }
 

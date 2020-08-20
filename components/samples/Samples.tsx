@@ -52,8 +52,8 @@ export const SampleList: React.FC<SamplesProps> = ({
   return (
     <>
       <ListGroup flush>
-        {samples.map((s, key) => (
-          <SampleItem i={key} sample={s} key={key} />
+        {samples.map((s, i) => (
+          <SampleItem i={i} sample={s} key={i} />
         ))}
       </ListGroup>
     </>
