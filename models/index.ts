@@ -92,6 +92,8 @@ export interface Station {
   $ui?: UIStationPage
 }
 
+type UploadStatus = 'not_uploaded' | 'uploaded' | 'error'
+
 export interface Trip {
   id?: number
   uuid: string
@@ -100,6 +102,8 @@ export interface Trip {
   boat: string
   crew: string[]
   stations?: Station[]
+  uploaded?: UploadStatus
+  uploadedAt?: Date
 }
 
 export const validDropFrame = (f: DropFrame): boolean =>

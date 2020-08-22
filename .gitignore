@@ -28,3 +28,6 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Credentials
+seegrass-2ebfd-9d22aa297bc7.json

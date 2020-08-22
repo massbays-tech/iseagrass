@@ -36,9 +36,14 @@ export default function Home() {
             View Protocol (PDF)
           </a>
         </Col>
-        <Col xs="12">
+        <Col xs="12" className="my-3">
           <Link href="/trips/list">
             <a className="btn btn-lg btn-primary w-100">Go to your trips</a>
+          </Link>
+        </Col>
+        <Col xs="12" className="my-3">
+          <Link href="/data">
+            <a className="btn btn-info w-100">Download Trip Data</a>
           </Link>
         </Col>
       </div>

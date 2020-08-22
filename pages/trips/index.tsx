@@ -43,6 +43,16 @@ export default () => {
     }
   }
 
+  const upload = async () => {
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      body: JSON.stringify(trip),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
   const createNewStation = async (e: React.MouseEvent) => {
     e.preventDefault()
     const id = await db.put(STATION_STORE, {
@@ -159,12 +169,7 @@ export default () => {
       </div>
       <div className="px-3">
         <div className="my-2">
-          <Button
-            color="success"
-            onClick={() => {}}
-            className="w-100"
-            disabled={true}
-          >
+          <Button color="success" onClick={upload} className="w-100">
             Upload Trip Data
           </Button>
           <small className="text-black-50">
