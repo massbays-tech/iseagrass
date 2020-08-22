@@ -1,6 +1,5 @@
 import * as admin from 'firebase-admin'
 import { NextApiRequest, NextApiResponse } from 'next'
-console.log('BIG TEST', process.env.FIREBASE_CONFIG)
 const cert = JSON.parse(process.env.FIREBASE_CONFIG ?? '{}')
 // This stopes the admin from initializing more than 1 time
 if (!admin.apps.length) {
