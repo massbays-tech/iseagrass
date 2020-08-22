@@ -54,7 +54,20 @@ export default () => {
   )
 
   if (error) return <DataError error={error.message} />
-
+  let body
+  if (!trips) {
+    body = <Loading />
+  } else if (trips && trips.length == 0) {
+    body = <NoTrips />
+  } else {
+    body = (
+      <ListGroup flush className="px-2 mt-5">
+        {trips.map((trip, i) => (
+          <TripItem trip={trip} key={trip.uuid} />
+        ))}
+      </ListGroup>
+    )
+  }
   return (
     <>
       <Row noGutters className="justify-content-between p-3">
@@ -78,15 +91,7 @@ export default () => {
           />
         </Col>
       </Row>
-      {!trips && <Loading />}
-      {!trips?.length && <NoTrips />}
-      {!!trips?.length && (
-        <ListGroup flush className="px-2 mt-5">
-          {trips.map((trip, i) => (
-            <TripItem trip={trip} key={trip.uuid} />
-          ))}
-        </ListGroup>
-      )}
+      {body}
     </>
   )
 }
