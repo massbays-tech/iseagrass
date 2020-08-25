@@ -57,7 +57,8 @@ export default () => {
     e.preventDefault()
     // Use the weather from the previous trip, or default
     // to a blank slate.
-    const weather = last(trip.stations)?.weather || {
+    const prev = last(trip.stations)
+    const weather = prev?.weather || {
       wind: '',
       windDirection: '',
       sea: '',
@@ -68,7 +69,7 @@ export default () => {
       tripId: trip.id,
       stationId: '',
       isIndicatorStation: false,
-      harbor: '',
+      harbor: prev?.harbor ?? '',
       notes: '',
       location: {
         longitude: '',
