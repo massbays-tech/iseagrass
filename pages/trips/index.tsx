@@ -1,7 +1,7 @@
 import { BackLink, DataError, Loading, Stations } from 'components'
 import { STATION_STORE, TRIP_STORE } from 'db'
 import { useTrip } from 'hooks'
-import { compact, union, uniq } from 'lodash'
+import { compact, last, union, uniq } from 'lodash'
 import { Trip } from 'models'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -55,6 +55,15 @@ export default () => {
 
   const createNewStation = async (e: React.MouseEvent) => {
     e.preventDefault()
+    // Use the weather from the previous trip, or default
+    // to a blank slate.
+    const weather = last(trip.stations)?.weather || {
+      wind: '',
+      windDirection: '',
+      sea: '',
+      clouds: '',
+      tide: ''
+    }
     const id = await db.put(STATION_STORE, {
       tripId: trip.id,
       stationId: '',
@@ -76,13 +85,7 @@ export default () => {
         ],
         notes: ''
       },
-      weather: {
-        wind: '',
-        windDirection: '',
-        sea: '',
-        clouds: '',
-        tide: ''
-      },
+      weather,
       samples: [],
       // Start with Station info open
       $ui: { info: true }
