@@ -29,7 +29,7 @@ export const Section = ({
     <Row className={`${className ?? 'border-bottom'}`}>
       <Col
         xs="12"
-        className="d-flex align-items-center justify-content-start"
+        className="d-flex align-items-center justify-content-start station-section"
         onClick={toggle}
       >
         {!hideIcon && (

@@ -2,3 +2,11 @@
   outline: 0;
   box-shadow: none !important;
 }
+
+.station-section {
+  cursor: pointer;
+}
+
+.station-section:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
