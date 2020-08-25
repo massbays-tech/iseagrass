@@ -74,7 +74,7 @@ export default () => {
       location: {
         longitude: '',
         latitude: '',
-        device: ''
+        device: prev?.location?.device ?? ''
       },
       secchi: {
         depth: '',
