@@ -44,13 +44,27 @@ export default () => {
   }
 
   const upload = async () => {
-    const res = await fetch('/api/upload', {
-      method: 'POST',
-      body: JSON.stringify(trip),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: JSON.stringify(trip),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      setTrip({
+        ...trip,
+        uploaded: 'uploaded',
+        uploadedAt: new Date()
+      })
+      alert('Successfully uploaded trip')
+    } catch (err) {
+      setTrip({
+        ...trip,
+        uploaded: 'error'
+      })
+      alert(`Error uploading trip: ${err}`)
+    }
   }
 
   const createNewStation = async (e: React.MouseEvent) => {

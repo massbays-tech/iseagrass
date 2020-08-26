@@ -1,4 +1,4 @@
-import { BackLink, DataError, Loading, UnitInput } from 'components'
+import { BackLink, Camera, DataError, Loading, UnitInput } from 'components'
 import { SAMPLE_STORE } from 'db'
 import { useSample } from 'hooks'
 import { IndicatorShoot, Sample } from 'models'
@@ -136,12 +136,19 @@ export default () => {
       />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
         <h3 className="font-weight-light">Sample {i + 1}</h3>
+        {sample.shoots.map((shoot, i) => (
+          <Shoot i={i} shoot={shoot} setShoot={setShoot(i)} key={i} />
+        ))}
         <FormGroup>
-          <Label className="ml-2" for="picture-taken">
+          <Label
+            className="mb-0 d-flex flex-fill align-items-center"
+            for="picture-taken"
+          >
+            <Camera width="4rem" height="4rem" className="text-info" />
             <input
               type="checkbox"
-              id="pictre-taken"
-              className="mr-2"
+              id="picture-taken"
+              className="mx-2"
               checked={sample.picture}
               onChange={(e) =>
                 setSample({
@@ -157,7 +164,7 @@ export default () => {
         </FormGroup>
         {sample.picture && (
           <FormGroup>
-            <Label for="picture-time">Time Taken?</Label>
+            <Label for="picture-time">Time Picture Taken</Label>
             <Input
               type="time"
               id="picture-time"
@@ -171,9 +178,6 @@ export default () => {
             />
           </FormGroup>
         )}
-        {sample.shoots.map((shoot, i) => (
-          <Shoot i={i} shoot={shoot} setShoot={setShoot(i)} key={i} />
-        ))}
         <FormGroup>
           <Label for="notes">Notes</Label>
           <Input

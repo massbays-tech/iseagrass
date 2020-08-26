@@ -1,4 +1,4 @@
-import { BackLink, DataError, Loading } from 'components'
+import { BackLink, Camera, DataError, Loading } from 'components'
 import { DROP_FRAME_STORE } from 'db'
 import { useDropFrame } from 'hooks'
 import { DropFrame, SedimentOptions } from 'models'
@@ -77,42 +77,6 @@ export default () => {
       />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
         <h3 className="font-weight-light">Drop Frame {i + 1}</h3>
-        <FormGroup>
-          <Label className="ml-2" for="picture-taken">
-            <input
-              type="checkbox"
-              id="pictre-taken"
-              className="mr-2"
-              checked={frame.picture}
-              onChange={(e) =>
-                setFrame({
-                  ...frame,
-                  pictureTakenAt: htmlTime(new Date()),
-                  picture: e.target.checked
-                })
-              }
-              style={{ width: 20, height: 20 }}
-            />
-            Picture Taken?
-          </Label>
-        </FormGroup>
-        {frame.picture && (
-          <FormGroup>
-            <Label for="time">Time</Label>
-            <Input
-              type="time"
-              id="time"
-              required
-              value={frame.pictureTakenAt}
-              onChange={(e) =>
-                setFrame({
-                  ...frame,
-                  pictureTakenAt: e.target.value
-                })
-              }
-            />
-          </FormGroup>
-        )}
         <h4 className="font-weight-light mb-0">Sediments Observed</h4>
         <small className="d-block mb-2 text-black-50">
           Check all that apply.
@@ -154,6 +118,47 @@ export default () => {
             ))}
           </CustomInput>
         </FormGroup>
+
+        <FormGroup>
+          <Label
+            className="mb-0 d-flex flex-fill align-items-center"
+            for="picture-taken"
+          >
+            <Camera width="4rem" height="4rem" className="text-info" />
+            <input
+              type="checkbox"
+              id="picture-taken"
+              className="mx-2"
+              checked={frame.picture}
+              onChange={(e) =>
+                setFrame({
+                  ...frame,
+                  pictureTakenAt: htmlTime(new Date()),
+                  picture: e.target.checked
+                })
+              }
+              style={{ width: 20, height: 20 }}
+            />
+            Picture Taken?
+          </Label>
+        </FormGroup>
+        {frame.picture && (
+          <FormGroup>
+            <Label for="picture-time">Time Picture Taken</Label>
+            <Input
+              type="time"
+              id="picture-time"
+              value={frame.pictureTakenAt}
+              onChange={(e) =>
+                setFrame({
+                  ...frame,
+                  pictureTakenAt: e.target.value
+                })
+              }
+            />
+          </FormGroup>
+        )}
+
         <FormGroup>
           <Label for="notes">Notes</Label>
           <Input
