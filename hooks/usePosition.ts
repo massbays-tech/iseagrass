@@ -14,8 +14,17 @@ interface Position {
   timestamp?: number
 }
 
+interface Settings {
+  enableHighAccuracy?: boolean
+  timeout?: number
+  maximumAge?: number
+}
+
 // Extended from: https://github.com/trekhleb/use-position
-export const usePosition = (watch = false, settings = defaultSettings) => {
+export const usePosition = (
+  watch = false,
+  settings: Settings = defaultSettings
+) => {
   const [position, setPosition] = useState<Position>({ loading: true })
   const [error, setError] = useState<string | null>(null)
 
