@@ -1,6 +1,6 @@
 import stringify from 'csv-stringify'
 import * as admin from 'firebase-admin'
-import { compact, mapKeys } from 'lodash'
+import { compact, flatten, range } from 'lodash'
 import { DropFrame, Sample, Trip } from 'models'
 import { NextApiRequest, NextApiResponse } from 'next'
 const cert = JSON.parse(process.env.FIREBASE_CONFIG ?? '{}')
@@ -74,21 +74,18 @@ interface Row {
   // Drop Frame
 }
 
-const frame = (f: DropFrame, i: number): any =>
-  mapKeys(
-    {
-      picture: f.picture,
-      picture_taken_at: f.pictureTakenAt,
-      mud: f.sediments.mud,
-      clay: f.sediments.clay,
-      sand: f.sediments.sand,
-      gravel: f.sediments.gravel,
-      cobble: f.sediments.cobble,
-      coverage: f.coverage,
-      notes: f.notes
-    },
-    (_, k) => `drop_frame_${i}_${k}`
-  )
+const frame = (f: DropFrame, i: number): any => ({
+  drop_frame: i,
+  drop_frame_picture: f.picture,
+  drop_frame_picture_taken_at: f.pictureTakenAt,
+  drop_frame_mud: f.sediments.mud,
+  drop_frame_clay: f.sediments.clay,
+  drop_frame_sand: f.sediments.sand,
+  drop_frame_gravel: f.sediments.gravel,
+  drop_frame_cobble: f.sediments.cobble,
+  drop_frame_coverage: f.coverage,
+  drop_frame_notes: f.notes
+})
 
 const sample = (s: Sample, i: number): any => {
   const shoots = s.shoots
@@ -107,6 +104,13 @@ const sample = (s: Sample, i: number): any => {
   }
   return { ...sample, ...shoots }
 }
+
+const cols = ['length', 'width', 'disease_coverage', 'epiphyte_coverage']
+const sampleColumns = (i: number) =>
+  flatten(range(i).map((j) => cols.map((c) => `shoot_${j}_${c}`))).reduce(
+    (map, c) => ({ ...map, [c]: undefined }),
+    {}
+  )
 
 const csv = (
   input: stringify.Input,
@@ -138,17 +142,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     date: trip.date.toDate()
   }
 
-  console.log('Download', transformed)
-
   let rows = []
   for (let s of transformed.stations) {
     const { weather, location, secchi } = s
-    const frames = s.frames
-      .map(frame)
-      .reduce((all, o) => ({ ...all, ...o }), {})
-    const samples = s.samples
-      .map(sample)
-      .reduce((all, o) => ({ ...all, ...o }), {})
+    const frames = s.frames.map(frame)
+    const samples = s.samples.map(sample)
     let row = {
       boat: trip.boat,
       uuid: trip.uuid,
@@ -172,10 +170,32 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       secchi_unit: secchi?.unit,
       secchi_time: secchi?.time,
       secchi_notes: secchi?.notes,
-      ...frames,
-      ...samples
+      // Drop Frame
+      drop_frame: undefined,
+      drop_frame_picture: undefined,
+      drop_frame_picture_taken_at: undefined,
+      drop_frame_mud: undefined,
+      drop_frame_clay: undefined,
+      drop_frame_sand: undefined,
+      drop_frame_gravel: undefined,
+      drop_frame_cobble: undefined,
+      drop_frame_coverage: undefined,
+      drop_frame_notes: undefined,
+      // Sample columns
+      sample_units: undefined,
+      sample_picture: undefined,
+      sample_picture_taken_at: undefined,
+      sample_notes: undefined,
+      // shoot columns
+      ...sampleColumns(3)
     }
     rows.push(row)
+    for (let f of frames) {
+      rows.push({ ...row, ...f })
+    }
+    for (let sa of samples) {
+      rows.push({ ...row, ...sa })
+    }
   }
   const data = await csv(rows, { header: true })
 

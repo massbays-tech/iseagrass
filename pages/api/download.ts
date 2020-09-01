@@ -30,6 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     .collection('trips')
     .where('date', '>=', new Date(after))
     .where('date', '<=', new Date(before))
+    .orderBy('date', 'desc')
     .get()
   res.status(200).json(
     query.docs.map(data).map((d) => ({
