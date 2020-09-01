@@ -88,7 +88,7 @@ export default () => {
               <Sediment
                 id={name}
                 name={name}
-                value={frame.sediments[name]}
+                value={frame.sediments[toLower(name)]}
                 onChange={(val: boolean) =>
                   setFrame({
                     ...frame,
