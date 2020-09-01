@@ -27,7 +27,7 @@ const TripItem = ({ trip }: TripItemProps) => (
   <div className="list-group-item text-dark p-2">
     <Row>
       <Col xs="10">
-        <div>Trip | {compact(trip.crew).join(', ')}</div>
+        <div>Trip with {compact(trip.crew).join(', ')}</div>
         <small className="text-muted">
           {moment(trip.date).format('MMMM Do, YYYY')}
         </small>
