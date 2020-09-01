@@ -1,4 +1,5 @@
 import { DataError, Loading } from 'components'
+import { compact } from 'lodash'
 import { Trip } from 'models'
 import moment from 'moment'
 import { useState } from 'react'
@@ -26,7 +27,7 @@ const TripItem = ({ trip }: TripItemProps) => (
   <div className="list-group-item text-dark p-2">
     <Row>
       <Col xs="10">
-        <div>Trip {trip.uuid}</div>
+        <div>Trip | {compact(trip.crew).join(', ')}</div>
         <small className="text-muted">
           {moment(trip.date).format('MMMM Do, YYYY')}
         </small>
