@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <DatabaseContext.Provider value={{ db, setDB }}>
       <Head>
-        <title>SeeGrass</title>
+        <title>iSeaGrass</title>
       </Head>
       <Layout>
         <Component {...pageProps} />

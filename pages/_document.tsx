@@ -36,7 +36,7 @@ class MyDocument extends Document {
           <meta name="msapplication-config" content="/browserconfig.xml" />
           <meta name="theme-color" content="#ffffff" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="apple-mobile-web-app-title" content="SeeGrass" />
+          <meta name="apple-mobile-web-app-title" content="iSeaGrass" />
         </Head>
         <body>
           <Main />
