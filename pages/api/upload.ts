@@ -25,6 +25,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const trip: Trip = req.body
   const converted = convert(trip, new Set())
   converted.date = new Date(converted.date)
+  converted.uploadedAt = new Date()
+  converted.stations = converted.stations.map((s) => {
+    const station = { ...s }
+    delete station['$ui']
+    return station
+  })
   await db.collection('trips').doc(converted.uuid).set(converted)
 
   //const snapshot = await db.collection('trips').where('date', '>', new Date()).where()

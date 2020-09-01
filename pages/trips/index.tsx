@@ -45,9 +45,14 @@ export default () => {
 
   const upload = async () => {
     try {
+      const toSave = {
+        ...trip,
+        crew: union(uniq(trip.crew), [''])
+      }
+
       const res = await fetch('/api/upload', {
         method: 'POST',
-        body: JSON.stringify(trip),
+        body: JSON.stringify(toSave),
         headers: {
           'Content-Type': 'application/json'
         }

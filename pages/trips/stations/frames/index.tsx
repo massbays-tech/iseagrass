@@ -1,6 +1,7 @@
 import { BackLink, Camera, DataError, Loading } from 'components'
 import { DROP_FRAME_STORE } from 'db'
 import { useDropFrame } from 'hooks'
+import { toLower } from 'lodash'
 import { DropFrame, SedimentOptions } from 'models'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -93,7 +94,7 @@ export default () => {
                     ...frame,
                     sediments: {
                       ...frame.sediments,
-                      [name]: val
+                      [toLower(name)]: val
                     }
                   })
                 }

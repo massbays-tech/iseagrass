@@ -13,6 +13,8 @@ interface Query {
   before: string
 }
 
+const data = (d: any) => d.data()
+
 /**
  * Download the data
  */
@@ -29,5 +31,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     .where('date', '>=', new Date(after))
     .where('date', '<=', new Date(before))
     .get()
-  res.status(200).json(query.docs.map((d) => d.data()))
+  res.status(200).json(
+    query.docs.map(data).map((d) => ({
+      ...d,
+      date: d.date.toDate()
+    }))
+  )
 }
