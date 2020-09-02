@@ -1,10 +1,11 @@
-import { DataError, Loading } from 'components'
+import { ChevronLeft, DataError, Download, Loading } from 'components'
 import { compact } from 'lodash'
 import { Trip } from 'models'
 import moment from 'moment'
+import Link from 'next/link'
 import { useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
-import { Col, ListGroup, Row } from 'reactstrap'
+import { Col, Container, ListGroup, Row } from 'reactstrap'
 import useSWR from 'swr'
 
 const fetcher = (url: string, after: Date, before: Date) =>
@@ -32,14 +33,17 @@ const TripItem = ({ trip }: TripItemProps) => (
           {moment(trip.date).format('MMMM Do, YYYY')}
         </small>
       </Col>
-      <Col xs="2">
+      <Col xs="2" className="d-flex align-items-center">
         <a
           className="btn btn-primary"
           color="primary"
           target="_blank"
           href={`/api/csv/${trip.uuid}`}
         >
-          Download
+          <div className="d-flex align-items-center justify-content-center">
+            <Download />
+            <span className="ml-2 d-none d-md-inline-block">Download</span>
+          </div>
         </a>
       </Col>
     </Row>
@@ -71,28 +75,38 @@ export default () => {
   }
   return (
     <>
-      <Row noGutters className="justify-content-between p-3">
-        <Col xs="12">
-          <h3 className="font-weight-light text-center">Download Trip Data</h3>
-        </Col>
-      </Row>
-      <Row>
-        <Col className="d-flex">
-          <h4 className="mr-2 mb-0 font-weight-normal">Trip taken After:</h4>
-          <ReactDatePicker
-            selected={after}
-            onChange={(date: Date) => setAfter(date)}
-          />
-        </Col>
-        <Col className="d-flex">
-          <h4 className="mr-2 mb-0 font-weight-normal">Trip taken Before:</h4>
-          <ReactDatePicker
-            selected={before}
-            onChange={(date: Date) => setBefore(date)}
-          />
-        </Col>
-      </Row>
-      {body}
+      <Container>
+        <Link href="/">
+          <a className="d-flex align-items-center ml-2 py-2">
+            <ChevronLeft />
+            <span>Back to Protocol</span>
+          </a>
+        </Link>
+        <Row noGutters className="justify-content-between p-3">
+          <Col xs="12">
+            <h3 className="font-weight-light text-center">
+              Download Trip Data
+            </h3>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="d-flex" xs="12" md="6">
+            <h4 className="mr-2 mb-0 font-weight-normal">Trip taken After:</h4>
+            <ReactDatePicker
+              selected={after}
+              onChange={(date: Date) => setAfter(date)}
+            />
+          </Col>
+          <Col className="d-flex mt-3 mt-md-0" xs="12" md="6">
+            <h4 className="mr-2 mb-0 font-weight-normal">Trip taken Before:</h4>
+            <ReactDatePicker
+              selected={before}
+              onChange={(date: Date) => setBefore(date)}
+            />
+          </Col>
+        </Row>
+        {body}
+      </Container>
     </>
   )
 }
