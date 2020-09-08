@@ -1,7 +1,7 @@
 import stringify from 'csv-stringify'
 import * as admin from 'firebase-admin'
-import { compact, flatten, range } from 'lodash'
-import { DropFrame, Sample, Trip } from 'models'
+import { compact, flatten, keys, map, mapKeys, pickBy, range } from 'lodash'
+import { DropFrame, Sample, SecchiDrop, Trip } from 'models'
 import { NextApiRequest, NextApiResponse } from 'next'
 const cert = JSON.parse(process.env.FIREBASE_CONFIG ?? '{}')
 // This stopes the admin from initializing more than 1 time
@@ -74,35 +74,67 @@ interface Row {
   // Drop Frame
 }
 
+// zip takes any number of arrays of objects and merges them such that
+// the first elements of each are merged and the second elements of each
+// are merged and so on - if
+const zip = (anchor: any, ...arrays) => {
+  console.log('HELP', arrays)
+  let r = []
+  for (let i = 0; i < Math.max(...map(arrays, 'length')); i++) {
+    let o = { ...anchor }
+    for (let a of arrays) {
+      if (i < a.length) {
+        o = { ...o, ...a[i] }
+      }
+    }
+    r.push(o)
+  }
+  if (r.length == 0) {
+    return [anchor]
+  }
+  return r
+}
+
+const secchiDrops = (drops: SecchiDrop[], start: number = 0) => {
+  const prefix = 'secchi'
+  return drops
+    .map((d, i) =>
+      mapKeys(
+        {
+          depth: d.depth,
+          depth_unit: d.unit,
+          bottom: d.hitBottom ?? false
+        },
+        (_, k) => `${prefix}_${k}_${i + start}`
+      )
+    )
+    .reduce((all, o) => ({ ...all, ...o }), {})
+}
+
 const frame = (f: DropFrame, i: number): any => ({
-  drop_frame: i,
+  drop_frame_id: i,
   drop_frame_picture: f.picture,
-  drop_frame_picture_taken_at: f.pictureTakenAt,
-  drop_frame_mud: f.sediments.mud,
-  drop_frame_clay: f.sediments.clay,
-  drop_frame_sand: f.sediments.sand,
-  drop_frame_gravel: f.sediments.gravel,
-  drop_frame_cobble: f.sediments.cobble,
-  drop_frame_coverage: f.coverage,
+  drop_frame_picture_time: f.pictureTakenAt,
+  drop_frame_sediment: keys(pickBy(f.sediments, (v) => !!v))
+    .sort()
+    .join(','),
+  drop_frame_eelgrass_cover: f.coverage,
   drop_frame_notes: f.notes
 })
 
 const sample = (s: Sample, i: number): any => {
-  const shoots = s.shoots
-    .map((shoot, j) => ({
-      [`shoot_${j}_length`]: shoot.length,
-      [`shoot_${j}_width`]: shoot.width,
-      [`shoot_${j}_disease_coverage`]: shoot.diseaseCoverage,
-      [`shoot_${j}_epiphyte_coverage`]: shoot.epiphyteCoverage
-    }))
-    .reduce((all, o) => ({ ...all, ...o }), {})
-  const sample = {
-    sample_units: s.units,
+  return s.shoots.map((shoot) => ({
+    sample_id: i,
     sample_picture: s.picture,
-    sample_picture_taken_at: s.pictureTakenAt,
-    sample_notes: s.notes
-  }
-  return { ...sample, ...shoots }
+    sample_picture_time: s.pictureTakenAt,
+    sample_notes: s.notes,
+    shoot_length: shoot.length,
+    shoot_length_units: 'cm',
+    shoot_width: shoot.width,
+    shoot_width_units: 'mm',
+    shoot_disease_coverage: shoot.diseaseCoverage,
+    shoot_epiphyte_coverage: shoot.epiphyteCoverage
+  }))
 }
 
 const cols = ['length', 'width', 'disease_coverage', 'epiphyte_coverage']
@@ -146,56 +178,52 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   for (let s of transformed.stations) {
     const { weather, location, secchi } = s
     const frames = s.frames.map(frame)
-    const samples = s.samples.map(sample)
+    const samples = flatten(s.samples.map(sample))
     let row = {
       boat: trip.boat,
+      date: transformed.date.toISOString(),
       uuid: trip.uuid,
       crew: compact(trip.crew).join(','),
       station_id: s.stationId,
       station_harbor: s.harbor,
-      station_is_indicator_station: s.isIndicatorStation,
+      indicator_station: s.isIndicatorStation,
       station_notes: s.notes,
       // Weather
-      wind: weather.wind,
+      wind_knots: weather.wind,
       wind_direction: weather?.windDirection,
-      sea: weather?.sea,
-      clouds: weather?.clouds,
-      tide: weather?.clouds,
+      sea_state: weather?.sea,
+      clouds_percent_cover: weather?.clouds,
+      tide: weather?.tide,
       // Location
       longitude: location?.longitude,
       latitude: location?.latitude,
       device: location?.device,
       // Secci
-      secchi_depth: secchi?.depth,
-      secchi_unit: secchi?.unit,
+      water_depth: secchi?.depth,
+      water_unit: secchi?.unit,
       secchi_time: secchi?.time,
       secchi_notes: secchi?.notes,
+      ...secchiDrops(secchi?.drops ?? []),
       // Drop Frame
-      drop_frame: undefined,
+      drop_frame_id: undefined,
       drop_frame_picture: undefined,
-      drop_frame_picture_taken_at: undefined,
-      drop_frame_mud: undefined,
-      drop_frame_clay: undefined,
-      drop_frame_sand: undefined,
-      drop_frame_gravel: undefined,
-      drop_frame_cobble: undefined,
-      drop_frame_coverage: undefined,
+      drop_frame_picture_time: undefined,
+      drop_frame_sediment: undefined,
+      drop_frame_eelgrass_cover: undefined,
       drop_frame_notes: undefined,
       // Sample columns
-      sample_units: undefined,
+      sample_id: undefined,
       sample_picture: undefined,
-      sample_picture_taken_at: undefined,
-      sample_notes: undefined,
-      // shoot columns
-      ...sampleColumns(3)
+      sample_picture_time: undefined,
+      shoot_length: undefined,
+      shoot_length_units: undefined,
+      shoot_width: undefined,
+      shoot_width_units: undefined,
+      shoot_disease_coverage: undefined,
+      shoot_epiphyte_coverage: undefined,
+      sample_notes: undefined
     }
-    rows.push(row)
-    for (let f of frames) {
-      rows.push({ ...row, ...f })
-    }
-    for (let sa of samples) {
-      rows.push({ ...row, ...sa })
-    }
+    rows.push(...zip(row, frames, samples))
   }
   const data = await csv(rows, { header: true })
 
