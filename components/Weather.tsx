@@ -7,6 +7,8 @@ const Backgrounds = {
   unknown: 'linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%)'
 }
 
+const NO_WIND = 'no wind'
+
 interface WeatherProp {
   value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -73,7 +75,8 @@ export const WindSpeed = ({ value, onChange }: WeatherProp) => (
       onChange={onChange}
     >
       <option disabled hidden value="" />
-      {['0-5', '6-10', '11-15', '16-20', '21+'].map((v) => (
+      <option value={NO_WIND}>No Wind</option>
+      {['1-5', '6-10', '11-15', '16-20', '21+'].map((v) => (
         <option key={v} value={v}>
           {v} Knots
         </option>
@@ -146,6 +149,24 @@ export const Weather: React.FC<Props> = ({
   className
 }: Props) => {
   const complete = filter(values(weather), (v) => !v).length == 0
+  const windDirectionChange = (e) => {
+    const windDirection = e.target.value
+    const wind = windDirection == 'No Wind' ? NO_WIND : weather.wind
+    onChange({
+      ...weather,
+      windDirection,
+      wind
+    })
+  }
+  const windChange = (e) => {
+    const wind = e.target.value
+    const windDirection = wind == NO_WIND ? 'No Wind' : weather.windDirection
+    onChange({
+      ...weather,
+      windDirection,
+      wind
+    })
+  }
   return (
     <Section
       title="Weather"
@@ -161,14 +182,9 @@ export const Weather: React.FC<Props> = ({
         />
         <WindDirection
           value={weather.windDirection}
-          onChange={(e) =>
-            onChange({ ...weather, windDirection: e.target.value })
-          }
+          onChange={windDirectionChange}
         />
-        <WindSpeed
-          value={weather.wind}
-          onChange={(e) => onChange({ ...weather, wind: e.target.value })}
-        />
+        <WindSpeed value={weather.wind} onChange={windChange} />
         <SeaState
           value={weather.sea}
           onChange={(e) => onChange({ ...weather, sea: e.target.value })}
