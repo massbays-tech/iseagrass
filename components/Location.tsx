@@ -3,7 +3,7 @@ import { filter, values } from 'lodash'
 import { useEffect, useState } from 'react'
 import { Col, Input, Label } from 'reactstrap'
 import { UAParser } from 'ua-parser-js'
-import { Section } from './station'
+import { Section, Toggle } from './station'
 
 export interface LocationUpdate {
   latitude: string
@@ -24,7 +24,7 @@ interface Props {
   onChange: (loc: LocationUpdate) => void
   className?: string
   open: boolean
-  toggle: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  toggle: Toggle
 }
 
 interface LockOverlayProps {
@@ -177,6 +177,7 @@ export const Location = ({
       title="Location"
       complete={complete}
       className={className}
+      id="location"
       open={open}
       toggle={toggle}
     >

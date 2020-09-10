@@ -1,14 +1,20 @@
-import { Col, Collapse, Row } from 'reactstrap'
+import { Collapse, Row } from 'reactstrap'
 import { Check, ChevronRight, Circle } from '../Icon'
+
+export type Toggle = (
+  event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+) => void
 
 interface SectionProps {
   title: string
   complete?: boolean
   hideIcon?: boolean
   className?: string
+  id: string
   children?: React.ReactNode
   open: boolean
-  toggle: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  toggle: Toggle
+  passRef?: any
 }
 
 export const Section = ({
@@ -18,6 +24,8 @@ export const Section = ({
   complete,
   hideIcon,
   className,
+  id,
+  passRef,
   children
 }: SectionProps) => {
   const statusIcon = complete ? (
@@ -27,9 +35,10 @@ export const Section = ({
   )
   return (
     <Row className={`${className ?? 'border-bottom'}`}>
-      <Col
-        xs="12"
-        className="d-flex align-items-center justify-content-start station-section"
+      <a
+        ref={passRef}
+        id={id}
+        className="col-12 d-flex align-items-center justify-content-start station-section"
         onClick={toggle}
       >
         {!hideIcon && (
@@ -45,7 +54,7 @@ export const Section = ({
             transition: '.35s ease'
           }}
         />
-      </Col>
+      </a>
       <Collapse isOpen={open} className="w-100 pb-3">
         {children}
       </Collapse>

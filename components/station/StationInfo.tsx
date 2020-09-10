@@ -1,5 +1,5 @@
 import { FormGroup, Input, Label } from 'reactstrap'
-import { Section } from './Section'
+import { Section, Toggle } from './Section'
 
 export interface StationDetailProps {
   stationId: string
@@ -13,7 +13,7 @@ interface Props {
   setData: (data: StationDetailProps) => void
   className?: string
   open?: boolean
-  toggle?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  toggle: Toggle
 }
 
 const isDone = (data: StationDetailProps) => data.harbor && data.stationId
@@ -31,6 +31,7 @@ export const StationInfo = ({
       title={`Station ${data.stationId}`}
       complete={complete}
       className={className}
+      id="station-info"
       open={open}
       toggle={toggle}
     >

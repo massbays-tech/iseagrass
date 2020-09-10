@@ -4,12 +4,13 @@ import { ChevronLeft } from './Icon'
 interface Props {
   name: string
   pathname: string
+  hash?: string
   id?: number
 }
 
-export const BackLink = ({ name, pathname, id }: Props) => {
-  const href = id ? { pathname, query: { id } } : { pathname }
-  const as = id ? `${pathname}?id=${id}` : pathname
+export const BackLink = ({ name, pathname, hash, id }: Props) => {
+  const href = id ? { pathname, query: { id }, hash } : { pathname, hash }
+  const as = id ? `${pathname}?id=${id}${hash ?? ''}` : pathname + (hash ?? '')
   return (
     <div className="py-2">
       <Link href={href} as={as}>

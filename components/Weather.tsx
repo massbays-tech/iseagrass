@@ -1,7 +1,7 @@
 import { filter, values } from 'lodash'
 import { Weather as WeatherModel } from 'models'
 import { CustomInput, FormGroup, Label } from 'reactstrap'
-import { Section } from './station'
+import { Section, Toggle } from './station'
 
 const Backgrounds = {
   unknown: 'linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%)'
@@ -138,7 +138,7 @@ interface Props {
   onChange: (weather: WeatherModel) => void
   className?: string
   open: boolean
-  toggle: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  toggle: Toggle
 }
 
 export const Weather: React.FC<Props> = ({
@@ -172,6 +172,7 @@ export const Weather: React.FC<Props> = ({
       title="Weather"
       complete={complete}
       className={className}
+      id="weather"
       open={open}
       toggle={toggle}
     >

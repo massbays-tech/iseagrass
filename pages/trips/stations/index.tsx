@@ -10,6 +10,7 @@ import {
   Secchi,
   Section,
   StationInfo,
+  Toggle,
   Weather
 } from 'components'
 import { DROP_FRAME_STORE, SAMPLE_STORE, STATION_STORE } from 'db'
@@ -26,15 +27,16 @@ import {
 } from 'models'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Button, Form } from 'reactstrap'
+import { parse } from 'url'
 
 interface SecchiSectionProps {
   station: Station
   setStation: React.Dispatch<React.SetStateAction<Station>>
   className?: string
   open: boolean
-  toggle: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  toggle: Toggle
 }
 
 const SecchiSection = ({
@@ -47,6 +49,7 @@ const SecchiSection = ({
   return (
     <Section
       title="Secchi Drop"
+      id="secchi"
       complete={validSecchi(station.secchi)}
       open={open}
       toggle={toggle}
@@ -65,7 +68,8 @@ interface CollapseSampleProps extends SamplesProps {
   frames: DropFrame[]
   className?: string
   open: boolean
-  toggle: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  toggle: Toggle
+  passRef: any
 }
 
 const CollapseSamples = ({
@@ -74,6 +78,7 @@ const CollapseSamples = ({
   samples,
   onCreate,
   open,
+  passRef,
   toggle
 }: CollapseSampleProps) => {
   const complete = filter(samples, validSample).length == samples.length
@@ -83,8 +88,10 @@ const CollapseSamples = ({
       title={`Indicator Sample ${samples.length}/${framesWith.length}`}
       complete={complete}
       className={className}
+      id="indicator-samples"
       open={open}
       toggle={toggle}
+      passRef={passRef}
     >
       <Samples
         disableCreate={samples.length >= framesWith.length}
@@ -100,7 +107,8 @@ interface FramesProps {
   station: Station
   onCreate: (e: React.MouseEvent) => any
   open: boolean
-  toggle: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  toggle: Toggle
+  passRef: any
 }
 
 const Frames = ({
@@ -108,16 +116,19 @@ const Frames = ({
   toggle,
   className,
   station,
-  onCreate
+  onCreate,
+  passRef
 }: FramesProps) => {
   const REQUIRED_STATIONS = 4
   const complete =
     filter(station.frames, validDropFrame).length == REQUIRED_STATIONS
   return (
     <Section
+      passRef={passRef}
       title="Drop Frames"
       complete={complete}
       className={className}
+      id="drop-frames"
       open={open}
       toggle={toggle}
     >
@@ -156,7 +167,13 @@ const Settings = ({ onDelete }: SettingsProps) => {
   const toggle = () => setOpen(!open)
   return (
     <div className="px-3">
-      <Section title="Settings" hideIcon={true} open={open} toggle={toggle}>
+      <Section
+        title="Settings"
+        hideIcon={true}
+        open={open}
+        toggle={toggle}
+        id="settings"
+      >
         <div className="px-3">
           <div className="my-2">
             <Button
@@ -181,6 +198,14 @@ export default () => {
   const router = useRouter()
   const { loading, db, value, error } = useStation()
   const [station, setStation] = useState<Station>(undefined)
+  const scrollDown = (check: string) => (ref: any) => {
+    const { hash } = parse(router.asPath)
+    if (ref && check == hash) {
+      ref.scrollIntoView()
+    }
+  }
+  const framesRef = useCallback(scrollDown('#drop-frames'), [])
+  const samplesRef = useCallback(scrollDown('#indicator-samples'), [])
   useEffect(() => {
     if (value) setStation(value)
   }, [value])
@@ -315,6 +340,7 @@ export default () => {
           onCreate={createNewDropFrame}
           open={station.$ui?.frames}
           toggle={toggle('frames')}
+          passRef={framesRef}
         />
         {station.isIndicatorStation && (
           <CollapseSamples
@@ -323,6 +349,7 @@ export default () => {
             frames={station.frames}
             samples={station.samples}
             onCreate={createNewSample}
+            passRef={samplesRef}
           />
         )}
       </Form>

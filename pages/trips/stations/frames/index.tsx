@@ -74,6 +74,7 @@ export default () => {
       <BackLink
         name="Station"
         pathname="/trips/stations"
+        hash="#drop-frames"
         id={frame.stationId}
       />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
@@ -178,9 +179,10 @@ export default () => {
           <Link
             href={{
               pathname: '/trips/stations',
-              query: { id: frame.stationId }
+              query: { id: frame.stationId },
+              hash: '#drop-frames'
             }}
-            as={`/trips/stations?id=${frame.stationId}`}
+            as={`/trips/stations?id=${frame.stationId}#drop-frames`}
           >
             <a className="btn btn-success flex-fill">
               Save and Return to Station

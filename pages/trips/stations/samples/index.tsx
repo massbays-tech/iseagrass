@@ -133,6 +133,7 @@ export default () => {
         name="Station"
         pathname="/trips/stations"
         id={sample.stationId}
+        hash="#indicator-samples"
       />
       <Form onSubmit={(e) => e.preventDefault()} className="px-3">
         <h3 className="font-weight-light">Sample {i + 1}</h3>
@@ -196,9 +197,11 @@ export default () => {
           <Link
             href={{
               pathname: '/trips/stations',
-              query: { id: sample.stationId }
+              query: { id: sample.stationId },
+              hash: '#indicator-samples'
             }}
-            as={`/trips/stations?id=${sample.stationId}`}
+            scroll={false}
+            as={`/trips/stations?id=${sample.stationId}#indicator-samples`}
           >
             <a className="btn btn-success flex-fill">Save and Back</a>
           </Link>
