@@ -1,6 +1,6 @@
 import stringify from 'csv-stringify'
 import * as admin from 'firebase-admin'
-import { compact, flatten, keys, map, mapKeys, pickBy, range } from 'lodash'
+import { compact, flatten, keys, mapKeys, pickBy, range } from 'lodash'
 import { DropFrame, Sample, SecchiDrop, Trip } from 'models'
 import { NextApiRequest, NextApiResponse } from 'next'
 const cert = JSON.parse(process.env.FIREBASE_CONFIG ?? '{}')
@@ -12,87 +12,64 @@ if (!admin.apps.length) {
 }
 
 interface DropFrameRow {
-  picture?: boolean
-  picture_taken_at?: string
-  mud?: boolean
-  clay?: boolean
-  sand?: boolean
-  gravel?: boolean
-  cobble?: boolean
-  coverage?: string
-  notes?: string
-}
-
-interface SampleShoot {
-  length?: string
-  width?: string
-  disease_coverage?: string
-  epiphyte_coverage?: string
+  drop_frame_id: number
+  drop_frame_picture: boolean
+  drop_frame_picture_time: string
+  drop_frame_sediment: string
+  drop_frame_eelgrass_cover: string
+  drop_frame_notes: string
 }
 
 interface SampleRow {
-  units?: string
-  picture?: boolean
-  picture_taken_at: string
-  shoots?: SampleShoot[]
-  notes?: string
+  sample_id: number
+  sample_picture: boolean
+  sample_picture_time: string
+  sample_notes: string
+  shoot_length: number
+  shoot_length_units: 'cm'
+  shoot_width: number
+  shoot_width_units: 'mm'
+  shoot_disease_coverage: string
+  shoot_epiphyte_coverage: string
 }
 
-// Row
-interface Row {
-  // Trip Columns
-  boat?: string
-  uuid?: string
-  crew?: string
-  // Station Columns
-  station_id?: string
-  station_harbor?: string
-  station_is_indicator_station?: boolean
-  station_notes?: string
-  // Weather
-  wind?: string
-  wind_direction?: string
-  sea?: string
-  clouds?: string
-  tide?: string
-  // Location
-  longitude?: string
-  latitude?: string
-  device?: string
-  // Secci
-  secchi_depth?: string
-  secchi_unit?: string
-  secchi_time?: string
-  secchi_notes?: string
-  drop_1_depth?: string
-  drop_1_unit?: string
-  drop_1_hit_bottom?: boolean
-  drop_2_depth?: string
-  drop_2_unit?: string
-  drop_2_hit_bottom?: boolean
+const EmptyFrame: DropFrameRow = {
+  drop_frame_id: undefined,
+  drop_frame_picture: undefined,
+  drop_frame_picture_time: undefined,
+  drop_frame_sediment: undefined,
+  drop_frame_eelgrass_cover: undefined,
+  drop_frame_notes: undefined
+}
 
-  // Drop Frame
+const EmptySample: SampleRow = {
+  sample_id: undefined,
+  sample_picture: undefined,
+  sample_picture_time: undefined,
+  sample_notes: undefined,
+  shoot_length: undefined,
+  shoot_length_units: undefined,
+  shoot_width: undefined,
+  shoot_width_units: undefined,
+  shoot_disease_coverage: undefined,
+  shoot_epiphyte_coverage: undefined
 }
 
 // zip takes any number of arrays of objects and merges them such that
 // the first elements of each are merged and the second elements of each
 // are merged and so on - if
-const zip = (anchor: any, ...arrays) => {
-  console.log('HELP', arrays)
-  let r = []
-  for (let i = 0; i < Math.max(...map(arrays, 'length')); i++) {
-    let o = { ...anchor }
-    for (let a of arrays) {
-      if (i < a.length) {
-        o = { ...o, ...a[i] }
-      }
+const zip = (row, frames, samples) => {
+  let rows = []
+  for (let r of frames) {
+    for (let s of samples) {
+      rows.push({
+        ...row,
+        ...r,
+        ...s
+      })
     }
-    r.push(o)
   }
-  if (r.length == 0) {
-    return [anchor]
-  }
-  return r
+  return rows
 }
 
 const secchiDrops = (drops: SecchiDrop[], start: number = 0) => {
@@ -112,7 +89,7 @@ const secchiDrops = (drops: SecchiDrop[], start: number = 0) => {
 }
 
 const frame = (f: DropFrame, i: number): any => ({
-  drop_frame_id: i,
+  drop_frame_id: i + 1,
   drop_frame_picture: f.picture,
   drop_frame_picture_time: f.pictureTakenAt,
   drop_frame_sediment: keys(pickBy(f.sediments, (v) => !!v))
@@ -123,11 +100,12 @@ const frame = (f: DropFrame, i: number): any => ({
 })
 
 const sample = (s: Sample, i: number): any => {
-  return s.shoots.map((shoot) => ({
-    sample_id: i,
+  return s.shoots.map((shoot, n) => ({
+    sample_id: i + 1,
     sample_picture: s.picture,
     sample_picture_time: s.pictureTakenAt,
     sample_notes: s.notes,
+    shoot_id: n + 1,
     shoot_length: shoot.length,
     shoot_length_units: 'cm',
     shoot_width: shoot.width,
@@ -137,12 +115,10 @@ const sample = (s: Sample, i: number): any => {
   }))
 }
 
-const cols = ['length', 'width', 'disease_coverage', 'epiphyte_coverage']
-const sampleColumns = (i: number) =>
-  flatten(range(i).map((j) => cols.map((c) => `shoot_${j}_${c}`))).reduce(
-    (map, c) => ({ ...map, [c]: undefined }),
-    {}
-  )
+const ensure = <T>(arr: T[], obj: T, n: number): T[] =>
+  arr.length == n
+    ? arr
+    : arr.concat(range(0, n - arr.length).map(() => ({ ...obj })))
 
 const csv = (
   input: stringify.Input,
@@ -177,8 +153,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   let rows = []
   for (let s of transformed.stations) {
     const { weather, location, secchi } = s
-    const frames = s.frames.map(frame)
-    const samples = flatten(s.samples.map(sample))
+    const frames = ensure(s.frames.map(frame), EmptyFrame, 4)
+    const samples = ensure(flatten(s.samples.map(sample)), EmptySample, 12)
     let row = {
       boat: trip.boat,
       date: transformed.date.toISOString(),
@@ -203,7 +179,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       water_unit: secchi?.unit,
       secchi_time: secchi?.time,
       secchi_notes: secchi?.notes,
-      ...secchiDrops(secchi?.drops ?? []),
+      ...secchiDrops(secchi?.drops ?? [], 1),
       // Drop Frame
       drop_frame_id: undefined,
       drop_frame_picture: undefined,
@@ -215,6 +191,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       sample_id: undefined,
       sample_picture: undefined,
       sample_picture_time: undefined,
+      shoot_id: undefined,
       shoot_length: undefined,
       shoot_length_units: undefined,
       shoot_width: undefined,
