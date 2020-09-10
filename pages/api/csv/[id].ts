@@ -60,14 +60,14 @@ const EmptySample: SampleRow = {
 // are merged and so on - if
 const zip = (row, frames, samples) => {
   let rows = []
-  for (let r of frames) {
-    for (let s of samples) {
-      rows.push({
-        ...row,
-        ...r,
-        ...s
-      })
-    }
+  for (let i = 0; i < samples.length; i++) {
+    const s = samples[i]
+    const r = frames[Math.floor(i / 3)]
+    rows.push({
+      ...row,
+      ...r,
+      ...s
+    })
   }
   return rows
 }
