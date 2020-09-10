@@ -28,7 +28,7 @@ export const StationInfo = ({
   const complete = !!data.stationId && !!data.harbor
   return (
     <Section
-      title="Station Info"
+      title={`Station ${data.stationId}`}
       complete={complete}
       className={className}
       open={open}
