@@ -32,6 +32,7 @@ export const SecchiDrop = ({ i, onChange, drop }: SecchiDropProps) => {
           required
           inputMode="decimal"
           value={drop.depth}
+          disabled={drop.hitBottom}
           onChange={(e) =>
             onChange({
               ...drop,
@@ -41,7 +42,7 @@ export const SecchiDrop = ({ i, onChange, drop }: SecchiDropProps) => {
         />
       </div>
       <div className="col-6 align-items-end mb-2 d-flex justify-content-end">
-        <Label className="mb-0">
+        <Label className="mb-0 align-items-center d-flex">
           Hit Bottom?
           <input
             className="ml-3"
@@ -51,6 +52,7 @@ export const SecchiDrop = ({ i, onChange, drop }: SecchiDropProps) => {
             onChange={(e) =>
               onChange({
                 ...drop,
+                depth: e.target.checked ? '' : drop.depth,
                 hitBottom: e.target.checked
               })
             }
