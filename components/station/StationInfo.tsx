@@ -50,8 +50,8 @@ export const StationInfo = ({
               }}
             />
           </div>
-          <div className="col-6 align-items-end mb-2 d-flex justify-content-end">
-            <Label check className="d-flex flex-fill justify-content-end">
+          <div className="col-6 align-items-end d-flex justify-content-end">
+            <label className="d-flex flex-fill justify-content-end align-items-center form-check-label mb-2">
               Indicator Station?
               <input
                 className="ml-3"
@@ -65,7 +65,14 @@ export const StationInfo = ({
                   })
                 }
               />
-            </Label>
+            </label>
+            <style jsx>{`
+              @media (max-width: 379px) {
+                label {
+                  margin-bottom: 0px !important;
+                }
+              }
+            `}</style>
           </div>
         </FormGroup>
         <FormGroup>
