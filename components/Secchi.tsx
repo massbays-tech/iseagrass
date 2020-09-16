@@ -1,5 +1,4 @@
 import { Secchi as SecchiModel, SecchiDrop as SecchiDropModel } from 'models'
-import { useEffect } from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
 import { UnitInput } from './UnitInput'
 
@@ -74,19 +73,17 @@ export const Secchi: React.FC<Props> = ({
   setSecchi,
   className
 }: Props) => {
-  useEffect(() => {
-    if (!secchi.time) {
-      const now = new Date()
-      const time = `${now
-        .getHours()
-        .toString()
-        .padStart(2, '0')}:${now.getMinutes()}`
-      setSecchi({
-        ...secchi,
-        time
-      })
-    }
-  }, [secchi.time])
+  const now = () => {
+    const now = new Date()
+    const time = `${now
+      .getHours()
+      .toString()
+      .padStart(2, '0')}:${now.getMinutes()}`
+    setSecchi({
+      ...secchi,
+      time
+    })
+  }
   const onUnitChange = () => {
     const units = {
       ft: 'm',
@@ -121,7 +118,14 @@ export const Secchi: React.FC<Props> = ({
         </small>
       </FormGroup>
       <FormGroup>
-        <Label for="time">Time</Label>
+        <div className="d-flex align-items-center justify-content-between">
+          <Label for="time" className="mb-0">
+            Time
+          </Label>
+          <button className="btn btn-link" type="button" onClick={now}>
+            Now
+          </button>
+        </div>
         <Input
           type="time"
           id="time"
