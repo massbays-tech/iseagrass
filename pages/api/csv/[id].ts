@@ -150,6 +150,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     date: trip.date.toDate()
   }
 
+  const date = transformed.date.toISOString()
+  const crew = compact(trip.crew).join(',')
+
   let rows = []
   for (let s of transformed.stations) {
     const { weather, location, secchi } = s
@@ -157,9 +160,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const samples = ensure(flatten(s.samples.map(sample)), EmptySample, 12)
     let row = {
       boat: trip.boat,
-      date: transformed.date.toISOString(),
+      date,
       uuid: trip.uuid,
-      crew: compact(trip.crew).join(','),
+      crew,
       station_id: s.stationId,
       station_harbor: s.harbor,
       indicator_station: s.isIndicatorStation,
@@ -204,8 +207,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
   const data = await csv(rows, { header: true })
 
+  const name = `trip_on_${date}_with_${compact(trip.crew)
+    .join('_')
+    .toLowerCase()}.csv`
   res.setHeader('Content-Type', 'text/csv')
-  res.setHeader('Content-Disposition', 'attachment; filename=trip.csv')
+  res.setHeader('Content-Disposition', `attachment; filename=${name}`)
   res.status(200).send(data)
   //res.status(200).send({})
 }
