@@ -12,9 +12,12 @@ export const Navbar: React.FC<unknown> = () => {
               src="/static/iseagrass.png"
               width="30"
               height="30"
-              className="d-inline-block align-top mr-2"
+              className="d-inline-block align-top mr-2 rounded-circle"
               alt=""
               loading="lazy"
+              style={{
+                backgroundColor: '#0fabff'
+              }}
             />
             iSeaGrass
           </a>
