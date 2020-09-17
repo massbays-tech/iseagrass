@@ -1,4 +1,5 @@
 import { BackLink, Camera, DataError, Loading } from 'components'
+import { Button as HelpButton, EelgrassPercentCoverHelp } from 'components/help'
 import { DROP_FRAME_STORE } from 'db'
 import { useDropFrame } from 'hooks'
 import { toLower } from 'lodash'
@@ -104,7 +105,14 @@ export default () => {
           ))}
         </ul>
         <FormGroup>
-          <Label for="eelgrass-coverage">Eelgrass Percentage Cover</Label>
+          <div className="mb-2 d-flex align-items-center justify-content-between">
+            <Label for="eelgrass-coverage" className="mb-0">
+              Eelgrass Percentage Cover
+            </Label>
+            <HelpButton title="Eelgrass Percent Cover">
+              <EelgrassPercentCoverHelp />
+            </HelpButton>
+          </div>
           <CustomInput
             type="select"
             id="eelgrass-coverage"

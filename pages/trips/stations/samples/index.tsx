@@ -1,4 +1,9 @@
 import { BackLink, Camera, DataError, Loading, UnitInput } from 'components'
+import {
+  Button as HelpButton,
+  LengthHelp,
+  WastingDiseaseCoverageHelp
+} from 'components/help'
 import { SAMPLE_STORE } from 'db'
 import { useSample } from 'hooks'
 import { IndicatorShoot, Sample } from 'models'
@@ -16,8 +21,11 @@ interface ShootProps {
 
 const Shoot = ({ i, shoot, setShoot }: ShootProps) => (
   <div className="my-5">
-    <div>
+    <div className="mb-2 d-flex align-items-center justify-content-between">
       <h5 className="font-weight-light">Shoot {i + 1}</h5>
+      <HelpButton title="Length">
+        <LengthHelp />
+      </HelpButton>
     </div>
     <FormGroup>
       <UnitInput
@@ -44,7 +52,14 @@ const Shoot = ({ i, shoot, setShoot }: ShootProps) => (
       />
     </FormGroup>
     <FormGroup>
-      <Label for="disease-coverage">Wasting Disease Coverage</Label>
+      <div className="mb-2 d-flex align-items-center justify-content-between">
+        <Label for="disease-coverage" className="mb-0">
+          Wasting Disease Coverage
+        </Label>
+        <HelpButton title="Wasting Disease Coverage">
+          <WastingDiseaseCoverageHelp />
+        </HelpButton>
+      </div>
       <CustomInput
         type="select"
         id="disease-coverage"
