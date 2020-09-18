@@ -55,9 +55,7 @@ const LiveLocation = ({ onChange }) => {
   })
   const result = new UAParser()
   const device = result.getDevice().vendor
-    ? `${result.getDevice().vendor} ${result.getDevice().type} ${
-        result.getDevice().model
-      }`
+    ? `${result.getDevice().vendor} ${result.getDevice().model}`
     : undefined
   useEffect(() => {
     onChange({
