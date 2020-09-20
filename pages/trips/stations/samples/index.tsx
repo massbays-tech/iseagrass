@@ -122,9 +122,7 @@ export default () => {
   const i = parseInt(router.query.i as string)
 
   const deleteSample = async () => {
-    const response = confirm(
-      'Are you sure you want to delete this indicator info?'
-    )
+    const response = confirm('Are you sure you want to delete this sample?')
     if (response) {
       await db.delete(SAMPLE_STORE, sample.id)
       router.push({
