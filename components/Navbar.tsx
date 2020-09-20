@@ -16,7 +16,7 @@ export const Navbar: React.FC<unknown> = () => {
               alt=""
               loading="lazy"
               style={{
-                backgroundColor: '#0fabff'
+                backgroundColor: 'white'
               }}
             />
             iSeaGrass
