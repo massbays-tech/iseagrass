@@ -17,6 +17,33 @@ const Backdrop = ({ onClick }) => (
   />
 )
 
+const SettingsOpen = () => (
+  <Container>
+    <Row className="mt-3">
+      <Col xs="6">Version</Col>
+      <Col xs="6" className="d-flex justify-content-end">
+        {version}
+      </Col>
+    </Row>
+    <Row className="mt-3">
+      <Col xs="6 d-flex align-items-center">Reload App</Col>
+      <Col xs="6" className="d-flex justify-content-end">
+        <Button color="info" onClick={() => window.location.reload(true)}>
+          Reload
+        </Button>
+      </Col>
+    </Row>
+    <Row className="mt-3">
+      <Col xs="6">Developed By</Col>
+      <Col xs="6" className="d-flex justify-content-end">
+        <a href="https://ethanmick.com" target="_blank">
+          Ethan Mick
+        </a>
+      </Col>
+    </Row>
+  </Container>
+)
+
 export const Settings: React.FC<unknown> = () => {
   const [open, setOpen] = useState(false)
   const toggle = () => setOpen(!open)
@@ -47,27 +74,7 @@ export const Settings: React.FC<unknown> = () => {
             </Button>
           </Col>
         </Row>
-        {open && (
-          <Container>
-            <Row className="mt-3">
-              <Col xs="6">Version</Col>
-              <Col xs="6" className="d-flex justify-content-end">
-                {version}
-              </Col>
-            </Row>
-            <Row className="mt-3">
-              <Col xs="6 d-flex align-items-center">Reload App</Col>
-              <Col xs="6" className="d-flex justify-content-end">
-                <Button
-                  color="info"
-                  onClick={() => window.location.reload(true)}
-                >
-                  Reload
-                </Button>
-              </Col>
-            </Row>
-          </Container>
-        )}
+        {open && <SettingsOpen />}
       </div>
     </>
   )
