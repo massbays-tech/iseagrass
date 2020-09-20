@@ -79,7 +79,7 @@ export default () => {
         <Link href="/">
           <a className="d-flex align-items-center ml-2 py-2">
             <ChevronLeft />
-            <span>Back to Protocol</span>
+            <span>Back to Home</span>
           </a>
         </Link>
         <Row noGutters className="justify-content-between p-3">
