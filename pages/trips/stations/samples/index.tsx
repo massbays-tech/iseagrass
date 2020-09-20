@@ -152,7 +152,7 @@ export default () => {
   return (
     <>
       <BackLink
-        name="Station"
+        name={`Station ${sample.stationId}`}
         pathname="/trips/stations"
         id={sample.stationId}
         hash="#indicator-samples"

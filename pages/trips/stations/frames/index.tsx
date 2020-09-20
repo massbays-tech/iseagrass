@@ -73,7 +73,7 @@ export default () => {
   return (
     <>
       <BackLink
-        name="Station"
+        name={`Station ${frame.stationId}`}
         pathname="/trips/stations"
         hash="#drop-frames"
         id={frame.stationId}
