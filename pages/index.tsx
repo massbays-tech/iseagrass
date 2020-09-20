@@ -1,3 +1,4 @@
+import { Settings } from 'components'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -10,7 +11,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="my-3">
+      <div className="py-3">
         <Row noGutters className="px-3">
           <Col xs="12" md="6">
             <img src="/static/mf_logo_blue.png" className="w-100" />
@@ -49,6 +50,7 @@ export default function Home() {
           </Link>
         </Col>
       </div>
+      <Settings />
       <PWAPrompt
         timesToShow={3}
         delay={500}

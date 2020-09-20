@@ -1,4 +1,4 @@
-import { ChevronLeft, DataError, Loading, Settings } from 'components'
+import { ChevronLeft, DataError, Loading } from 'components'
 import { TRIP_STORE } from 'db'
 import { useDBQuery } from 'hooks'
 import { Trip } from 'models'
@@ -100,7 +100,6 @@ export default function Home() {
           </Link>
         ))}
       </ListGroup>
-      <Settings />
       <PWAPrompt
         timesToShow={3}
         delay={500}
