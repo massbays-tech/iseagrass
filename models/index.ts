@@ -36,7 +36,6 @@ export interface IndicatorShoot {
 export interface Sample {
   id?: number
   stationId: number
-  units: string
   picture: boolean
   pictureTakenAt: string
   shoots: IndicatorShoot[]
@@ -116,7 +115,6 @@ export const validIndicatorShoot = (shoot: IndicatorShoot): boolean =>
   !!shoot.width
 
 export const validSample = (s: Sample): boolean =>
-  !!s.units &&
   ((s.picture && !!s.pictureTakenAt) || !s.picture) &&
   s.shoots.filter(validIndicatorShoot).length == s.shoots.length
 

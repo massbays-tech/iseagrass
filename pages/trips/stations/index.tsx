@@ -81,8 +81,9 @@ const CollapseSamples = ({
   passRef,
   toggle
 }: CollapseSampleProps) => {
-  const complete = filter(samples, validSample).length == samples.length
   const framesWith = frames.filter(hasEelgrass)
+  const complete = filter(samples, validSample).length == framesWith.length
+  console.log(samples)
   return (
     <Section
       title={`Indicator Sample ${samples.length}/${framesWith.length}`}
@@ -236,7 +237,6 @@ export default () => {
     e.preventDefault()
     const id = await db.put(SAMPLE_STORE, {
       stationId: station.id,
-      units: '',
       picture: false,
       pictureTakenAt: '',
       shoots: [

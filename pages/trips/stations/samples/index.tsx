@@ -78,7 +78,14 @@ const Shoot = ({ i, shoot, setShoot }: ShootProps) => (
       </CustomInput>
     </FormGroup>
     <FormGroup>
-      <Label for="epiphyte-coverage">Epiphyte coverage</Label>
+      <div className="mb-2 d-flex align-items-center justify-content-between">
+        <Label for="epiphyte-coverage" className="mb-0">
+          Epiphyte coverage
+        </Label>
+        <HelpButton title="Wasting Disease Coverage">
+          <WastingDiseaseCoverageHelp />
+        </HelpButton>
+      </div>
       <CustomInput
         type="select"
         id="epiphyte-coverage"
