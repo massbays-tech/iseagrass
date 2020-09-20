@@ -120,7 +120,8 @@ export const validSample = (s: Sample): boolean =>
   ((s.picture && !!s.pictureTakenAt) || !s.picture) &&
   s.shoots.filter(validIndicatorShoot).length == s.shoots.length
 
-export const validSecchiDrop = (s: SecchiDrop): boolean => !!s.depth && !!s.unit
+export const validSecchiDrop = (s: SecchiDrop): boolean =>
+  s.hitBottom || (!!s.depth && !!s.unit)
 
 export const validSecchi = (s: Secchi): boolean =>
   !!s.depth &&
