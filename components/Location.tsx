@@ -14,7 +14,9 @@ interface ErrorMessageProps {
   children: React.ReactNode
 }
 
-const ErrorMessage = ({ children }: ErrorMessageProps) => <div>{children}</div>
+const ErrorMessage = ({ children }: ErrorMessageProps) => (
+  <div className="text-danger">Error: {children}</div>
+)
 
 const ensureNegative = (s: string): string => (s.startsWith('-') ? s : `-${s}`)
 
