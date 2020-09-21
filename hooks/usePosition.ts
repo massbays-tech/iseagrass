@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+export const TimeoutError = 'Timeout expired'
+
 const defaultSettings = {
   enableHighAccuracy: false,
   timeout: Infinity,
@@ -26,9 +28,12 @@ export const usePosition = (
   settings: Settings = defaultSettings
 ) => {
   const [position, setPosition] = useState<Position>({ loading: true })
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(undefined)
 
   const onChange: PositionCallback = ({ coords, timestamp }) => {
+    if (error && coords.latitude && coords.longitude) {
+      setError(undefined)
+    }
     setPosition({
       loading: false,
       latitude: coords.latitude,
