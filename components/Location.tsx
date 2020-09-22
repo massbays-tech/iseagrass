@@ -1,5 +1,5 @@
 import { usePosition } from 'hooks'
-import { filter, toString, values } from 'lodash'
+import { filter, values } from 'lodash'
 import { Button, Col, Input, Label } from 'reactstrap'
 import { UAParser } from 'ua-parser-js'
 import { distance } from 'utils'
@@ -45,7 +45,6 @@ export const Location = ({
     timeout: 5000,
     enableHighAccuracy: true
   })
-
   const fromDevice = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     const result = new UAParser()
@@ -53,8 +52,8 @@ export const Location = ({
       ? `${result.getDevice().vendor} ${result.getDevice().model}`
       : undefined
     onChange({
-      latitude: toString(latitude),
-      longitude: toString(longitude),
+      latitude: latitude.toFixed(6),
+      longitude: longitude.toFixed(6),
       device
     })
   }
@@ -63,7 +62,9 @@ export const Location = ({
       ? distance(location.latitude, location.longitude, latitude, longitude)
       : -1
   const distString =
-    dist > 0 ? `Distance from last taken location is ${dist} meters.` : ''
+    dist > 0
+      ? `Distance from last taken location is ${dist.toFixed(1)} meters.`
+      : ''
 
   const complete = filter(values(location), (v) => !v).length == 0
   return (
@@ -94,7 +95,7 @@ export const Location = ({
           {latitude && (
             <div>
               <small className="text-black-50" style={{ marginLeft: 12 }}>
-                ({latitude})
+                ({latitude.toFixed(6)})
               </small>
             </div>
           )}
@@ -117,7 +118,7 @@ export const Location = ({
           {longitude && (
             <div>
               <small className="text-black-50" style={{ marginLeft: 12 }}>
-                ({longitude})
+                ({longitude.toFixed(6)})
               </small>
             </div>
           )}
