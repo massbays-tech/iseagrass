@@ -2,6 +2,7 @@ import { usePosition } from 'hooks'
 import { filter, toString, values } from 'lodash'
 import { Button, Col, Input, Label } from 'reactstrap'
 import { UAParser } from 'ua-parser-js'
+import { distance } from 'utils'
 import { Section, Toggle } from './station'
 
 export interface LocationUpdate {
@@ -14,6 +15,8 @@ interface ErrorMessageProps {
   children: React.ReactNode
 }
 
+// Reset-> Reset Location & Privacy.
+// user denied geolocation
 const ErrorMessage = ({ children }: ErrorMessageProps) => (
   <div className="text-danger">Error: {children}</div>
 )
@@ -55,9 +58,14 @@ export const Location = ({
       device
     })
   }
+  const dist =
+    location.latitude && location.longitude && latitude && longitude
+      ? distance(location.latitude, location.longitude, latitude, longitude)
+      : -1
+  const distString =
+    dist > 0 ? `Distance from last taken location is ${dist} meters.` : ''
 
   const complete = filter(values(location), (v) => !v).length == 0
-  console.log(latitude, longitude, error)
   return (
     <Section
       title="Location"
@@ -132,7 +140,7 @@ export const Location = ({
           </div>
           {error && <ErrorMessage>{error}</ErrorMessage>}
           <small className="text-black-50 d-block">
-            This device is accurate within {accuracy} meters.
+            This device is accurate within {accuracy} meters. {distString}
           </small>
         </Col>
         <Col xs="12" className="p-0">
