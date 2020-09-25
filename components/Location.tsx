@@ -6,6 +6,7 @@ import { distance } from 'utils'
 import { Section, Toggle } from './station'
 
 export interface LocationUpdate {
+  accuracy?: number
   latitude: string
   longitude: string
   device: string
@@ -52,6 +53,7 @@ export const Location = ({
       ? `${result.getDevice().vendor} ${result.getDevice().model}`
       : undefined
     onChange({
+      accuracy,
       latitude: latitude.toFixed(6),
       longitude: longitude.toFixed(6),
       device
@@ -61,6 +63,7 @@ export const Location = ({
     location.latitude && location.longitude && latitude && longitude
       ? distance(location.latitude, location.longitude, latitude, longitude)
       : -1
+  console.log('dist', dist)
   const distString =
     dist > 0
       ? `Distance from last taken location is ${dist.toFixed(1)} meters.`
@@ -129,20 +132,17 @@ export const Location = ({
               color="info"
               onClick={fromDevice}
               className="w-100"
-              disabled={
-                !latitude ||
-                !longitude ||
-                (+location.latitude == latitude &&
-                  +location.longitude == longitude)
-              }
+              disabled={!latitude || !longitude}
             >
               Update From Device
             </Button>
           </div>
           {error && <ErrorMessage>{error}</ErrorMessage>}
-          <small className="text-black-50 d-block">
-            This device is accurate within {accuracy} meters. {distString}
-          </small>
+          {accuracy && (
+            <small className="text-black-50 d-block">
+              This device is accurate within {accuracy} meters. {distString}
+            </small>
+          )}
         </Col>
         <Col xs="12" className="p-0">
           <Label for="gpsDevice">GPS Device</Label>

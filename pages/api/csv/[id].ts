@@ -176,6 +176,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // Location
       longitude: location?.longitude,
       latitude: location?.latitude,
+      accuracy: location?.accuracy,
       device: location?.device,
       // Secci
       water_depth: secchi?.depth,

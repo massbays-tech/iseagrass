@@ -91,6 +91,7 @@ export default () => {
       harbor: prev?.harbor ?? '',
       notes: '',
       location: {
+        accuracy: undefined,
         longitude: '',
         latitude: '',
         device: prev?.location?.device ?? ''

@@ -5,6 +5,7 @@ export interface SecchiDrop {
 }
 
 export interface Location {
+  accuracy?: number
   longitude: string
   latitude: string
   device: string
