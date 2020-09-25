@@ -123,7 +123,7 @@ export const Secchi: React.FC<Props> = ({
             Time
           </Label>
           <button className="btn btn-link" type="button" onClick={now}>
-            Now
+            Update
           </button>
         </div>
         <Input
