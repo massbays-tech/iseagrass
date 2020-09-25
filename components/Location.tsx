@@ -63,7 +63,6 @@ export const Location = ({
     location.latitude && location.longitude && latitude && longitude
       ? distance(location.latitude, location.longitude, latitude, longitude)
       : -1
-  console.log('dist', dist)
   const distString =
     dist > 0
       ? `Distance from last taken location is ${dist.toFixed(1)} meters.`

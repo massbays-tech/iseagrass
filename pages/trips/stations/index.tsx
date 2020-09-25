@@ -83,7 +83,6 @@ const CollapseSamples = ({
 }: CollapseSampleProps) => {
   const framesWith = frames.filter(hasEelgrass)
   const complete = filter(samples, validSample).length == framesWith.length
-  console.log(samples)
   return (
     <Section
       title={`Indicator Sample ${samples.length}/${framesWith.length}`}
