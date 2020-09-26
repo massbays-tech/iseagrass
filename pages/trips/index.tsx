@@ -3,6 +3,7 @@ import { STATION_STORE, TRIP_STORE } from 'db'
 import { useTrip } from 'hooks'
 import { compact, last, union, uniq } from 'lodash'
 import { Trip } from 'models'
+import moment from 'moment'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Button, Form, FormGroup, FormText, Input, Label } from 'reactstrap'
@@ -200,6 +201,12 @@ export default () => {
             Requires Internet. This will upload the current trip data to the
             server. You can upload multiple times if you want and only the most
             recent will be saved.
+            {trip.uploadedAt && (
+              <strong>
+                {' '}
+                Uploaded at {moment(trip.uploadedAt).format('MMMM Do, YYYY')}.
+              </strong>
+            )}
           </small>
         </div>
         <div className="my-2">
