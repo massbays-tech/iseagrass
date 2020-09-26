@@ -22,6 +22,9 @@ export const Navbar: React.FC<unknown> = () => {
             iSeaGrass
           </a>
         </Link>
+        <Link href="/data">
+          <a className="d-none d-md-block text-white">Download Data</a>
+        </Link>
       </Container>
     </RSNavbar>
   )
