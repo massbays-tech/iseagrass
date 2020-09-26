@@ -206,7 +206,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
     rows.push(...zip(row, frames, samples))
   }
-  const data = await csv(rows, { header: true })
+  const data = await csv(rows, {
+    header: true,
+    cast: {
+      boolean: (b: boolean) => (b ? '1' : '0')
+    }
+  })
 
   const name = `trip_on_${date}_with_${compact(trip.crew)
     .join('_')
