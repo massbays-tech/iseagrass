@@ -11,15 +11,17 @@ import { Button, ListGroup } from 'reactstrap'
 
 interface BlankSlateProps {
   onClick: (e: React.MouseEvent) => any
+  disableCreate: boolean
 }
 
 const BlankSlate: React.FC<BlankSlateProps> = ({
-  onClick
+  onClick,
+  disableCreate
 }: BlankSlateProps) => (
   <div className="bg-light p-5 text-center">
-    <div style={{ fontSize: '1.25rem' }}>No Indicator Info</div>
-    <Button onClick={onClick} color="link">
-      Add
+    <div style={{ fontSize: '1.25rem' }}>No Indicator Samples</div>
+    <Button onClick={onClick} color="link" disabled={disableCreate}>
+      Add Indicator Sample
     </Button>
   </div>
 )
@@ -77,12 +79,19 @@ const SampleItem = ({ i, sample }: SampleItemProps) => (
   </li>
 )
 
+export interface SamplesProps {
+  samples: Sample[]
+  onCreate: (e: React.MouseEvent) => void
+  disableCreate?: boolean
+}
+
 export const SampleList: React.FC<SamplesProps> = ({
   samples,
-  onCreate
+  onCreate,
+  disableCreate
 }: SamplesProps) => {
   if (!samples || samples.length == 0) {
-    return <BlankSlate onClick={onCreate} />
+    return <BlankSlate onClick={onCreate} disableCreate={disableCreate} />
   }
   return (
     <>
@@ -93,12 +102,6 @@ export const SampleList: React.FC<SamplesProps> = ({
       </ListGroup>
     </>
   )
-}
-
-export interface SamplesProps {
-  samples: Sample[]
-  onCreate: (e: React.MouseEvent) => void
-  disableCreate?: boolean
 }
 
 export const Samples = ({ disableCreate, samples, onCreate }: SamplesProps) => (
@@ -113,6 +116,10 @@ export const Samples = ({ disableCreate, samples, onCreate }: SamplesProps) => (
         Add Sample
       </Button>
     </div>
-    <SampleList samples={samples} onCreate={onCreate} />
+    <SampleList
+      samples={samples}
+      onCreate={onCreate}
+      disableCreate={disableCreate}
+    />
   </>
 )
