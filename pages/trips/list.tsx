@@ -41,7 +41,6 @@ export default function Home() {
       uuid: uuid(),
       crew: [],
       date: new Date(),
-      harbor: '',
       boat: '',
       stations: []
     })

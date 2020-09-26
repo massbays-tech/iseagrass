@@ -1,11 +1,18 @@
 import { ChevronLeft, DataError, Download, Loading } from 'components'
-import { compact } from 'lodash'
-import { Trip } from 'models'
+import { compact, toLower, trim, uniq } from 'lodash'
+import { Station, Trip } from 'models'
 import moment from 'moment'
 import Link from 'next/link'
 import { useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
-import { Col, Container, ListGroup, Row, UncontrolledAlert } from 'reactstrap'
+import {
+  Col,
+  Container,
+  Input,
+  ListGroup,
+  Row,
+  UncontrolledAlert
+} from 'reactstrap'
 import useSWR from 'swr'
 
 const fetcher = (url: string, after: Date, before: Date) =>
@@ -20,6 +27,16 @@ const NoTrips = () => (
   </div>
 )
 
+const TripItemStation = ({ stations }: { stations?: Station[] }) => (
+  <>
+    {(stations ?? []).length > 0 && (
+      <span>
+        {uniq(compact(stations.map(({ harbor }) => trim(harbor)))).join(', ')}
+      </span>
+    )}
+  </>
+)
+
 interface TripItemProps {
   trip: Trip
 }
@@ -30,7 +47,8 @@ const TripItem = ({ trip }: TripItemProps) => (
       <Col xs="10">
         <div>Trip with {compact(trip.crew).join(', ')}</div>
         <small className="text-muted">
-          {moment(trip.date).format('MMMM Do, YYYY')}
+          <TripItemStation stations={trip.stations} />
+          &nbsp;on {moment(trip.date).format('MMMM Do, YYYY')}
         </small>
       </Col>
       <Col xs="2" className="d-flex align-items-center">
@@ -72,10 +90,22 @@ const Disclaimer = () => (
 export default () => {
   const [after, setAfter] = useState(moment().subtract(1, 'year').toDate())
   const [before, setBefore] = useState(new Date())
-  const { data: trips, error } = useSWR(
+  const [search, setSearch] = useState('')
+  const { data: trips, error } = useSWR<Trip[]>(
     ['/api/download', after.toISOString(), before.toISOString()],
     fetcher
   )
+
+  // Filter across a variety of elements
+  const filter = (trip: Trip) => {
+    const s = toLower(search)
+    return (
+      trip.crew.filter((c) => toLower(c).includes(s)).length > 0 ||
+      trip.stations
+        .map(({ harbor }) => toLower(harbor))
+        .filter((h) => h.includes(s)).length > 0
+    )
+  }
 
   if (error) return <DataError error={error.message} />
   let body
@@ -86,7 +116,7 @@ export default () => {
   } else {
     body = (
       <ListGroup flush className="px-2 mt-5">
-        {trips.map((trip, i) => (
+        {trips.filter(filter).map((trip) => (
           <TripItem trip={trip} key={trip.uuid} />
         ))}
       </ListGroup>
@@ -122,6 +152,17 @@ export default () => {
             <ReactDatePicker
               selected={before}
               onChange={(date: Date) => setBefore(date)}
+            />
+          </Col>
+        </Row>
+        <Row className="mt-3">
+          <Col xs="12">
+            <Input
+              type="text"
+              id="filter"
+              placeholder="Filter trips"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </Col>
         </Row>

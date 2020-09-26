@@ -98,7 +98,6 @@ export interface Trip {
   id?: number
   uuid: string
   date: Date
-  harbor: string
   boat: string
   crew: string[]
   stations?: Station[]
