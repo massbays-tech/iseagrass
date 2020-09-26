@@ -10,6 +10,11 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <meta charSet="UTF-8" />
           <link rel="manifest" href="/manifest.json" />
           <link
             rel="apple-touch-icon"
@@ -36,6 +41,12 @@ class MyDocument extends Document {
           <meta name="theme-color" content="#ffffff" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-title" content="iSeaGrass" />
+
+          <meta
+            name="description"
+            content="A webapp to facilitate data collection of seagrass presence and health by citizen and professional scientists."
+          />
+          <meta name="robots" content="index, follow" />
         </Head>
         <body>
           <Main />
