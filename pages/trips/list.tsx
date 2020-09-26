@@ -1,7 +1,15 @@
-import { ChevronLeft, DataError, Loading } from 'components'
+import {
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Compass,
+  DataError,
+  Loading
+} from 'components'
 import { TRIP_STORE } from 'db'
 import { useDBQuery } from 'hooks'
-import { Trip } from 'models'
+import { compact, trim, uniq } from 'lodash'
+import { Station, Trip } from 'models'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
@@ -27,6 +35,44 @@ const NoTrips = ({ onClick }: NoTripProps) => (
       </Button>
     </Col>
   </div>
+)
+
+const TripItemStation = ({ stations }: { stations?: Station[] }) => (
+  <>
+    {(stations ?? []).length > 0 && (
+      <span>
+        {uniq(compact(stations.map(({ harbor }) => trim(harbor)))).join(', ')}
+      </span>
+    )}
+  </>
+)
+
+const TripItem = ({ trip }: { trip: Trip }) => (
+  <Link
+    key={trip.id}
+    href={{ pathname: '/trips', query: { id: trip.id } }}
+    as={`/trips?id=${trip.id}`}
+  >
+    <a className="list-group-item text-dark p-2 d-flex justify-content-start align-items-center">
+      {trip.uploaded == 'uploaded' ? (
+        <Check className="text-success" />
+      ) : (
+        <Compass className="text-info" />
+      )}
+      <div className="ml-3">
+        <div>
+          Trip {trip.id} with {compact(trip.crew).join(', ')}
+        </div>
+        <small className="text-muted">
+          <TripItemStation stations={trip.stations} /> on{' '}
+          {moment(trip.date).format('MMMM Do, YYYY')} &bull;{' '}
+          {trip.uploaded == 'uploaded' ? 'uploaded' : 'not uploaded'}
+        </small>
+      </div>
+      <div className="flex-fill" />
+      <ChevronRight />
+    </a>
+  </Link>
 )
 
 export default function Home() {
@@ -85,18 +131,7 @@ export default function Home() {
       </Row>
       <ListGroup flush className="px-2">
         {trips.map((trip) => (
-          <Link
-            key={trip.id}
-            href={{ pathname: '/trips', query: { id: trip.id } }}
-            as={`/trips?id=${trip.id}`}
-          >
-            <a className="list-group-item text-dark p-2">
-              <div>
-                <div>Trip {trip.id}</div>
-                <small>{moment(trip.date).format('MMMM Do, YYYY')}</small>
-              </div>
-            </a>
-          </Link>
+          <TripItem trip={trip} key={trip.uuid} />
         ))}
       </ListGroup>
       <PWAPrompt
