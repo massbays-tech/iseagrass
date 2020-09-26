@@ -160,10 +160,10 @@ export const Secchi: React.FC<Props> = ({
         />
       ))}
       <FormGroup>
-        <Label for="notes">Notes</Label>
+        <Label for="secci-notes">Notes</Label>
         <Input
           type="textarea"
-          id="notes"
+          id="secchi-notes"
           value={secchi.notes}
           onChange={(e) =>
             setSecchi({

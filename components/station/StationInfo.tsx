@@ -86,10 +86,10 @@ export const StationInfo = ({
           />
         </FormGroup>
         <FormGroup>
-          <Label for="notes">Notes</Label>
+          <Label for="station-notes">Notes</Label>
           <Input
             type="textarea"
-            id="notes"
+            id="station-notes"
             value={data.notes}
             onChange={(e) =>
               setData({
