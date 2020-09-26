@@ -129,7 +129,7 @@ export default () => {
             <option disabled hidden value="" />
             {EELGRASS_COVERAGE.map((v) => (
               <option key={v} value={v}>
-                {v}%
+                {v}
               </option>
             ))}
           </CustomInput>
