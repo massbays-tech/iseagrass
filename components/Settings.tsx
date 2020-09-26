@@ -70,6 +70,7 @@ export const Settings: React.FC<unknown> = () => {
         <Row>
           <Col xs="12" className="d-flex">
             <Button
+              aria-label="Open Settings"
               color="link"
               className="flex-fill text-left text-dark"
               onClick={toggle}
