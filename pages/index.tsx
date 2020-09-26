@@ -14,10 +14,18 @@ export default function Home() {
       <div className="py-3">
         <Row noGutters className="px-3">
           <Col xs="12" md="6">
-            <img src="/static/mf_logo_blue.png" className="w-100" />
+            <img
+              src="/static/mf_logo_blue.png"
+              className="w-100"
+              alt="Massachusetts Division of Marine Fisheries"
+            />
           </Col>
           <Col xs="12" md="6" className="mt-3 mt-md-0">
-            <img src="/static/mb_logo.jpg" className="w-100" />
+            <img
+              src="/static/mb_logo.jpg"
+              className="w-100"
+              alt="Massachusetts Bays National Estuary Partnership"
+            />
           </Col>
         </Row>
         <Col>
