@@ -1,3 +1,5 @@
+import { keys, pickBy, toLower } from 'lodash'
+
 export interface SecchiDrop {
   depth: string
   unit: string
@@ -128,3 +130,6 @@ export const validSecchi = (s: Secchi): boolean =>
 
 export const hasEelgrass = (f: DropFrame): boolean =>
   f.coverage && f.coverage !== '0'
+
+export const frameSediments = (f: DropFrame): string[] =>
+  keys(pickBy(f.sediments, (v) => !!v)).map(toLower)

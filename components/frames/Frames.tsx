@@ -1,5 +1,6 @@
-import { ChevronRight } from 'components/Icon'
-import { DropFrame } from 'models'
+import { FlexFill } from 'components/FlexFill'
+import { Check, ChevronRight, Circle } from 'components/Icon'
+import { DropFrame, frameSediments, validDropFrame } from 'models'
 import Link from 'next/link'
 import { Button, ListGroup } from 'reactstrap'
 
@@ -9,6 +10,7 @@ interface FrameItemProps {
 }
 
 const FrameItem: React.FC<FrameItemProps> = ({ i, frame }: FrameItemProps) => {
+  const sediments = frameSediments(frame)
   return (
     <li className="list-group-item">
       <Link
@@ -18,10 +20,29 @@ const FrameItem: React.FC<FrameItemProps> = ({ i, frame }: FrameItemProps) => {
         }}
         as={`/trips/stations/frames?id=${frame.id}&i=${i}`}
       >
-        <a className="text-dark d-flex justify-content-between align-items-center">
-          <div>
+        <a className="text-dark d-flex justify-content-start align-items-center">
+          {validDropFrame(frame) ? (
+            <Check width=".75rem" height=".75rem" className="text-success" />
+          ) : (
+            <Circle width=".75rem" height=".75rem" />
+          )}
+          <div className="ml-3">
             <div>Drop Frame {i + 1}</div>
+            <small className="text-black-50">
+              {frame.coverage ? (
+                <>{frame.coverage} coverage</>
+              ) : (
+                <span className="text-danger">Missing Coverage</span>
+              )}{' '}
+              &bull;{' '}
+              {sediments.length == 0 ? (
+                'No sediment'
+              ) : (
+                <>{frameSediments(frame).join(', ')}</>
+              )}
+            </small>
           </div>
+          <FlexFill />
           <ChevronRight />
         </a>
       </Link>
