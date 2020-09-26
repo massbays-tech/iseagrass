@@ -160,7 +160,7 @@ export const Secchi: React.FC<Props> = ({
         />
       ))}
       <FormGroup>
-        <Label for="secci-notes">Notes</Label>
+        <Label for="secchi-notes">Notes</Label>
         <Input
           type="textarea"
           id="secchi-notes"
