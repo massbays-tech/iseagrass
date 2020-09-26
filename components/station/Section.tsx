@@ -31,7 +31,7 @@ export const Section = ({
   const statusIcon = complete ? (
     <Check className="text-success" />
   ) : (
-    <Circle style={{ fontSize: '.75rem' }} />
+    <Circle style={{ fontSize: '.75rem' }} className="text-black-50" />
   )
   return (
     <Row className={`${className ?? 'border-bottom'}`}>
@@ -46,9 +46,10 @@ export const Section = ({
             {statusIcon}
           </div>
         )}
-        <h4 className="font-weight-light my-2">{title}</h4>
+        <h4 className="text-dark font-weight-light my-2">{title}</h4>
         <span className="flex-fill" />
         <ChevronRight
+          className="text-black-50"
           style={{
             transform: `rotate(${open ? '90' : '0'}deg)`,
             transition: '.35s ease'
@@ -58,6 +59,11 @@ export const Section = ({
       <Collapse isOpen={open} className="w-100 pb-3">
         {children}
       </Collapse>
+      <style jsx>{`
+        a:hover {
+          text-decoration: none;
+        }
+      `}</style>
     </Row>
   )
 }
