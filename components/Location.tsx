@@ -1,5 +1,5 @@
 import { usePosition } from 'hooks'
-import { filter, values } from 'lodash'
+import { filter, omit, values } from 'lodash'
 import { Button, Col, Input, Label } from 'reactstrap'
 import { UAParser } from 'ua-parser-js'
 import { distance } from 'utils'
@@ -68,7 +68,8 @@ export const Location = ({
       ? `Distance from last taken location is ${dist.toFixed(1)} meters.`
       : ''
 
-  const complete = filter(values(location), (v) => !v).length == 0
+  const complete =
+    filter(values(omit(location, ['accuracy'])), (v) => !v).length == 0
   return (
     <Section
       title="Location"
