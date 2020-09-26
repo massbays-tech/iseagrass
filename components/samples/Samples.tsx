@@ -1,5 +1,11 @@
-import { ChevronRight } from 'components/Icon'
-import { Sample } from 'models'
+import { FlexFill } from 'components/FlexFill'
+import { Check, ChevronRight, Circle } from 'components/Icon'
+import {
+  IndicatorShoot,
+  Sample,
+  validIndicatorShoot,
+  validSample
+} from 'models'
 import Link from 'next/link'
 import { Button, ListGroup } from 'reactstrap'
 
@@ -23,6 +29,26 @@ interface SampleItemProps {
   sample: Sample
 }
 
+const SampleShootSummary = (
+  shoot: IndicatorShoot,
+  i: number,
+  arr: IndicatorShoot[]
+) => (
+  <span
+    key={i}
+    className={`${validIndicatorShoot(shoot) ? '' : 'text-danger'}`}
+  >
+    {validIndicatorShoot(shoot) ? (
+      <>
+        ({shoot.length},{shoot.width})
+      </>
+    ) : (
+      `Shoot ${i + 1} incomplete`
+    )}
+    {i != arr.length - 1 && ', '}
+  </span>
+)
+
 const SampleItem = ({ i, sample }: SampleItemProps) => (
   <li className="list-group-item">
     <Link
@@ -32,10 +58,19 @@ const SampleItem = ({ i, sample }: SampleItemProps) => (
       }}
       as={`/trips/stations/samples?id=${sample.id}&i=${i}`}
     >
-      <a className="text-dark d-flex justify-content-between align-items-center">
-        <div>
-          <div>Indicator Info {i + 1}</div>
+      <a className="text-dark d-flex justify-content-start align-items-center">
+        {validSample(sample) ? (
+          <Check width=".75rem" height=".75rem" className="text-success" />
+        ) : (
+          <Circle width=".75rem" height=".75rem" />
+        )}
+        <div className="ml-3">
+          <div>Indicator Sample {i + 1}</div>
+          <small className="text-black-50">
+            {sample.shoots.map(SampleShootSummary)}
+          </small>
         </div>
+        <FlexFill />
         <ChevronRight />
       </a>
     </Link>
