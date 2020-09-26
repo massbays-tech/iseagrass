@@ -20,7 +20,12 @@ const BlankSlate: React.FC<BlankSlateProps> = ({
 }: BlankSlateProps) => (
   <div className="bg-light p-5 text-center">
     <div style={{ fontSize: '1.25rem' }}>No Indicator Samples</div>
-    <Button onClick={onClick} color="link" disabled={disableCreate}>
+    <Button
+      onClick={onClick}
+      color="link"
+      disabled={disableCreate}
+      aria-label="Add Indicator Sample"
+    >
       Add Indicator Sample
     </Button>
   </div>
@@ -108,6 +113,7 @@ export const Samples = ({ disableCreate, samples, onCreate }: SamplesProps) => (
   <>
     <div className="mb-1 mt-2 px-3 d-flex justify-content-between">
       <Button
+        aria-label="Add Sample"
         color="primary"
         outline={true}
         onClick={onCreate}

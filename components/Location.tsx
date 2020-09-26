@@ -129,6 +129,7 @@ export const Location = ({
         <Col xs="12" className="pl-1 pr-0 mb-3">
           <div>
             <Button
+              aria-label="Update From Device"
               color="info"
               onClick={fromDevice}
               className="w-100"

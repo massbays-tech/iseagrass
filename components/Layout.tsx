@@ -1,4 +1,3 @@
-import { Container } from 'reactstrap'
 import { Navbar } from './Navbar'
 
 interface Props {
@@ -8,8 +7,6 @@ interface Props {
 export const Layout: React.FC<Props> = ({ children }: Props) => (
   <>
     <Navbar />
-    <Container fluid="lg" className="px-0 pb-5">
-      {children}
-    </Container>
+    <main className="container-lg px-0 pb-5">{children}</main>
   </>
 )

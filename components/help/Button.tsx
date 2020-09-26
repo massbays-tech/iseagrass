@@ -16,7 +16,12 @@ export const Button = ({ title, children }: Props) => {
 
   return (
     <>
-      <button onClick={toggle} className="btn btn-link" type="button">
+      <button
+        onClick={toggle}
+        className="btn btn-link"
+        type="button"
+        aria-label="Help"
+      >
         <QuestionCircle />
       </button>
       <Modal isOpen={modal} toggle={toggle}>

@@ -227,13 +227,18 @@ const Index = () => {
           </Link>
         </div>
         <div className="d-flex my-3">
-          <Button color="danger" onClick={deleteSample} className="flex-fill">
+          <Button
+            color="danger"
+            onClick={deleteSample}
+            className="flex-fill"
+            aria-label="Delete this Sample"
+          >
             Delete this Sample
           </Button>
         </div>
       </Form>
     </>
   )
-};
+}
 
-export default Index;
+export default Index

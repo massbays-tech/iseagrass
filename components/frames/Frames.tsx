@@ -82,7 +82,7 @@ const BlankSlate: React.FC<BlankSlateProps> = ({
 }: BlankSlateProps) => (
   <div className="bg-light p-5 text-center">
     <div style={{ fontSize: '1.25rem' }}>No Drop Frames</div>
-    <Button onClick={onClick} color="link">
+    <Button onClick={onClick} color="link" aria-label="Add Drop Frame">
       Add Drop Frame
     </Button>
   </div>

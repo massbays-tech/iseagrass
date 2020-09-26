@@ -182,7 +182,12 @@ const Index = () => {
       </Form>
       <div className="mb-1 px-3 d-flex justify-content-between">
         <h3 className="font-weight-light">Stations</h3>
-        <Button color="primary" outline={true} onClick={createNewStation}>
+        <Button
+          color="primary"
+          outline={true}
+          onClick={createNewStation}
+          aria-label="Add Station"
+        >
           Add Station
         </Button>
       </div>
@@ -192,7 +197,12 @@ const Index = () => {
       </div>
       <div className="px-3">
         <div className="my-2">
-          <Button color="success" onClick={upload} className="w-100">
+          <Button
+            color="success"
+            onClick={upload}
+            className="w-100"
+            aria-label="Upload Trip Data"
+          >
             Upload Trip Data
           </Button>
           <small className="text-black-50">
@@ -213,6 +223,7 @@ const Index = () => {
             onClick={deleteTrip}
             className="w-100"
             type="button"
+            aria-label="Delete This Trip"
           >
             Delete This Trip
           </Button>
@@ -224,8 +235,8 @@ const Index = () => {
       </div>
     </>
   )
-};
+}
 
 // This will always return a trip, or if none found then the user should be
 // redirected
-export default Index;
+export default Index

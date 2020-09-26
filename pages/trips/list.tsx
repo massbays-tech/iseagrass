@@ -30,7 +30,13 @@ const NoTrips = ({ onClick }: NoTripProps) => (
     <Col className="text-center">
       <h3>No Current Trips</h3>
       <div>You haven't taken any trips yet.</div>
-      <Button onClick={onClick} color="primary" outline={true} className="mt-2">
+      <Button
+        onClick={onClick}
+        color="primary"
+        outline={true}
+        className="mt-2"
+        aria-label="Start New Trip"
+      >
         Start New Trip
       </Button>
     </Col>
@@ -124,7 +130,12 @@ export default function Home() {
           <h3 className="font-weight-light">Your Trips</h3>
         </Col>
         <Col xs="auto">
-          <Button onClick={createNewTrip} color="primary" outline={true}>
+          <Button
+            onClick={createNewTrip}
+            color="primary"
+            outline={true}
+            aria-label="Start New Trip"
+          >
             Start New Trip
           </Button>
         </Col>

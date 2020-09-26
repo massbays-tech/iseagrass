@@ -122,7 +122,12 @@ export const Secchi: React.FC<Props> = ({
           <Label for="time" className="mb-0">
             Time
           </Label>
-          <button className="btn btn-link" type="button" onClick={now}>
+          <button
+            className="btn btn-link"
+            type="button"
+            onClick={now}
+            aria-label="Update"
+          >
             Update
           </button>
         </div>

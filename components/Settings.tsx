@@ -28,7 +28,11 @@ const SettingsOpen = () => (
     <Row className="mt-3">
       <Col xs="6 d-flex align-items-center">Reload App</Col>
       <Col xs="6" className="d-flex justify-content-end">
-        <Button color="info" onClick={() => window.location.reload(true)}>
+        <Button
+          color="info"
+          onClick={() => window.location.reload()}
+          aria-label="Reload"
+        >
           Reload
         </Button>
       </Col>

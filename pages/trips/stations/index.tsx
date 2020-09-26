@@ -134,6 +134,7 @@ const Frames = ({
     >
       <div className="mb-1 mt-2 px-3 d-flex justify-content-between">
         <Button
+          aria-label="Add Drop Frame"
           color="primary"
           outline={true}
           onClick={onCreate}
@@ -177,6 +178,7 @@ const Settings = ({ onDelete }: SettingsProps) => {
         <div className="px-3">
           <div className="my-2">
             <Button
+              aria-label="Delete This Station Data"
               color="danger"
               onClick={onDelete}
               className="w-100"
@@ -356,6 +358,6 @@ const Index = () => {
       <Settings onDelete={deleteStation} />
     </>
   )
-};
+}
 
-export default Index;
+export default Index
