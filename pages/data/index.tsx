@@ -87,7 +87,7 @@ const Disclaimer = () => (
   </UncontrolledAlert>
 )
 
-export default () => {
+const Index = () => {
   const [after, setAfter] = useState(moment().subtract(1, 'year').toDate())
   const [before, setBefore] = useState(new Date())
   const [search, setSearch] = useState('')
@@ -170,4 +170,6 @@ export default () => {
       </Container>
     </>
   )
-}
+};
+
+export default Index;

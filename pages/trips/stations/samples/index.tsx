@@ -106,7 +106,7 @@ const Shoot = ({ i, shoot, setShoot }: ShootProps) => (
   </div>
 )
 
-export default () => {
+const Index = () => {
   const router = useRouter()
   const { loading, db, value, error } = useSample()
   const [sample, setSample] = useState<Sample>(undefined)
@@ -234,4 +234,6 @@ export default () => {
       </Form>
     </>
   )
-}
+};
+
+export default Index;

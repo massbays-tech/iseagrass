@@ -194,7 +194,7 @@ const Settings = ({ onDelete }: SettingsProps) => {
   )
 }
 
-export default () => {
+const Index = () => {
   const router = useRouter()
   const { loading, db, value, error } = useStation()
   const [station, setStation] = useState<Station>(undefined)
@@ -356,4 +356,6 @@ export default () => {
       <Settings onDelete={deleteStation} />
     </>
   )
-}
+};
+
+export default Index;

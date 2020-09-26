@@ -40,7 +40,7 @@ const Sediment = ({ id, name, value, onChange }: SedimentProps) => (
   </>
 )
 
-export default () => {
+const Index = () => {
   const router = useRouter()
   const { loading, db, value, error } = useDropFrame()
   const [frame, setFrame] = useState<DropFrame>(undefined)
@@ -211,4 +211,6 @@ export default () => {
       </Form>
     </>
   )
-}
+};
+
+export default Index;

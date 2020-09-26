@@ -9,9 +9,7 @@ import { useEffect, useState } from 'react'
 import { Button, Form, FormGroup, FormText, Input, Label } from 'reactstrap'
 import { format, htmlTime } from 'utils/time'
 
-// This will always return a trip, or if none found then the user should be
-// redirected
-export default () => {
+const Index = () => {
   const router = useRouter()
   const { loading, db, value, error } = useTrip()
   const [trip, setTrip] = useState<Trip | undefined>(undefined)
@@ -226,4 +224,8 @@ export default () => {
       </div>
     </>
   )
-}
+};
+
+// This will always return a trip, or if none found then the user should be
+// redirected
+export default Index;
