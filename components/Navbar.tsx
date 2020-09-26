@@ -13,7 +13,7 @@ export const Navbar: React.FC<unknown> = () => {
               width="30"
               height="30"
               className="d-inline-block align-top mr-2 rounded-circle"
-              alt=""
+              alt="iSeaGrass Logo"
               loading="lazy"
               style={{
                 backgroundColor: 'white'
