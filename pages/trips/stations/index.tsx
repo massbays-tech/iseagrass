@@ -120,13 +120,13 @@ const Frames = ({
   passRef
 }: FramesProps) => {
   const REQUIRED_STATIONS = 4
-  const complete =
-    filter(station.frames, validDropFrame).length == REQUIRED_STATIONS
+  const complete = filter(station.frames, validDropFrame).length
+  const isComplete = complete == REQUIRED_STATIONS
   return (
     <Section
       passRef={passRef}
-      title="Drop Frames"
-      complete={complete}
+      title={`Drop Frames ${complete}/${REQUIRED_STATIONS}`}
+      complete={isComplete}
       className={className}
       id="drop-frames"
       open={open}
