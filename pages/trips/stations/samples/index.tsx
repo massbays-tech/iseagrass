@@ -150,7 +150,7 @@ const Index = () => {
   return (
     <>
       <BackLink
-        name={`Station ${sample.stationId}`}
+        name="Station"
         pathname="/trips/stations"
         id={sample.stationId}
         hash="#indicator-samples"

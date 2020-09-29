@@ -79,7 +79,7 @@ const Index = () => {
   return (
     <>
       <BackLink
-        name={`Station ${frame.stationId}`}
+        name="Station"
         pathname="/trips/stations"
         hash="#drop-frames"
         id={frame.stationId}
