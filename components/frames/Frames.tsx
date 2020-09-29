@@ -1,5 +1,5 @@
 import { FlexFill } from 'components/FlexFill'
-import { Check, ChevronRight, Circle } from 'components/Icon'
+import { Camera, Check, ChevronRight, Circle } from 'components/Icon'
 import { DropFrame, frameSediments, validDropFrame } from 'models'
 import Link from 'next/link'
 import { Button, ListGroup } from 'reactstrap'
@@ -7,6 +7,33 @@ import { Button, ListGroup } from 'reactstrap'
 interface FrameItemProps {
   i: number
   frame: DropFrame
+}
+
+const FrameItemDetail = ({ frame }: { frame: DropFrame }) => {
+  const sediments = frameSediments(frame)
+  return (
+    <>
+      <small className="text-black-50">
+        {frame.coverage ? (
+          <>{frame.coverage} coverage</>
+        ) : (
+          <span className="text-danger">Missing Coverage</span>
+        )}
+      </small>{' '}
+      &bull;{' '}
+      <small className="text-black-50">
+        {sediments.length == 0 ? (
+          <span className="text-danger">No Sediment</span>
+        ) : (
+          <>{frameSediments(frame).join(', ')}</>
+        )}
+      </small>{' '}
+      &bull;{' '}
+      <Camera
+        className={frame.picture && frame.pictureTakenAt ? '' : 'text-danger'}
+      />
+    </>
+  )
 }
 
 const FrameItem: React.FC<FrameItemProps> = ({ i, frame }: FrameItemProps) => {
@@ -28,19 +55,7 @@ const FrameItem: React.FC<FrameItemProps> = ({ i, frame }: FrameItemProps) => {
           )}
           <div className="ml-3">
             <div>Drop Frame {i + 1}</div>
-            <small className="text-black-50">
-              {frame.coverage ? (
-                <>{frame.coverage} coverage</>
-              ) : (
-                <span className="text-danger">Missing Coverage</span>
-              )}{' '}
-              &bull;{' '}
-              {sediments.length == 0 ? (
-                'No sediment'
-              ) : (
-                <>{frameSediments(frame).join(', ')}</>
-              )}
-            </small>
+            <FrameItemDetail frame={frame} />
           </div>
           <FlexFill />
           <ChevronRight />

@@ -108,7 +108,10 @@ export interface Trip {
 }
 
 export const validDropFrame = (f: DropFrame): boolean =>
-  ((f.picture && !!f.pictureTakenAt) || !f.picture) && !!f.coverage
+  !!f.picture &&
+  !!f.pictureTakenAt &&
+  !!frameSediments(f).length &&
+  !!f.coverage
 
 export const validIndicatorShoot = (shoot: IndicatorShoot): boolean =>
   !!shoot.diseaseCoverage &&
