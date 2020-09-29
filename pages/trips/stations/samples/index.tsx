@@ -223,7 +223,9 @@ const Index = () => {
             scroll={false}
             as={`/trips/stations?id=${sample.stationId}#indicator-samples`}
           >
-            <a className="btn btn-success flex-fill">Save and Back</a>
+            <a className="btn btn-success flex-fill">
+              Save and Back to Station
+            </a>
           </Link>
         </div>
         <div className="d-flex my-3">

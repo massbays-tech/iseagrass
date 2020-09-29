@@ -1,5 +1,6 @@
 import { FlexFill } from 'components/FlexFill'
-import { Check, ChevronRight, Circle } from 'components/Icon'
+import { Camera, Check, ChevronRight, Circle } from 'components/Icon'
+import { compact } from 'lodash'
 import {
   IndicatorShoot,
   Sample,
@@ -36,53 +37,43 @@ interface SampleItemProps {
   sample: Sample
 }
 
-const SampleShootSummary = (
-  shoot: IndicatorShoot,
-  i: number,
-  arr: IndicatorShoot[]
-) => (
-  <span
-    key={i}
-    className={`${validIndicatorShoot(shoot) ? '' : 'text-danger'}`}
-  >
-    {validIndicatorShoot(shoot) ? (
-      <>
-        ({shoot.length},{shoot.width})
-      </>
-    ) : (
-      `Shoot ${i + 1} incomplete`
-    )}
-    {i != arr.length - 1 && ', '}
-  </span>
-)
+const SampleShootSummary = (shoot: IndicatorShoot, i: number) =>
+  validIndicatorShoot(shoot) ? null : `Shoot ${i + 1} incomplete`
 
-const SampleItem = ({ i, sample }: SampleItemProps) => (
-  <li className="list-group-item">
-    <Link
-      href={{
-        pathname: '/trips/stations/samples',
-        query: { id: sample.id, i }
-      }}
-      as={`/trips/stations/samples?id=${sample.id}&i=${i}`}
-    >
-      <a className="text-dark d-flex justify-content-start align-items-center">
-        {validSample(sample) ? (
-          <Check width=".75rem" height=".75rem" className="text-success" />
-        ) : (
-          <Circle width=".75rem" height=".75rem" />
-        )}
-        <div className="ml-3">
-          <div>Indicator Sample {i + 1}</div>
-          <small className="text-black-50">
-            {sample.shoots.map(SampleShootSummary)}
-          </small>
-        </div>
-        <FlexFill />
-        <ChevronRight />
-      </a>
-    </Link>
-  </li>
-)
+const SampleItem = ({ i, sample }: SampleItemProps) => {
+  const incomplete = compact(sample.shoots.map(SampleShootSummary))
+  return (
+    <li className="list-group-item">
+      <Link
+        href={{
+          pathname: '/trips/stations/samples',
+          query: { id: sample.id, i }
+        }}
+        as={`/trips/stations/samples?id=${sample.id}&i=${i}`}
+      >
+        <a className="text-dark d-flex justify-content-start align-items-center">
+          {validSample(sample) ? (
+            <Check width=".75rem" height=".75rem" className="text-success" />
+          ) : (
+            <Circle width=".75rem" height=".75rem" />
+          )}
+          <div className="ml-3">
+            <div>Indicator Sample {i + 1}</div>
+            <small className="text-danger">{incomplete.join(', ')}</small>
+            {incomplete.length > 0 ? <> &bull; </> : null}
+            <Camera
+              className={
+                sample.picture && sample.pictureTakenAt ? '' : 'text-danger'
+              }
+            />
+          </div>
+          <FlexFill />
+          <ChevronRight />
+        </a>
+      </Link>
+    </li>
+  )
+}
 
 export interface SamplesProps {
   samples: Sample[]

@@ -199,7 +199,7 @@ const Index = () => {
             as={`/trips/stations?id=${frame.stationId}#drop-frames`}
           >
             <a className="btn btn-success flex-fill">
-              Save and Return to Station
+              Save and Back to Station
             </a>
           </Link>
         </div>
