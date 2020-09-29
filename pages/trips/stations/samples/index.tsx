@@ -56,7 +56,7 @@ const Shoot = ({ i, shoot, setShoot }: ShootProps) => (
         <Label for="disease-coverage" className="mb-0">
           Wasting Disease Coverage
         </Label>
-        <HelpButton title="Wasting Disease Coverage">
+        <HelpButton title="Coverage Guide">
           <WastingDiseaseCoverageHelp />
         </HelpButton>
       </div>
@@ -82,7 +82,7 @@ const Shoot = ({ i, shoot, setShoot }: ShootProps) => (
         <Label for="epiphyte-coverage" className="mb-0">
           Epiphyte coverage
         </Label>
-        <HelpButton title="Wasting Disease Coverage">
+        <HelpButton title="Coverage Guide">
           <WastingDiseaseCoverageHelp />
         </HelpButton>
       </div>
