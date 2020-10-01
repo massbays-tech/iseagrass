@@ -12,7 +12,7 @@ To help make data collection faster, easier, and simpler, an app was proposed th
 
 ## Design
 
-The app is written in [React](react) using [Next.js](nextjs) with offline mode enabled with Google's [Workbox](workbox). The contents of the project are almost entirely React components.
+The app is written in [React] using [Next.js] with offline mode enabled with Google's [Workbox](workbox). The contents of the project are almost entirely React components.
 
 ### Web App
 
@@ -200,7 +200,7 @@ yarn export
 This will create an `out` directory that contains the files to be hosted on a server.
 
 [react]: https://reactjs.org/
-[nextjs]: https://nextjs.org/
+[next.js]: https://nextjs.org/
 [nextjs-deployment]: https://nextjs.org/docs/deployment
 [yarn]: https://yarnpkg.com/
 [typescript]: https://www.typescriptlang.org/
