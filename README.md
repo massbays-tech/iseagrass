@@ -124,7 +124,7 @@ Set that in the same shell as your server (development or production) and restar
 - [TypeScript].
 - [Next.js] as a React+ framework. Next.js provides a fantastic router, server side rendering of pages, powerful plugins, and great development support.
 - [React] UI Framework.
-- [Boostrap] for the UI library and [Reactstrap] for the React implementation of it.
+- [Bootstrap] for the UI library and [Reactstrap] for the React implementation of it.
 - [idb] for a nicer interface on top of IndexDB for an offline database.
 
 ### App Structure
