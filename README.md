@@ -12,7 +12,7 @@ To help make data collection faster, easier, and simpler, an app was proposed th
 
 ## Design
 
-The app is written in [React] using [Next.js] with offline mode enabled with Google's [Workbox](workbox). The contents of the project are almost entirely React components.
+The app is written in [React] using [Next.js] with offline mode enabled with Google's [Workbox]. The contents of the project are almost entirely React components.
 
 ### Web App
 
@@ -74,7 +74,7 @@ The exact mechanism for saving this data is ambiguous because:
 1. The data is not complex and therefore can be saved in many ways
 2. The final hosting environment is unknown
 
-During development, care was taken to make uploading (and therefore, downloading) the data as simple as possible while being a robust solution. [Firebase](firebase) was chosen for the final database because it is:
+During development, care was taken to make uploading (and therefore, downloading) the data as simple as possible while being a robust solution. [Firebase] was chosen for the final database because it is:
 
 1. A simple cloud database that can store JSOn well
 2. Managed by Google, providing a high level of confidence in the data storage
@@ -120,12 +120,12 @@ Set that in the same shell as your server (development or production) and restar
 
 ### Technologies
 
-- [Yarn](yarn) for package management.
-- [TypeScript](typescript).
-- [Next.js][nextjs] as a React+ framework. Next.js provides a fantastic router, server side rendering of pages, powerful plugins, and great development support.
-- [React](react) UI Framework.
-- [Boostrap](bootsrap) for the UI library and [Reactstrap](reactstrap) for the React implementation of it.
-- [idb](idb) for a nicer interface on top of IndexDB for an offline database.
+- [Yarn] for package management.
+- [TypeScript].
+- [Next.js] as a React+ framework. Next.js provides a fantastic router, server side rendering of pages, powerful plugins, and great development support.
+- [React] UI Framework.
+- [Boostrap] for the UI library and [Reactstrap] for the React implementation of it.
+- [idb] for a nicer interface on top of IndexDB for an offline database.
 
 ### App Structure
 
@@ -156,7 +156,7 @@ Home -> Trips -> Trip -> Stations -> Drop Frame/Samples. This functions similar 
 
 The web app can be deployed anywhere, although there are a few considerations to make.
 
-The app is, first and foremost, a static website. The Next.js framework is the default process used to run the website. When run in this way, it also handles serving the API routes via its backend ([Next.js deployment](nextjs-deployment)). When run in this way the app expects a Node.js runtime.
+The app is, first and foremost, a static website. The Next.js framework is the default process used to run the website. When run in this way, it also handles serving the API routes via its backend ([Next.js deployment]). When run in this way the app expects a Node.js runtime.
 
 In any Node.js runtime, the basic commands to run a production build are `yarn build && yarn start`.
 
@@ -170,7 +170,7 @@ The only backend environment variable needed is the Firebase credentials. This w
 
 ### Vercel
 
-[Vercel](vercel) was used as the development environment. It's built by the same team which builds Next.js and they work great together. Connect the git repo to the Vercel service and it deploys instantly. [Instructions](nextjs-deployment).
+[Vercel] was used as the development environment. It's built by the same team which builds Next.js and they work great together. Connect the git repo to the Vercel service and it deploys instantly. [Instructions](https://nextjs.org/docs/deployment).
 
 ### Heroku
 
@@ -201,7 +201,7 @@ This will create an `out` directory that contains the files to be hosted on a se
 
 [react]: https://reactjs.org/
 [next.js]: https://nextjs.org/
-[nextjs-deployment]: https://nextjs.org/docs/deployment
+[next.js deployment]: https://nextjs.org/docs/deployment
 [yarn]: https://yarnpkg.com/
 [typescript]: https://www.typescriptlang.org/
 [bootstrap]: https://getbootstrap.com/
