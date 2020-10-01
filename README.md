@@ -177,7 +177,7 @@ The only backend environment variable needed is the Firebase credentials. This w
 Heroku has great support for Node.js applications. To deploy on Heroku update the `package.json` `start` script to say:
 
 ```
-next start -p $PORT"
+next start -p $PORT
 ```
 
 Heroku starts processes on non standard ports so this will enable the app to listen on the port Heroku requests.
