@@ -26,7 +26,7 @@
     "react-ios-pwa-prompt": "^1.8.0",
     "reactstrap": "8.6.0",
     "swr": "0.3.5",
-    "ua-parser-js": "0.7.22",
+    "ua-parser-js": "0.7.24",
     "uuid": "8.3.0"
   },
   "devDependencies": {
