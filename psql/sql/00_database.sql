@@ -1,7 +1,6 @@
 CREATE TABLE trips (
   id SERIAL NOT NULL PRIMARY KEY,
-  uuid TEXT NOT NULL,
-  name TEXT,
+  uuid TEXT NOT NULL UNIQUE,
   date TIMESTAMP WITHOUT TIME ZONE,
   boat TEXT,
   crew JSONB,
