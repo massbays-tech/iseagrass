@@ -15,7 +15,7 @@
     "bootstrap": "4.5.2",
     "csv-stringify": "5.5.1",
     "idb": "5.0.6",
-    "lodash": "4.17.20",
+    "lodash": "4.17.21",
     "moment": "2.29.0",
     "next": "9.5.4",
     "next-offline": "5.0.2",
