@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start",
+    "start": "next start  -p $PORT",
     "export": "cross-env NEXT_EXPORT=true next build && cross-env NEXT_EXPORT=true next export",
     "lint": "yarn eslint . --ext .js,.jsx,.ts,.tsx"
   },
