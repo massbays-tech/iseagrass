@@ -89,7 +89,7 @@ const Disclaimer = () => (
 
 const Index = () => {
   const [after, setAfter] = useState(moment().subtract(1, 'year').toDate())
-  const [before, setBefore] = useState(new Date())
+  const [before, setBefore] = useState(moment().add(1, 'day').toDate())
   const [search, setSearch] = useState('')
   const { data: trips, error } = useSWR<Trip[]>(
     ['/api/download', after.toISOString(), before.toISOString()],
@@ -170,6 +170,6 @@ const Index = () => {
       </Container>
     </>
   )
-};
+}
 
-export default Index;
+export default Index

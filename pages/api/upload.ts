@@ -1,39 +1,31 @@
-import * as admin from 'firebase-admin'
-import { mapValues } from 'lodash'
+import { compact } from 'lodash'
 import { Trip } from 'models/index'
 import { NextApiRequest, NextApiResponse } from 'next'
-const cert = JSON.parse(process.env.FIREBASE_CONFIG ?? '{}')
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(cert)
-  })
-}
+import { q, Queries } from 'psql'
 
-const convert = (o: any, keys: Set<string>): any =>
-  mapValues(o, (v, k) => (keys.has(k) ? parseFloat(v) : v))
-
-/**
- * Upload the collected data to the server
- */
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
     return res
       .status(405)
       .json({ error: `Only HTTP 'POST' is allowed for this endpoint.` })
   }
-  const db = admin.firestore()
-  const trip: Trip = req.body
-  const converted = convert(trip, new Set())
-  converted.date = new Date(converted.date)
-  converted.uploadedAt = new Date()
-  converted.stations = converted.stations.map((s) => {
+  let { uuid, date, boat, crew, stations } = req.body as Trip
+  //const converted = convert(trip, new Set())
+  //trip.date = new Date(trip.date)
+  const uploadedAt = new Date()
+  stations = (stations ?? []).map((s) => {
     const station = { ...s }
     delete station['$ui']
     return station
   })
-  await db.collection('trips').doc(converted.uuid).set(converted)
-
-  //const snapshot = await db.collection('trips').where('date', '>', new Date()).where()
-
-  res.status(200).json({ upload: 'success' })
+  const params = [
+    uuid,
+    date,
+    boat,
+    JSON.stringify(compact(crew)),
+    JSON.stringify(stations),
+    uploadedAt
+  ]
+  const { rows } = await q(Queries.Trips.Upsert, params)
+  res.status(201).json(rows[0])
 }

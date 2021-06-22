@@ -1,15 +1,8 @@
 import stringify from 'csv-stringify'
-import * as admin from 'firebase-admin'
 import { compact, flatten, keys, mapKeys, pickBy, range } from 'lodash'
-import { DropFrame, Sample, SecchiDrop, Trip } from 'models'
+import { DropFrame, Sample, SecchiDrop } from 'models'
 import { NextApiRequest, NextApiResponse } from 'next'
-const cert = JSON.parse(process.env.FIREBASE_CONFIG ?? '{}')
-// This stopes the admin from initializing more than 1 time
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(cert)
-  })
-}
+import { q, Queries } from 'psql'
 
 interface DropFrameRow {
   drop_frame_id: number
@@ -137,24 +130,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .status(405)
       .json({ error: `Only HTTP 'GET' is allowed for this endpoint.` })
   }
-  const db = admin.firestore()
   const id = req.query.id as string
-  const trip = (await (
-    await db.collection('trips').doc(id).get()
-  ).data()) as any
+  const { rows: trips } = await q(Queries.Trips.Fetch, [id])
+  const trip = trips[0]
   if (!trip) {
     return res.status(404).json({ error: `Trip '${id}' not found.` })
   }
-  const transformed: Trip = {
-    ...trip,
-    date: trip.date.toDate()
-  }
 
-  const date = transformed.date.toISOString()
+  const date = trip.date.toISOString()
   const crew = compact(trip.crew).join(',')
 
   let rows = []
-  for (let s of transformed.stations) {
+  for (let s of trip.stations) {
     const { weather, location, secchi } = s
     const frames = ensure(s.frames.map(frame), EmptyFrame, 4)
     const samples = ensure(flatten(s.samples.map(sample)), EmptySample, 12)

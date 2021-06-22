@@ -56,6 +56,9 @@ const Index = () => {
           'Content-Type': 'application/json'
         }
       })
+      if (res.status >= 400) {
+        throw new Error(`HTTP ${res.status} ${res.statusText}`)
+      }
       setTrip({
         ...trip,
         uploaded: 'uploaded',

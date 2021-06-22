@@ -1,7 +1,7 @@
 {
   "name": "iseagrass",
   "displayName": "iSeaGrass",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "index.js",
   "scripts": {
     "dev": "next",
@@ -14,12 +14,12 @@
   "dependencies": {
     "bootstrap": "4.5.2",
     "csv-stringify": "5.5.1",
-    "firebase-admin": "9.2.0",
     "idb": "5.0.6",
     "lodash": "4.17.20",
     "moment": "2.29.0",
     "next": "9.5.4",
     "next-offline": "5.0.2",
+    "pg": "8.6.0",
     "react": "16.13.1",
     "react-datepicker": "3.2.2",
     "react-dom": "16.13.1",
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@types/lodash": "4.14.161",
+    "@types/pg": "8.6.0",
     "@types/react": "16.9.49",
     "@types/react-datepicker": "3.1.1",
     "@types/reactstrap": "8.5.1",
