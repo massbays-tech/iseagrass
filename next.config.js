@@ -7,7 +7,7 @@ module.exports = withOffline({
   workboxOpts: {
     swDest: process.env.NEXT_EXPORT
       ? 'service-worker.js'
-      : 'static/service-worker.js',
+      : 'public/service-worker.js',
     runtimeCaching: [
       {
         urlPattern: /^https?.*/,
