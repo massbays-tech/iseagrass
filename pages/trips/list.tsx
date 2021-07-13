@@ -86,6 +86,9 @@ export default function Home() {
   const { db, result: trips, error } = useDBQuery<Trip[]>((db) =>
     db.getAll('trips')
   )
+  console.log('db', db)
+  console.log('Trips', trips)
+  console.log('Error', error)
 
   const createNewTrip = async (e: React.MouseEvent) => {
     e.preventDefault()
@@ -102,8 +105,8 @@ export default function Home() {
     })
   }
 
-  if (!trips) return <Loading />
   if (error) return <DataError error={error.message} />
+  if (!trips) return <Loading />
   if (trips.length == 0)
     return (
       <>
