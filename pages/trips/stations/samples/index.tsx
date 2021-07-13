@@ -118,7 +118,7 @@ const Index = () => {
     if (sample) {
       db.put(SAMPLE_STORE, sample)
     }
-  }, [sample])
+  }, [sample, db])
   const i = parseInt(router.query.i as string)
 
   const deleteSample = async () => {

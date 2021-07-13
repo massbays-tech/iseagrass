@@ -56,6 +56,7 @@ const TripItem = ({ trip }: TripItemProps) => (
           className="btn btn-primary"
           color="primary"
           target="_blank"
+          rel="noreferrer"
           href={`/api/csv/${trip.uuid}`}
         >
           <div className="d-flex align-items-center justify-content-center">

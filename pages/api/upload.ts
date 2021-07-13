@@ -3,7 +3,7 @@ import { Trip } from 'models/index'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { q, Queries } from 'psql'
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res
       .status(405)

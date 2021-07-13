@@ -52,7 +52,7 @@ const Index = () => {
     if (frame) {
       db.put(DROP_FRAME_STORE, frame)
     }
-  }, [frame])
+  }, [frame, db])
   const i = parseInt(router.query.i as string)
 
   const deleteFrame = async () => {

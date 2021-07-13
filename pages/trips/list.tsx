@@ -29,7 +29,7 @@ const NoTrips = ({ onClick }: NoTripProps) => (
   <div className="mt-5">
     <Col className="text-center">
       <h3>No Current Trips</h3>
-      <div>You haven't taken any trips yet.</div>
+      <div>You haven&apos;t taken any trips yet.</div>
       <Button
         onClick={onClick}
         color="primary"

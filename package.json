@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start  -p $PORT",
     "export": "cross-env NEXT_EXPORT=true next build && cross-env NEXT_EXPORT=true next export",
-    "lint": "yarn eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "next lint"
   },
   "license": "MIT",
   "dependencies": {
@@ -40,6 +40,7 @@
     "@typescript-eslint/parser": "4.28.3",
     "cross-env": "7.0.3",
     "eslint": "7.30.0",
+    "eslint-config-next": "11.0.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-react": "7.24.0",
     "typescript": "4.3.5"

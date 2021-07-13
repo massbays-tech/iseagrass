@@ -20,7 +20,7 @@ const Index = () => {
     if (trip) {
       db.put('trips', { ...trip, crew: compact(trip.crew) })
     }
-  }, [trip])
+  }, [trip, db])
 
   // Update the crew and ensure there is only 1 blank line included for
   // adding a new member. Members with the exact same name are removed.

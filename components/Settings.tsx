@@ -40,7 +40,7 @@ const SettingsOpen = () => (
     <Row className="mt-3">
       <Col xs="6">Developed By</Col>
       <Col xs="6" className="d-flex justify-content-end">
-        <a href="https://ethanmick.com" target="_blank">
+        <a href="https://ethanmick.com" target="_blank" rel="noreferrer">
           Ethan Mick
         </a>
       </Col>

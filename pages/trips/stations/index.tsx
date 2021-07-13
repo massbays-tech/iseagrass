@@ -206,6 +206,7 @@ const Index = () => {
       ref.scrollIntoView()
     }
   }
+  /* eslint-disable react-hooks/exhaustive-deps */
   const framesRef = useCallback(scrollDown('#drop-frames'), [])
   const samplesRef = useCallback(scrollDown('#indicator-samples'), [])
   useEffect(() => {
@@ -216,7 +217,7 @@ const Index = () => {
     if (station) {
       db.put(STATION_STORE, station)
     }
-  }, [station])
+  }, [station, db])
 
   const createNewDropFrame = async (e: React.MouseEvent) => {
     e.preventDefault()
