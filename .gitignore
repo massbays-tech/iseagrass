@@ -31,3 +31,4 @@ yarn-error.log*
 
 # Credentials
 seegrass-2ebfd-9d22aa297bc7.json
+public/service-worker.js
