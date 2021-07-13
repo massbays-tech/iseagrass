@@ -38,9 +38,11 @@ export interface Database extends DBSchema {
   }
 }
 
-export const connect = () =>
-  openDB<Database>(DATABASE_NAME, VERSION, {
+export const connect = () => {
+  console.log('Connect to database')
+  return openDB<Database>(DATABASE_NAME, VERSION, {
     upgrade(db) {
+      console.log('Upgrade', db)
       db.createObjectStore(TRIP_STORE, { keyPath: 'id', autoIncrement: true })
       db.createObjectStore(STATION_STORE, {
         keyPath: 'id',
@@ -54,5 +56,18 @@ export const connect = () =>
         keyPath: 'id',
         autoIncrement: true
       }).createIndex('stationId', 'stationId', { unique: false })
-    }
+    },
+    blocked() {
+      console.log('Blocked!')
+      alert('blocked')
+    },
+    blocking() {
+      console.log('Blocking!')
+      alert('blocling')
+    },
+    terminated() {
+      console.log('Terminated...')
+      alert('terminated')
+    },
   })
+}
