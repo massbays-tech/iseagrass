@@ -43,7 +43,7 @@ export const usePosition = (
     })
   }
 
-  const onError: PositionErrorCallback = (error: PositionError) => {
+  const onError: PositionErrorCallback = (error: GeolocationPositionError) => {
     setError(error.message)
   }
 

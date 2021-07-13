@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button, Col, Container, Row } from 'reactstrap'
-import { version } from '../package.json'
+import Package from '../package.json'
 import { Gear } from './Icon'
 
 const Backdrop = ({ onClick }) => (
@@ -22,7 +22,7 @@ const SettingsOpen = () => (
     <Row className="mt-3">
       <Col xs="6">Version</Col>
       <Col xs="6" className="d-flex justify-content-end">
-        {version}
+        {Package.version}
       </Col>
     </Row>
     <Row className="mt-3">

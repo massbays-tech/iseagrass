@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "bootstrap": "5.0.2",
+    "bootstrap": "4.6.0",
     "csv-stringify": "5.6.2",
     "idb": "6.1.2",
     "lodash": "4.17.21",
