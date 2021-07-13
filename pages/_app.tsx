@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [db, setDB] = useState<IDBPDatabase<Database>>(undefined)
   // Open connection on app initialization
   useEffect(() => {
-    connect().then(setDB)
+    connect().then(setDB).catch(console.error)
   }, [])
   return (
     <DatabaseContext.Provider value={{ db, setDB }}>
