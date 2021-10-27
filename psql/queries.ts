@@ -1,6 +1,6 @@
 export const Queries = {
   Trips: {
-    List: `SELECT * FROM trips WHERE date >= $1 AND date <= $2 ORDER BY date`,
+    List: `SELECT * FROM trips WHERE date >= $1 AND date <= $2 ORDER BY date DESC`,
     Fetch: `SELECT * FROM trips WHERE uuid = $1 LIMIT 1`,
     Upsert: `INSERT INTO
       trips (uuid, date, boat, crew, stations, uploaded_at)
