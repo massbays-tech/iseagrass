@@ -124,7 +124,10 @@ const csv = (
 /**
  * Download CSV file
  */
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== 'GET') {
     return res
       .status(405)
@@ -155,7 +158,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       indicator_station: s.isIndicatorStation,
       station_notes: s.notes,
       // Weather
-      wind_knots: weather.wind,
+      wind_knots: `${weather.wind} knots`,
       wind_direction: weather?.windDirection,
       sea_state: weather?.sea,
       clouds_percent_cover: weather?.clouds,
