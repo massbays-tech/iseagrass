@@ -102,21 +102,15 @@ yarn lint
 
 Unit tests are not present although the app was thoroughly tested in the field.
 
-### Firebase
+### Postgres
 
-The app stores its data in Firebase but because we are allowing any user to use the app and any users to download the data no user authentication is needed for Firebase. The actual connection is managed via an API call on the Next.js server side which handles the Firebase authentication.
+This app uses a postgres database to stores it's information.
 
-If you want to enable the upload/download API you will need credentials to Firebase. If you want to use the production database you will need to contact the owner of the app for those credentials. If you just want to use your own, you will need:
+For local development, build the Docker Postgres container located in `psql`.
 
-1. Create a Firebase project
-2. Follow the instructions [here](https://firebase.google.com/docs/admin/setup) to "generate a private key file for your service account".
-3. Once you have the downloaded JSON file, since this is not hosted on Google, it will need to be set as an environment variable:
-
-```bash
-export FIREBASE_CONFIG=$(cat name-of-downloaded-json-secret-key.json | jq -c .)
 ```
-
-Set that in the same shell as your server (development or production) and restart it and you will have Firebase working.
+heroku addons:create heroku-postgresql:hobby-dev
+```
 
 ### Technologies
 
