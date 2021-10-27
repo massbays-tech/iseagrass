@@ -158,7 +158,7 @@ export default async function handler(
       indicator_station: s.isIndicatorStation,
       station_notes: s.notes,
       // Weather
-      wind_knots: `${weather.wind} knots`,
+      wind_knots: formatWind(weather.wind),
       wind_direction: weather?.windDirection,
       sea_state: weather?.sea,
       clouds_percent_cover: weather?.clouds,
@@ -211,3 +211,5 @@ export default async function handler(
   res.status(200).send(data)
   //res.status(200).send({})
 }
+
+const formatWind = (w: string): string => (w === 'no wind' ? w : `${w} knots`)
