@@ -6,7 +6,7 @@ on:
       - 'main'
 
 env:
-  REGISTRY: 052685979785.dkr.ecr.us-east-2.amazonaws.com/
+  REGISTRY: 052685979785.dkr.ecr.us-east-2.amazonaws.com
   IMAGE_NAME: massbays-tech/iseagrass
 
 jobs:
