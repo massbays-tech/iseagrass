@@ -46,8 +46,8 @@ jobs:
         run: |
           IMAGE_SHA=${{ github.sha }}
           echo "IMAGE_SHA=${IMAGE_SHA:0:7}" >> $GITHUB_ENV
-        - name: Trigger deploy workflow in terraform repo
-          env:
-            GH_PAT: ${{ secrets.GH_PAT }}
-          run: |
-            gh workflow run deploy.yml -R massbays-tech/terraform --field iseagrass_image_tag=${IMAGE_SHA}
+      - name: Trigger deploy workflow in terraform repo
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          gh workflow run deploy.yml -R massbays-tech/terraform --field iseagrass_image_tag=${IMAGE_SHA}
