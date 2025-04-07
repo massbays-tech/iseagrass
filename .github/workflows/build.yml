@@ -27,27 +27,17 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=ref,event=branch
-            type=sha
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       - name: Build and push Docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-      - name: Extract image SHA
         run: |
-          IMAGE_SHA=${{ github.sha }}
-          echo "IMAGE_SHA=${IMAGE_SHA:0:7}" >> $GITHUB_ENV
-      - name: Trigger deploy workflow in terraform repo
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: |
-          gh workflow run deploy.yml -R massbays-tech/terraform --field iseagrass_image_tag=${IMAGE_SHA}
+          IMAGE_URI=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          VERSION_TAG=latest
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION_TAG=${GITHUB_REF#refs/tags/}
+          fi
+          docker buildx build \
+            --platform linux/arm64 \
+            -t "$IMAGE_URI:$VERSION_TAG" \
+            --push \
+            .
