@@ -1,0 +1,9 @@
+services:
+  iseagrass:
+    container_name: iseagrass
+    image: 052685979785.dkr.ecr.us-east-2.amazonaws.com/massbays-tech/iseagrass:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
